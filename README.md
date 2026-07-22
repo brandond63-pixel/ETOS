@@ -1,43 +1,20 @@
-# ETOS v0.1.0 — Core Shell
+# ETOS v0.1.3-dev
 
-Ellison-Tanaka Operating System is an offline-capable Progressive Web App designed for iPad landscape use.
+Consolidated development build of the Ellison-Tanaka Operating System.
 
-## Included in this milestone
-- Corporate boot screen
-- Installable PWA manifest
-- Offline service-worker cache
-- Full-screen standalone layout
-- Four placeholder terminal identities
-- Hidden Warden access by holding the corporate logo for 3 seconds
-- PIN-protected Warden panel
-- 8-second terminal reassignment sequence
-- Persistent local session state
-- Portrait orientation warning
+## Install on iPad or iPhone
+1. Upload the contents of this folder to the root of the GitHub ETOS repository.
+2. Wait for the newest GitHub Pages deployment to show a green checkmark under **Actions**.
+3. Open the live ETOS site in Safari and refresh once.
+4. Open ETOS from its Home Screen icon.
 
-## Warden PIN
-`8722`
+## Controls
+- Initialize Terminal: enters the currently assigned terminal.
+- Hidden Warden access: hold either the Ellison-Tanaka boot logo or the large active terminal heading for three seconds.
+- Warden PIN: `8722`.
+- Return to Boot Screen: returns to the original corporate screen without deleting the selected terminal.
+- Reset All Session Data: restores the default Command terminal and boot screen.
+- Check for Latest Build: requests the newest deployed files and reloads ETOS.
 
-## Test on a computer
-A service worker will not run reliably by double-clicking `index.html`. Serve the folder with a small local server:
-
-### Python
-```bash
-cd ETOS_v0.1.0
-python -m http.server 8080
-```
-Then open `http://localhost:8080`.
-
-## Install on iPad
-1. Place this folder on any HTTPS web host or serve it from a computer reachable on the same Wi-Fi network.
-2. Open the ETOS address in Safari on the iPad.
-3. Tap **Share**.
-4. Tap **Add to Home Screen**.
-5. Launch ETOS from its Home Screen icon.
-6. Open it once while connected so all assets can be cached.
-7. Test in Airplane Mode before the session.
-
-## Warden controls
-Hold the Ellison-Tanaka logo for three seconds. Enter the Warden PIN. You can select Command, Medical, Dr. Edem, or Argoza and then run the terminal transfer sequence.
-
-## Known limitation
-This milestone contains terminal placeholders only. Campaign records, audio, passwords, personnel data, and custom terminal navigation will be added in later versions.
+## Development Testing
+The service worker uses network-first behavior for HTML, CSS, JavaScript, and manifest files. This reduces stale-build problems while preserving offline fallback.

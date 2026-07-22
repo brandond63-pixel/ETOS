@@ -38,3 +38,23 @@ v0.2.0 — Terminal Module Framework
 - Add reusable file, message, personnel, and media components
 - Add terminal-specific themes and navigation
 - Add a Warden debug status view
+
+## Entry 002 — Consolidated Device-Test Fixes
+
+### Objective
+Remove the display-state, hidden-control, and stale-cache problems discovered during the first iPad and iPhone tests.
+
+### Findings
+- CSS display declarations overrode the HTML `hidden` attribute.
+- Warden access was only attached to the boot logo, making it inaccessible after initialization.
+- Cache-first development behavior made tiny updates unnecessarily difficult to verify.
+
+### Decisions
+- Add a global `[hidden]` CSS rule.
+- Bind the Warden hold gesture to both the logo and active terminal heading.
+- Add explicit Return to Boot and Check for Latest Build controls.
+- Use network-first loading for core code during development while retaining offline fallback.
+- Publish complete replacement builds instead of asking the user to patch individual code lines.
+
+### Next Milestone
+Validate v0.1.3-dev on desktop and iPad, then begin v0.2.0 Terminal Module Framework.

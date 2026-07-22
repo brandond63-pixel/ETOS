@@ -21,7 +21,7 @@
       <img id="brand-logo" class="brand-logo" src="assets/img/ellison-tanaka-logo.png" alt="Ellison-Tanaka Colonial Systems">
       <div class="boot-copy">
         <p>ELLISON–TANAKA COLONIAL SYSTEMS</p>
-        <p>ETOS CORE ENVIRONMENT // BUILD 0.1.0</p>
+        <p>ETOS CORE ENVIRONMENT // BUILD 0.1.3-dev</p>
         <p class="motto">BUILDING BETTER FUTURES.</p>
       </div>
       <button id="initialize-button" class="terminal-button" type="button">INITIALIZE TERMINAL</button>
@@ -65,7 +65,7 @@
 
       <footer class="terminal-footer">
         <span>LV-872 // ORISON</span>
-        <span id="version-label">ETOS v0.1.0</span>
+        <span id="version-label">ETOS v0.1.3-dev</span>
         <span>TOUCH INTERFACE READY</span>
       </footer>
     </section>
@@ -99,8 +99,10 @@
           </select>
           <label class="check-row"><input id="skip-transition" type="checkbox"> Development mode: skip 8-second transfer</label>
           <button id="apply-terminal" class="terminal-button" type="button">LOAD SELECTED TERMINAL</button>
-          <button id="reset-session" class="danger-button" type="button">RESET SESSION STATE</button>
-          <p class="small-note">Hold the corporate logo for three seconds to reopen this panel.</p>
+          <button id="return-boot" class="terminal-button secondary-button" type="button">RETURN TO BOOT SCREEN</button>
+          <button id="refresh-app" class="terminal-button secondary-button" type="button">CHECK FOR LATEST BUILD</button>
+          <button id="reset-session" class="danger-button" type="button">RESET ALL SESSION DATA</button>
+          <p class="small-note">Hold the corporate logo or active terminal heading for three seconds to reopen this panel.<br>Current build: <strong id="warden-version">v0.1.3-dev</strong></p>
         </div>
       </div>
     </div>
