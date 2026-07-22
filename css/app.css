@@ -11,6 +11,10 @@
   --shadow: 0 0 22px rgba(126, 255, 169, .15);
 }
 * { box-sizing: border-box; }
+
+[hidden] {
+  display: none !important;
+}
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--bg); }
 body { font-family: "Courier New", ui-monospace, monospace; color: var(--text); -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 button, input, select { font: inherit; }
