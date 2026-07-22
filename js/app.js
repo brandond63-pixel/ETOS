@@ -89,8 +89,15 @@
   function cancelHold() { clearTimeout(holdTimer); holdTimer = null; }
 
   els.init.addEventListener('click', initialize);
-  ['pointerdown', 'touchstart'].forEach(ev => els.logo.addEventListener(ev, beginHold, { passive: true }));
-  ['pointerup', 'pointercancel', 'pointerleave', 'touchend', 'touchcancel'].forEach(ev => els.logo.addEventListener(ev, cancelHold, { passive: true }));
+[els.logo, els.title].forEach(trigger => {
+  ['pointerdown', 'touchstart'].forEach(eventName => {
+    trigger.addEventListener(eventName, beginHold, { passive: true });
+  });
+
+  ['pointerup', 'pointercancel', 'pointerleave', 'touchend', 'touchcancel'].forEach(eventName => {
+    trigger.addEventListener(eventName, cancelHold, { passive: true });
+  });
+});
   els.close.addEventListener('click', () => { els.overlay.hidden = true; });
   els.pinSubmit.addEventListener('click', authorize);
   els.pin.addEventListener('keydown', e => { if (e.key === 'Enter') authorize(); });
