@@ -1,4 +1,4 @@
-const CACHE = 'etos-v0.1.0';
+const CACHE = 'etos-v0.1.2';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './css/app.css', './js/app.js',
   './assets/img/ellison-tanaka-logo.png', './assets/img/icon-192.png', './assets/img/icon-512.png'
