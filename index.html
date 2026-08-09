@@ -9,19 +9,24 @@
   <meta name="apple-mobile-web-app-title" content="ETOS">
   <link rel="apple-touch-icon" href="assets/img/icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="css/app.css">
+  <link rel="preload" as="image" href="assets/img/command/weather-terrain.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/command/weather-storm.png" fetchpriority="high">
+  <link rel="stylesheet" href="css/app.css?v=0.5.32">
+  <link rel="stylesheet" href="css/themes/command.css?v=0.5.32">
+  <link rel="stylesheet" href="css/themes/medical.css?v=0.5.32">
+  <link rel="stylesheet" href="css/themes/edem.css?v=0.5.32">
+  <link rel="stylesheet" href="css/themes/argoza.css?v=0.5.32">
   <title>ETOS</title>
 </head>
 <body>
   <noscript>ETOS requires JavaScript.</noscript>
-
-  <main id="etos-app" class="etos-shell" aria-live="polite">
-    <section id="boot-screen" class="screen screen--active boot-screen">
+  <main id="etos-app" class="etos-shell theme-command" aria-live="polite">
+    <section id="boot-screen" class="screen boot-screen">
       <div class="crt-noise" aria-hidden="true"></div>
-      <img id="brand-logo" class="brand-logo" src="assets/img/ellison-tanaka-logo.png" alt="Ellison-Tanaka Colonial Systems">
+      <img id="brand-logo" class="brand-logo" src="assets/img/ellison-tanaka-logo.svg" alt="Ellison-Tanaka Colonial Systems">
       <div class="boot-copy">
         <p>ELLISON–TANAKA COLONIAL SYSTEMS</p>
-        <p>ETOS CORE ENVIRONMENT // BUILD 0.1.3-dev</p>
+        <p>ETOS CORE ENVIRONMENT // BUILD 0.5.24-dev</p>
         <p class="motto">BUILDING BETTER FUTURES.</p>
       </div>
       <button id="initialize-button" class="terminal-button" type="button">INITIALIZE TERMINAL</button>
@@ -30,43 +35,22 @@
 
     <section id="terminal-screen" class="screen terminal-screen" hidden>
       <header class="terminal-header">
-        <div>
-          <p class="eyebrow">ELLISON–TANAKA OPERATING SYSTEM</p>
+        <div class="terminal-identity">
+          <p id="terminal-eyebrow" class="eyebrow">ELLISON–TANAKA OPERATING SYSTEM</p>
           <h1 id="terminal-title">HORIZON BASE // COMMAND TERMINAL</h1>
         </div>
         <div class="status-block">
-          <span id="network-status">LOCAL NODE</span>
+          <span id="terminal-status">LOCAL NODE // SECURE</span>
           <span id="clock">--:--:--</span>
         </div>
       </header>
 
-      <div class="terminal-grid">
-        <nav class="side-panel" aria-label="Terminal navigation">
-          <button class="nav-key is-active" type="button">SYSTEM OVERVIEW</button>
-          <button class="nav-key" type="button" disabled>PERSONNEL</button>
-          <button class="nav-key" type="button" disabled>OPERATIONS</button>
-          <button class="nav-key" type="button" disabled>ARCHIVES</button>
-        </nav>
-
-        <section class="content-panel">
-          <div class="panel-heading">
-            <h2 id="module-heading">SYSTEM OVERVIEW</h2>
-            <span class="clearance">CLEARANCE // GENERAL</span>
-          </div>
-          <div id="terminal-content" class="terminal-content">
-            <p>&gt; ETOS CORE ONLINE</p>
-            <p>&gt; OFFLINE DATA CACHE VERIFIED</p>
-            <p>&gt; ACTIVE INSTALLATION: HORIZON BASE</p>
-            <p>&gt; SELECTED TERMINAL: COMMAND</p>
-            <p class="warning">&gt; MODULE CONTENT NOT YET INSTALLED</p>
-          </div>
-        </section>
-      </div>
+      <div id="terminal-workspace" class="terminal-workspace"></div>
 
       <footer class="terminal-footer">
-        <span>LV-872 // ORISON</span>
-        <span id="version-label">ETOS v0.1.3-dev</span>
-        <span>TOUCH INTERFACE READY</span>
+        <span id="location-label">LV-872 // ORISON</span>
+        <span id="version-label">ETOS v0.5.32-dev</span>
+        <span id="interface-label">TOUCH INTERFACE READY</span>
       </footer>
     </section>
 
@@ -77,6 +61,16 @@
         <p id="transfer-line">VERIFYING LOCAL HARDWARE...</p>
       </div>
     </section>
+
+    <div id="document-overlay" class="document-modal" hidden>
+      <div class="document-frame">
+        <header>
+          <div><p class="eyebrow">ETOS DOCUMENT VIEWER</p><h2 id="document-title">DOCUMENT</h2></div>
+          <button id="document-close" class="modal-close" type="button" aria-label="Close document">×</button>
+        </header>
+        <div id="document-body" class="document-body"></div>
+      </div>
+    </div>
 
     <div id="warden-overlay" class="modal" hidden>
       <div class="modal-card">
@@ -94,27 +88,22 @@
           <select id="terminal-select">
             <option value="command">Horizon Base // Command</option>
             <option value="medical">Horizon Base // Medical</option>
-            <option value="edem">Dr. Edem // Personal Terminal</option>
+            <option value="edem">Dr. Claire Edem // Personal Terminal</option>
             <option value="argoza">ETV Argoza // Shipboard Terminal</option>
           </select>
           <label class="check-row"><input id="skip-transition" type="checkbox"> Development mode: skip 8-second transfer</label>
+          <label class="check-row"><input id="toggle-dev-controls" type="checkbox"> Show developer controls in terminal UI</label>
           <button id="apply-terminal" class="terminal-button" type="button">LOAD SELECTED TERMINAL</button>
           <button id="return-boot" class="terminal-button secondary-button" type="button">RETURN TO BOOT SCREEN</button>
           <button id="refresh-app" class="terminal-button secondary-button" type="button">CHECK FOR LATEST BUILD</button>
           <button id="reset-session" class="danger-button" type="button">RESET ALL SESSION DATA</button>
-          <p class="small-note">Hold the corporate logo or active terminal heading for three seconds to reopen this panel.<br>Current build: <strong id="warden-version">v0.1.3-dev</strong></p>
+          <p class="small-note">Hold the corporate logo or active terminal heading for three seconds to reopen this panel.<br>Current build: <strong id="warden-version">v0.5.32-dev</strong></p>
         </div>
       </div>
     </div>
 
-    <div id="rotate-warning" class="rotate-warning" hidden>
-      <div>
-        <h2>ROTATE DEVICE</h2>
-        <p>ETOS requires landscape orientation.</p>
-      </div>
-    </div>
+    <div id="rotate-warning" class="rotate-warning" hidden><div><h2>ROTATE DEVICE</h2><p>ETOS requires landscape orientation.</p></div></div>
   </main>
-
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=0.5.32"></script>
 </body>
 </html>
