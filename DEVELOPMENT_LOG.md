@@ -1,3 +1,22 @@
+# 2026-08-23 — v0.5.73-dev
+
+- Added a reusable measured artwork coordinate space for responsive Argoza maps.
+- System, Orison, and Horizon Sector images now retain their intrinsic aspect ratio without separating markers from the rendered image bounds.
+- Horizon Base floorplan and room hotspots now use the floorplan SVG viewBox ratio inside the existing common pan/zoom canvas.
+- Command weather map layers now share the terrain image's 1672:941 coordinate space and common map zoom transform.
+- Existing developer X/Y values, navigation, animations, and room interactions remain unchanged.
+
+# 2026-08-23 — v0.5.72-dev
+
+## Sanitization post-activation alarm refinement
+
+- Added explicit activation and final-countdown alarm modes to the shared facility-alarm controller.
+- The activation mode schedules one 15-second alarm window followed by a 350 ms gain fade and source cleanup; countdown and Command Key state remain untouched.
+- Added authenticated Warden mute control state synchronized through facility-alarm lifecycle events.
+- Starting the manual final countdown cancels any activation cutoff or creates a fresh alarm source, retains number-by-number ducking, permits mute without cancelling speech, and fades the alarm 1.5 seconds after `ONE`.
+- Re-enabled the final-countdown control after every completed run and removed render, Warden-open, and audio-unlock code paths that previously restarted the facility alarm implicitly.
+- Preserved the warning-pulse controller, selected-delay speech, authorization flow, visual sanitization countdown, and unrelated ETOS systems.
+
 # 2026-08-20 — v0.5.71-dev
 
 ## Sanitization runtime URL and origin diagnostics

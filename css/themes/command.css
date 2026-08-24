@@ -2170,3 +2170,9 @@
 @media(max-width:1100px){.audit-token-port{padding:6px;margin-bottom:7px}.audit-token-socket{width:102px;height:36px}.audit-token-socket:before,.audit-token-socket:after{top:14px;width:6px;height:6px}.audit-token-layer{padding:14px}.audit-token-window{width:min(650px,94%);padding:22px 26px}}
 @media(max-height:700px){.audit-token-window{max-height:94%;padding:16px 24px}.audit-token-window h2{margin:5px 0 11px;font-size:23px}.audit-token-window h3{margin:6px 0 10px}.audit-token-listening{min-height:125px;margin-bottom:12px}.audit-token-listening i{width:48px;height:48px}.audit-token-readout{gap:4px;margin-bottom:10px}.audit-token-readout p{padding:6px 10px}.audit-token-controls{margin-top:12px}.audit-token-window button{min-height:44px}.audit-token-port{margin-bottom:5px}.audit-token-socket{height:32px}}
 @media(prefers-reduced-motion:reduce){.audit-token-readout p.is-active,.audit-token-listening.is-listening i{animation:none!important}}
+
+/* Keep weather artwork and every coded overlay in one fitted map space. */
+.radar-map{background-image:none!important}
+.weather-map-coordinate-space{transform:scale(var(--sandbox-map-zoom,1));transform-origin:var(--sandbox-map-x,50%) var(--sandbox-map-y,50%);transition:transform .08s linear}
+.weather-map-coordinate-space>.weather-terrain-layer,.weather-map-coordinate-space>.weather-storm-layer{object-fit:fill;object-position:center}
+.weather-map-coordinate-space>.weather-terrain-layer{transform:none!important}

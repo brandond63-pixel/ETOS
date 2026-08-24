@@ -35,6 +35,7 @@
   let facilityAlarmTestTimer = null;
   const FACILITY_ALARM_GAIN = 1;
   const FACILITY_ALARM_DUCK_GAIN = .22;
+  const FACILITY_ALARM_FADE_MS = 350;
   const WARNING_PULSE_BASE_GAIN = .78;
   const WARNING_PULSE_INTENSITY_GAIN = .16;
 
@@ -285,9 +286,45 @@
     return true;
   }
 
-  async function startFacilityAlarm(){
-    if(facilityAlarm)return true;
-    if(facilityAlarmPromise)return facilityAlarmPromise;
+  function setFacilityAlarmState(state,detail={}){
+    document.documentElement.dataset.facilityAlarm=state;
+    document.dispatchEvent(new CustomEvent('etos-facility-alarm-state',{detail:{state,...detail}}));
+  }
+
+  function clearFacilityAlarmTimers(alarm){
+    if(!alarm)return;
+    if(alarm.autoStopTimer)clearTimeout(alarm.autoStopTimer);
+    if(alarm.fadeTimer)clearTimeout(alarm.fadeTimer);
+    alarm.autoStopTimer=null;alarm.fadeTimer=null;
+  }
+
+  function releaseFacilityAlarm(alarm,{stopSource=true,reason='stopped'}={}){
+    if(!alarm)return;
+    clearFacilityAlarmTimers(alarm);
+    if(facilityAlarm===alarm)facilityAlarm=null;
+    if(stopSource)safe(()=>alarm.source.stop());
+    safe(()=>alarm.source.disconnect());safe(()=>alarm.filter.disconnect());safe(()=>alarm.level.disconnect());
+    setFacilityAlarmState('off',{reason});
+    console.info(`[SanitizationAudio] facility alarm stopped // ${reason}`);
+  }
+
+  function scheduleFacilityAlarmStop(alarm,autoStopMs){
+    if(!alarm||!Number.isFinite(autoStopMs)||autoStopMs<=0)return;
+    alarm.autoStopTimer=setTimeout(()=>{
+      if(facilityAlarm===alarm)stopFacilityAlarm({fadeMs:FACILITY_ALARM_FADE_MS,reason:'automatic cutoff'});
+    },autoStopMs);
+  }
+
+  async function startFacilityAlarm({mode='activation',autoStopMs=15000}={}){
+    if(facilityAlarm){
+      const alarm=facilityAlarm;clearFacilityAlarmTimers(alarm);alarm.mode=mode;
+      if(context){const time=now(),gain=alarm.level.gain;gain.cancelScheduledValues(time);gain.setValueAtTime(Math.max(.0001,gain.value),time);gain.linearRampToValueAtTime(FACILITY_ALARM_GAIN,time+.12);}
+      if(mode==='activation')scheduleFacilityAlarmStop(alarm,autoStopMs);
+      setFacilityAlarmState('active',{mode,reused:true});
+      console.info(`[SanitizationAudio] facility alarm continuing // ${mode}`);
+      return true;
+    }
+    if(facilityAlarmPromise)return facilityAlarmPromise.then(()=>startFacilityAlarm({mode,autoStopMs}));
     const request=facilityAlarmRequest;
     facilityAlarmPromise=(async()=>{
       try{
@@ -300,37 +337,47 @@
         const source=context.createBufferSource(),level=context.createGain(),filter=context.createBiquadFilter();
         source.buffer=buffer;source.loop=true;level.gain.value=1;filter.type='lowpass';filter.frequency.value=6100;filter.Q.value=.28;
         console.info('[SanitizationAudio] facility alarm play requested');
-        source.connect(level);level.connect(context.destination);source.onended=()=>{if(facilityAlarm?.source===source)facilityAlarm=null;};source.start();
-        facilityAlarm={source,level,filter};
-        document.documentElement.dataset.facilityAlarm='active';
+        source.connect(level);level.connect(context.destination);source.start();
+        const alarm={source,level,filter,mode,autoStopTimer:null,fadeTimer:null};facilityAlarm=alarm;
+        source.onended=()=>{if(facilityAlarm===alarm)releaseFacilityAlarm(alarm,{stopSource:false,reason:'source ended'});};
+        if(mode==='activation')scheduleFacilityAlarmStop(alarm,autoStopMs);
+        setFacilityAlarmState('active',{mode});
         logSanitizationGainChain('facility',1,true);
         console.info('[SanitizationAudio] facility source STARTED');
         return true;
-      }catch(error){document.documentElement.dataset.facilityAlarm='failed';console.error('[SanitizationAudio] FACILITY ALARM PLAYBACK REJECTED',error);return false;}
+      }catch(error){setFacilityAlarmState('failed',{mode,error:String(error?.message||error)});console.error('[SanitizationAudio] FACILITY ALARM PLAYBACK REJECTED',error);return false;}
     })().finally(()=>{facilityAlarmPromise=null;});
     return facilityAlarmPromise;
   }
 
-  function stopFacilityAlarm(){
+  function stopFacilityAlarm({fadeMs=FACILITY_ALARM_FADE_MS,reason='manual stop'}={}){
     facilityAlarmRequest+=1;
-    if(facilityAlarm){const alarm=facilityAlarm;facilityAlarm=null;safe(()=>alarm.source.stop());safe(()=>alarm.source.disconnect());safe(()=>alarm.filter.disconnect());safe(()=>alarm.level.disconnect());console.info('[SanitizationAudio] facility alarm stopped');}
-    document.documentElement.dataset.facilityAlarm='off';
+    const alarm=facilityAlarm;
+    if(!alarm){setFacilityAlarmState('off',{reason});return false;}
+    clearFacilityAlarmTimers(alarm);
+    if(!context||fadeMs<=0){releaseFacilityAlarm(alarm,{reason});return true;}
+    const time=now(),gain=alarm.level.gain,duration=Math.max(.05,fadeMs/1000);
+    gain.cancelScheduledValues(time);gain.setValueAtTime(Math.max(.0001,gain.value),time);gain.linearRampToValueAtTime(.0001,time+duration);
+    setFacilityAlarmState('fading',{reason,fadeMs});
+    alarm.fadeTimer=setTimeout(()=>{if(facilityAlarm===alarm)releaseFacilityAlarm(alarm,{reason});},fadeMs+35);
+    console.info(`[SanitizationAudio] facility alarm fading // ${reason}`);
+    return true;
   }
 
   function duckFacilityAlarm(){
     if(!facilityAlarm||!context)return false;
-    const gain=facilityAlarm.level.gain,time=now();
+    const alarm=facilityAlarm,gain=alarm.level.gain,time=now();
     gain.cancelScheduledValues(time);gain.setValueAtTime(Math.max(.0001,gain.value),time);gain.linearRampToValueAtTime(FACILITY_ALARM_DUCK_GAIN,time+.08);gain.setValueAtTime(FACILITY_ALARM_DUCK_GAIN,time+.48);gain.linearRampToValueAtTime(FACILITY_ALARM_GAIN,time+.86);
-    document.documentElement.dataset.facilityAlarm='ducking';
-    setTimeout(()=>{if(facilityAlarm)document.documentElement.dataset.facilityAlarm='active';},880);
+    setFacilityAlarmState('ducking',{mode:alarm.mode});
+    setTimeout(()=>{if(facilityAlarm===alarm&&!alarm.fadeTimer)setFacilityAlarmState('active',{mode:alarm.mode});},880);
     return true;
   }
 
   function restoreFacilityAlarm(){
     if(!facilityAlarm||!context)return false;
-    const gain=facilityAlarm.level.gain,time=now();
+    const alarm=facilityAlarm,gain=alarm.level.gain,time=now();
     gain.cancelScheduledValues(time);gain.setValueAtTime(Math.max(.0001,gain.value),time);gain.linearRampToValueAtTime(FACILITY_ALARM_GAIN,time+.3);
-    setTimeout(()=>{if(facilityAlarm)document.documentElement.dataset.facilityAlarm='active';},320);
+    setTimeout(()=>{if(facilityAlarm===alarm&&!alarm.fadeTimer)setFacilityAlarmState('active',{mode:alarm.mode});},320);
     return true;
   }
 

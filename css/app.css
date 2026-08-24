@@ -17,7 +17,7 @@
 
 /* v0.5.59-dev — Warden-only sequence test resets. */
 #warden-controls{max-height:min(78vh,760px);overflow-y:auto;padding-right:4px}
-#start-sanitization-final-countdown:disabled{opacity:.38;box-shadow:none;cursor:not-allowed}
+#start-sanitization-final-countdown:disabled,#mute-facility-alarm:disabled{opacity:.38;box-shadow:none;cursor:not-allowed}
 .warden-sequence-resets{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .warden-sequence-resets h3{margin:0 0 10px;color:var(--accent-soft);font-size:12px;letter-spacing:.14em}
 .warden-reset-group{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:9px}

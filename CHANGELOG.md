@@ -1,3 +1,17 @@
+# v0.5.73-dev — Responsive map coordinate spaces
+
+- Anchored Argoza System, Orison, Horizon Sector, and Horizon Base overlays to fitted source-art bounds.
+- Applied the same fitted-artwork coordinate model to Command weather terrain, storm, coded sites, labels, forecast path, and scale overlays.
+- Preserved all normalized marker and room coordinates while removing aspect-ratio-dependent crop and letterbox drift.
+- Kept Horizon Base artwork and room hotspots inside the same pan/zoom transform layer.
+
+# v0.5.72-dev — Sanitization alarm phases
+
+- Limited the initial post-activation facility alarm to 15 seconds with a 350 ms fade while leaving sanitization active.
+- Added a Warden-only `MUTE FACILITY ALARM` control that affects audio only.
+- Made every reusable Warden final countdown restart or retain the facility alarm, duck it beneath each number, and fade it 1.5 seconds after `ONE`.
+- Removed active-state rerender paths that could unintentionally restart a completed or muted facility alarm.
+
 # v0.5.71-dev — Runtime URL diagnostics
 
 - Resolved sanitization WAV URLs relative to the successfully loaded `audio.js` runtime URL instead of `document.baseURI`.
