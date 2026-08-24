@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.73-dev';
+  const VERSION = '0.5.74-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -3029,6 +3029,13 @@
       el.style.zIndex = String(val.z || 2);
     });
   }
+  function clearOverviewBoxStyles(root){
+    const shell = root.matches?.('.command-overview-shell') ? root : root.querySelector('.command-overview-shell');
+    if(!shell) return;
+    shell.querySelectorAll('[data-box]').forEach(el=>{
+      ['left','top','width','height','zIndex'].forEach(property=>{el.style[property]='';});
+    });
+  }
   function initOverviewEditor(root){
     if(!root) return;
     const shell = root.querySelector('.command-overview-shell');
@@ -3036,12 +3043,12 @@
     const panel = root.querySelector('[data-overview-editor-panel]');
     if(!shell || !field || !panel) return;
     let boxes = loadOverviewBoxes();
-    applyOverviewBoxes(root, boxes);
+    clearOverviewBoxStyles(root);
     field.querySelectorAll('[data-box]').forEach(el=>{ if(!el.querySelector('.layout-resize-handle')){ const h=document.createElement('span'); h.className='layout-resize-handle'; h.setAttribute('data-layout-handle',''); el.appendChild(h);} });
     let editorActive = false; let drag = null;
     const selectedOut = panel.querySelector('[data-editor-selected]'); const readout = panel.querySelector('[data-editor-readout]'); const status = panel.querySelector('[data-editor-status]');
     const updateReadout = (key)=>{ const b=boxes[key]; if(!b) return; if(selectedOut) selectedOut.textContent = key.toUpperCase(); if(readout) readout.textContent = `X ${b.x.toFixed(1)}%  Y ${b.y.toFixed(1)}%  W ${b.w.toFixed(1)}%  H ${b.h.toFixed(1)}%`; };
-    const setEditor = (on)=>{ editorActive = on; shell.dataset.layoutEditor = on ? 'true' : 'false'; panel.hidden = !on; if(status) status.textContent = on ? 'Editor active.' : 'Editor inactive.'; };
+    const setEditor = (on)=>{ editorActive = on; shell.dataset.layoutEditor = on ? 'true' : 'false'; panel.hidden = !on; if(on)applyOverviewBoxes(root,boxes);else clearOverviewBoxStyles(root);if(status) status.textContent = on ? 'Editor active.' : 'Editor inactive.'; };
     root.querySelectorAll('[data-overview-editor-toggle]').forEach(btn=>btn.addEventListener('click',()=>setEditor(!editorActive)));
     panel.querySelector('[data-editor-reset]')?.addEventListener('click',()=>{ localStorage.removeItem(OVERVIEW_BOX_KEY); boxes = loadOverviewBoxes(); applyOverviewBoxes(root, boxes); updateReadout('weather'); if(status) status.textContent='Layout reset.'; });
     panel.querySelector('[data-editor-copy]')?.addEventListener('click', async()=>{ const txt = JSON.stringify(boxes,null,2); try{ await navigator.clipboard.writeText(txt); if(status) status.textContent='PANEL POSITIONS COPIED.'; } catch { if(status) status.textContent = txt.replace(/\n/g,' '); } });

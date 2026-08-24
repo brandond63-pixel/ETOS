@@ -1,3 +1,10 @@
+# v0.5.74-dev — iPad-first Command overview
+
+- Replaced the player-facing absolute-positioned Command dashboard with a landscape-tablet CSS Grid.
+- Preserved the Orison, Beacon, Weather, Directive, Communications, Planetary Conditions, and Facility Management hierarchy while containing every panel inside the available terminal viewport.
+- Added tablet-responsive card typography and compact panel internals without scaling the complete dashboard.
+- Kept the Warden live layout editor available as a separate explicit editing mode.
+
 # v0.5.73-dev — Responsive map coordinate spaces
 
 - Anchored Argoza System, Orison, Horizon Sector, and Horizon Base overlays to fitted source-art bounds.

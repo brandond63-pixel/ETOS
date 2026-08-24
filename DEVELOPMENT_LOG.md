@@ -1,3 +1,10 @@
+# 2026-08-23 — v0.5.74-dev
+
+- Command System Overview now uses a tablet-first 3-column / 3-row grid in normal player mode.
+- Removed persisted absolute box coordinates from the normal overview render path; they are applied only while the Warden layout editor is active.
+- Added bounded responsive typography and explicit bottom-row placement for Planetary Conditions and Facility Management.
+- Added a portrait fallback with internal overview scrolling while retaining landscape as the intended presentation.
+
 # 2026-08-23 — v0.5.73-dev
 
 - Added a reusable measured artwork coordinate space for responsive Argoza maps.
