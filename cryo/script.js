@@ -5,6 +5,7 @@
   const REVIVAL_TARGET_DATETIME = '2026-08-29T20:00:00-07:00';
 
   const SPEED_MULTIPLIER = new URLSearchParams(location.search).get('test') === '1' ? 0.025 : 1;
+  const cinematic = document.querySelector('#cinematic');
   const output = document.querySelector('#output');
   const terminal = document.querySelector('#terminal');
   const initialize = document.querySelector('#initialize');
@@ -26,18 +27,92 @@
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms * SPEED_MULTIPLIER));
   const active = (id) => id === runId;
 
+  function safeAreaInsets() {
+    const probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left)';
+    document.body.append(probe);
+    const styles = getComputedStyle(probe);
+    const insets = {
+      top: parseFloat(styles.paddingTop) || 0,
+      right: parseFloat(styles.paddingRight) || 0,
+      bottom: parseFloat(styles.paddingBottom) || 0,
+      left: parseFloat(styles.paddingLeft) || 0
+    };
+    probe.remove();
+    return insets;
+  }
+
+  function clearMobileStageLock() {
+    cinematic.classList.remove('mobile-locked');
+    ['width', 'height', 'left', 'top', 'right', 'bottom'].forEach((property) => cinematic.style.removeProperty(property));
+    delete cinematic.dataset.lockedWidth;
+    delete cinematic.dataset.lockedHeight;
+  }
+
+  function lockMobileStage() {
+    const shortLandscape = matchMedia('(orientation: landscape) and (max-height: 540px)').matches;
+    if (!shortLandscape) {
+      clearMobileStageLock();
+      return;
+    }
+
+    const viewport = window.visualViewport;
+    const insets = safeAreaInsets();
+    const viewportWidth = viewport?.width || window.innerWidth;
+    const viewportHeight = viewport?.height || window.innerHeight;
+    const lockedWidth = Math.max(1, Math.floor(viewportWidth - insets.left - insets.right));
+    const lockedHeight = Math.max(1, Math.floor(viewportHeight - insets.top - insets.bottom));
+    const lockedLeft = Math.floor((viewport?.offsetLeft || 0) + insets.left);
+    const lockedTop = Math.floor((viewport?.offsetTop || 0) + insets.top);
+
+    cinematic.classList.add('mobile-locked');
+    cinematic.style.width = `${lockedWidth}px`;
+    cinematic.style.height = `${lockedHeight}px`;
+    cinematic.style.left = `${lockedLeft}px`;
+    cinematic.style.top = `${lockedTop}px`;
+    cinematic.style.right = 'auto';
+    cinematic.style.bottom = 'auto';
+    cinematic.dataset.lockedWidth = String(lockedWidth);
+    cinematic.dataset.lockedHeight = String(lockedHeight);
+  }
+
+  const mobileStageLocked = () => cinematic.classList.contains('mobile-locked');
+
   function initializeAudio() {
     if (audioContext) return;
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
     audioContext = new AudioContext();
     masterGain = audioContext.createGain();
-    masterGain.gain.value = muted ? 0 : .56;
+    masterGain.gain.value = muted ? 0 : 1.0;
     masterGain.connect(audioContext.destination);
+  }
+
+  function resumeAudioIfNeeded() {
+    if (!audioContext || audioContext.state === 'running' || audioContext.state === 'closed') return Promise.resolve();
+    return audioContext.resume().catch(() => undefined);
+  }
+
+  function unlockAudioFromGesture() {
+    initializeAudio();
+    if (!audioContext) return Promise.resolve();
+
+    // iOS Safari requires a source to be created and started directly inside
+    // the initiating touch/click handler, before any awaited work begins.
+    const unlockBuffer = audioContext.createBuffer(1, 1, audioContext.sampleRate);
+    const unlockSource = audioContext.createBufferSource();
+    const unlockGain = audioContext.createGain();
+    unlockGain.gain.value = 0.0001;
+    unlockSource.buffer = unlockBuffer;
+    unlockSource.connect(unlockGain).connect(masterGain);
+    unlockSource.start(0);
+
+    return resumeAudioIfNeeded();
   }
 
   function tone(frequency = 820, duration = .045, volume = .018, type = 'square', delay = 0) {
     if (!audioContext || muted) return;
+    void resumeAudioIfNeeded();
     const start = audioContext.currentTime + delay;
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
@@ -53,6 +128,7 @@
 
   function noiseBurst(duration = .08, volume = .018, cutoff = 1600) {
     if (!audioContext || muted) return;
+    void resumeAudioIfNeeded();
     const length = Math.floor(audioContext.sampleRate * duration);
     const buffer = audioContext.createBuffer(1, length, audioContext.sampleRate);
     const channel = buffer.getChannelData(0);
@@ -70,6 +146,7 @@
 
   function relay(volume = .075) {
     if (!audioContext || muted) return;
+    void resumeAudioIfNeeded();
     const start = audioContext.currentTime;
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
@@ -87,6 +164,7 @@
   function startAmbience() {
     stopAmbience();
     if (!audioContext) return;
+    void resumeAudioIfNeeded();
     ambienceGain = audioContext.createGain();
     ambienceGain.gain.value = .75;
     ambienceGain.connect(masterGain);
@@ -128,6 +206,7 @@
 
   function clearOutput() {
     output.replaceChildren();
+    output.classList.remove('personnel-screen');
   }
 
   function createLine(className = '') {
@@ -217,7 +296,7 @@
     await typeLine(`${String(index + 1).padStart(2, '0')} / ${person.display}`, { speed: primary ? 19 : 10, className: 'person-name', after: primary ? 150 : 55 }, id);
     await typeLine(person.role, { speed: primary ? 13 : 7, className: 'person-role', after: primary ? 130 : 45 }, id);
     await databaseLine(person.synthetic ? 'SYNTHETIC CORE ............. ' : 'CRYOGENIC CHAMBER .......... ', person.synthetic ? 'SUSPENDED' : 'STABLE', { labelSpeed: primary ? 9 : 5, pause: primary ? 170 : 75, valueSpeed: 5, after: primary ? 90 : 35 }, id);
-    await databaseLine('MISSION STATUS ............. ', 'REQUIRED', { labelSpeed: primary ? 8 : 4, pause: primary ? 120 : 50, valueSpeed: 5, after: primary ? 310 : 90 }, id);
+    await databaseLine('MISSION STATUS ............. ', 'REQUIRED', { labelSpeed: primary ? 8 : 4, pause: primary ? 120 : 50, valueSpeed: 5, after: primary ? 1810 : 310 }, id);
   }
 
   function countdownParts() {
@@ -307,6 +386,7 @@
     tone(620, .08, .025, 'sine'); tone(980, .12, .02, 'sine', .08);
     await databaseLine('ENCRYPTION KEY ............ ', 'ACCEPTED', { pause: 260, valueSpeed: 8, after: 450 }, id);
     await blank(id, 90);
+    if (mobileStageLocked()) clearOutput();
     await typeLine('CORPORATE NAVIGATION DIRECTIVE', { speed: 38, className: 'critical', after: 180 }, id);
     await typeLine('PROCESSING...', { speed: 52, className: 'dim', after: 1100 }, id);
     await databaseLine('PRIMARY FLIGHT PLAN ........ ', 'SUSPENDED', { pause: 540, valueSpeed: 11, after: 480 }, id);
@@ -329,7 +409,8 @@
     footerState.textContent = 'MISSION RESOURCE ANALYSIS';
     await typeLine('CREW REQUIREMENT ANALYSIS...', { speed: 33, className: 'accent', after: 700 }, id);
     await databaseLine('MISSION PERSONNEL REQUIRED ........ ', '07', { pause: 360, valueSpeed: 12, after: 250 }, id);
-    await typeLine('VERIFYING ASSIGNED PERSONNEL...', { speed: 26, className: 'dim', after: 420 }, id);
+    await typeLine('VERIFYING ASSIGNED PERSONNEL...', { speed: 26, className: 'dim', after: 720 }, id);
+    clearOutput();
 
     const personnel = [
       { display: 'KOSMONAVT, KATYA', role: 'SYNTHETIC SYSTEMS SPECIALIST', synthetic: true },
@@ -343,8 +424,10 @@
 
     for (let index = 0; index < personnel.length; index += 1) {
       if (!active(id)) return;
+      clearOutput();
+      output.classList.add('personnel-screen');
       if (index === 3 || index === 6) glitch();
-      if (index === 4) { await sleep(280); clearOutput(); }
+      if (index === 4) await sleep(280);
       await renderPersonnel(personnel[index], index, id);
     }
 
@@ -356,9 +439,11 @@
     await databaseLine('MEDICAL SUPPORT ............ ', 'VERIFIED', { pause: 210, valueSpeed: 7, after: 130 }, id);
     await databaseLine('MISSION AUTHORITY .......... ', 'VERIFIED', { pause: 210, valueSpeed: 7, after: 360 }, id);
     await blank(id, 70);
+    if (mobileStageLocked()) clearOutput();
     await databaseLine('REVIVAL SCHEDULE ........... ', 'AMENDED', { className: 'critical', pause: 470, valueSpeed: 10, after: 250, relaySound: true }, id);
     await databaseLine('SCHEDULED REVIVAL .......... ', '29 AUG 2122', { pause: 260, valueSpeed: 9, after: 180 }, id);
     await databaseLine('CREW NOTIFICATION .......... ', 'DEFERRED', { pause: 360, valueSpeed: 11, after: 540 }, id);
+    if (mobileStageLocked()) clearOutput();
     await showCountdown(id);
     setAmbience(.34, .7);
     // Keep this dramatic hold at its real duration even in accelerated QA mode.
@@ -378,7 +463,7 @@
     clearOutput();
     const sting = document.createElement('div');
     sting.className = 'sting';
-    sting.innerHTML = '<div><img src="../assets/img/ellison-tanaka-logo.svg" alt="Ellison-Tanaka"><p>HERE\'S TO A BEAUTIFUL FUTURE</p></div>';
+    sting.innerHTML = '<div><img src="assets/img/ellison-tanaka-logo.svg" alt="Ellison-Tanaka"><p>HERE\'S TO A BEAUTIFUL FUTURE</p></div>';
     output.append(sting);
     tone(520, .25, .014, 'sine');
     await sleep(3200);
@@ -389,9 +474,12 @@
   }
 
   async function start() {
-    initializeAudio();
-    if (audioContext?.state === 'suspended') await audioContext.resume();
+    // This call must remain the first operation in the user-gesture handler.
+    const audioReady = unlockAudioFromGesture();
+    lockMobileStage();
     initialize.classList.add('hidden');
+    await audioReady;
+    await resumeAudioIfNeeded();
     await runSequence();
   }
 
@@ -401,7 +489,8 @@
     muted = !muted;
     muteButton.textContent = muted ? 'UNMUTE' : 'MUTE';
     muteButton.setAttribute('aria-pressed', String(muted));
-    if (masterGain) masterGain.gain.value = muted ? 0 : .56;
+    if (masterGain) masterGain.gain.value = muted ? 0 : 1.0;
+    if (!muted) void resumeAudioIfNeeded();
   });
   fullscreenButton.addEventListener('click', async () => {
     try {
@@ -414,4 +503,12 @@
     const now = new Date();
     shipClock.textContent = [now.getHours(), now.getMinutes(), now.getSeconds()].map((value) => String(value).padStart(2, '0')).join(':');
   }, 250);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && !initialize.classList.contains('hidden')) return;
+    if (!document.hidden) void resumeAudioIfNeeded();
+  });
+  window.addEventListener('pageshow', () => {
+    if (initialize.classList.contains('hidden')) void resumeAudioIfNeeded();
+  });
 })();

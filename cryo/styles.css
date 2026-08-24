@@ -13,6 +13,13 @@
 
 * { box-sizing: border-box; }
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+html,
+body,
+#cinematic,
+.terminal {
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
 body { color: var(--text); font-family: "Courier New", ui-monospace, monospace; }
 button { font: inherit; }
 
@@ -24,6 +31,18 @@ button { font: inherit; }
   background: #000;
   isolation: isolate;
 }
+
+#cinematic.mobile-locked { place-items: stretch; }
+#cinematic.mobile-locked .terminal {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  max-height: none;
+}
+#cinematic.mobile-locked .terminal-body { min-height: 0; overflow: hidden; }
+#cinematic.mobile-locked .output { height: 100%; max-height: 100%; }
 
 .terminal {
   position: relative;
@@ -104,6 +123,13 @@ button { font: inherit; }
   letter-spacing: .035em;
 }
 
+.output.personnel-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: clamp(30px, 7vh, 72px);
+}
+
 .line { min-height: 1.34em; white-space: pre-wrap; }
 .line + .line { margin-top: .06em; }
 .line.blank { height: .72em; }
@@ -165,6 +191,7 @@ button { font: inherit; }
 .system-label { color: var(--accent-soft); font-size: 10px; letter-spacing: .2em; }
 .init-frame h1 { margin: 20px 0 8px; color: var(--accent); font-size: clamp(18px, 2.3vw, 30px); font-weight: normal; letter-spacing: .15em; }
 .init-status { margin: 28px 0; color: rgba(159, 185, 218, .62); font-size: 11px; letter-spacing: .1em; }
+.audio-note { margin: 10px 0 -18px; color: var(--accent-soft); opacity: .48; font-size: 9px; letter-spacing: .12em; }
 .init-frame button {
   min-height: 50px;
   padding: 12px 20px;
@@ -204,13 +231,14 @@ button { font: inherit; }
 }
 
 @media (max-height: 540px) {
-  .terminal { min-width: 0; min-height: 0; width: 100vw; height: 100vh; }
-  .terminal-header { min-height: 44px; padding-block: 6px; }
-  .terminal-footer { min-height: 25px; padding-block: 4px; }
+  .terminal { min-width: 0; min-height: 0; width: 100vw; height: 100svh; }
+  .terminal-header { min-height: 44px; padding-block: 6px; font-size: 10px; }
+  .terminal-footer { min-height: 25px; padding-block: 4px; font-size: 8px; }
   .terminal-body { grid-template-columns: 112px 1fr; }
-  .diagnostics { padding: 10px; gap: 8px; }
+  .diagnostics { padding: 10px; gap: 8px; font-size: 9px; }
   .diag-section { padding-bottom: 8px; }
-  .output { padding-block: 12px; font-size: clamp(10px, 2.15vh, 15px); line-height: 1.24; }
+  .output { padding: 12px 24px 20px; font-size: 14px; line-height: 1.24; }
+  .output.personnel-screen { padding-top: 8px; padding-bottom: 32px; }
   .line { min-height: 1.24em; }
   .countdown-block { padding-block: 10px; }
 }

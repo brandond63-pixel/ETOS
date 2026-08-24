@@ -1,3 +1,262 @@
+# v0.5.71-dev — Runtime URL diagnostics
+
+- Resolved sanitization WAV URLs relative to the successfully loaded `audio.js` runtime URL instead of `document.baseURI`.
+- Added Warden-visible app version, origin, pathname, resolved URL, HTTP, MIME, byte-count, decode, and specific failure diagnostics.
+- Disabled each direct test until its corresponding runtime fetch and decode reports `READY`.
+
+# v0.5.70-dev — Sanitization runtime direct-output diagnostic
+
+- Anchored the first warning pulse to the exact Command Key `ENGAGED` state transition and retained the escalating scheduler.
+- Routed warning and facility WAV sources directly to `AudioContext.destination` at gain `1.0` for desktop-runtime diagnosis.
+- Added exact workflow, source-start, speech-completion, cleanup, and complete gain-chain logging while retaining Warden tests.
+
+# v0.5.69-dev — Sanitization WAV asset-pipeline diagnostics
+
+- Verified both supplied sanitization WAVs are present in the repository and byte-identical to their supplied source files.
+- Reworked the shared decoded-WAV loader to validate HTTP status, MIME type, response length, RIFF/WAVE signatures, and decoded duration with retryable per-asset state.
+- Added Warden asset status indicators and direct-test refetches, plus new build/asset cache keys to bypass stale iPad responses.
+
+# v0.5.68-dev — Medical media flow and biometric scanner audio
+
+- Added equal-width Recommended Procedure cells and a final irreversible sanitization warning before Data Module authentication.
+- Returned completed duplication and sanitization operations to Media Service with persistent protocol-card status.
+- Added a dedicated cancellable biometric contact hum, scan-synchronized sweep/ticks, and single verification chirp without reusing Data Module sounds.
+
+# v0.5.67-dev — Case-insensitive personnel access
+
+- Normalized Personnel Briefing access codes to uppercase before validation.
+- Preserved the visible, unmasked access-code field and all existing briefing behavior.
+
+# v0.5.66-dev — Personnel Briefings location correction
+
+- Moved Personnel Briefings from Mission to the existing Argoza Briefing Files browser.
+- Added Personnel Briefings as the sixth native file row.
+- Updated access-screen back navigation to restore the existing Briefing Files page.
+- Preserved all personnel codes, document content, layouts, and document-to-access navigation.
+
+# v0.5.65-dev — Argoza Personnel Briefings
+
+- Added a restricted Personnel Briefings entry to the Argoza Mission area.
+- Added four exact, case-sensitive assignment access codes and data-driven personnel documents.
+- Added Argoza-native document, clearance, issued-equipment, accountability, and restricted-footer presentation.
+- Added direct back navigation to the clean access-code screen without completion or persistence state.
+
+# v0.5.64-dev — Sanitization audio output diagnostics
+
+- Added Warden-only direct tests for the warning pulse and facility alarm.
+- Routed sanitization WAV playback through a dedicated full-level bus while preserving the ETOS master volume.
+- Added asset URL, decode, play-request, playback-start, completion, and rejection diagnostics.
+- Preserved the existing selected-delay voice announcement and Warden final-countdown behavior.
+
+# v0.5.63-dev — Sanitization audio loading correction
+
+- Bound Facility Sanitization to the supplied WAV filenames with explicit preload, decode, playback, and failure diagnostics; removed the legacy synthesized warning fallback.
+- Delayed the single looping facility alarm until the initial selected-delay announcement completes, while retaining Safari-safe AudioContext preparation on Command Key and activation gestures.
+- Made the Warden ten-second spoken cue reusable after each completed run while continuing to block overlapping countdowns.
+
+# v0.5.62-dev — Warden-controlled sanitization countdown audio
+
+- Added the supplied local warning pulse and looping facility emergency alarm to the Facility Sanitization audio sequence.
+- Kept the selected-delay activation announcement, with no automatic spoken milestones after activation.
+- Added a one-use Warden final-ten countdown with alarm ducking beneath each spoken number and reset support through the existing Command sequence reset.
+
+# v0.5.61-dev — Audit Token visual and voice refinement
+
+- Re-centered the two-row 8/7 Audit Token pin field with even spacing and a regular half-pitch stagger.
+- Deepened and slowed all Audit Token system speech while preserving clear corporate/mainframe delivery.
+
+# v0.5.60-dev — Command Audit Token protocol
+
+- Added the persistent CRT-green Audit Token D-sub port to every Horizon Base Command screen.
+- Added device verification, voice authorization, three-attempt retry behavior, manual passcode fallback, and incident-data acquisition flow.
+- Added a universal Audit Token abort path that stops microphone/audio activity, clears the session, simulates token removal, and requires a new three-second insertion hold.
+- Extended the Warden Command sequence reset to clear Audit Token state.
+
+# v0.5.59-dev — Medical injector threshold flow and sequence resets
+
+- Removed the redundant compound-reservoir hold screen from the Medical Auto-Injector workflow.
+- Made the physical Auto-Injector port and biometric scanner advance immediately at their hold thresholds.
+- Added Warden-only, sequence-scoped reset controls for Command sanitization and Medical genomic, vial, data-module, and Auto-Injector testing.
+
+# v0.5.58-dev — Medical hardware interaction corrections
+
+- Stabilized Media Service typography and reserved a fixed five-row progress window for duplication and sanitization.
+- Changed the DATA MODULE hold to activate at the three-second threshold, with LED-only feedback and no visible hold instruction.
+- Rebuilt the injector and fingerprint targets as stationary localized hardware controls.
+- Added confirmed-only bulk vial termination and automatic return to viable-vial selection after injection results.
+
+# v0.5.57-dev — Medical physical media and auto-injector controls
+
+- Added the persistent Medical DATA MODULE receptacle, Media Service, research duplication, and secure local sanitization workflows.
+- Added sanitized-record gating while preserving Medical navigation, vial retention/release controls, and the existing authorization path.
+- Added the Specimen Containment auto-injector reservoir, biometric presence check, viable-vial targeting, and persistent per-vial termination state.
+- Added restrained removable-media, fingerprint scan, and injector audio feedback using the existing Web Audio system.
+
+# v0.5.56-dev — Compact Organization Directory header
+
+- Placed the left-aligned Biosignal Tracker and right-aligned Organization Directory title in the same header row.
+- Removed the extra header row and its unnecessary vertical gap without changing the tracker action or directory content.
+
+# v0.5.55-dev — Organization Directory biosignal control
+
+- Moved the Organization Directory biosignal control from the right side of its header to the reserved left-side Facility Management position.
+- Renamed the control to `BIOSIGNAL TRACKER MONITOR`, including its restricted state, without changing monitor access behavior.
+
+# v0.5.54-dev — Resumable Sanitization authorization
+
+- Changed the final irreversible Sanitization action to activate immediately with one `PROCEED WITH SANITIZATION` click.
+- Changed pre-execution abort into a paused engaged-key session that preserves authentication stage and valid delay information.
+- Added tap-to-resume behavior for an already-engaged Command Key, including restoration of the appropriate warning cadence.
+- Kept physical key removal as the full reset boundary for authorization and delay progress.
+
+# v0.5.53-dev — Sanitization abort and reversible Command Key
+
+- Added `ABORT PROTOCOL` throughout every pre-execution Sanitization screen; aborting clears the attempt and local warning while leaving the engaged key unchanged.
+- Added the hidden three-second reverse interlock hold, release-triggered 1.5-second pause, and 1.05-second counterclockwise key-removal animation.
+- Made pre-execution key removal close and clear the Sanitization workflow without creating an abort path after execution.
+- Replaced the light warning chirp with a layered low-frequency two-part industrial buzzer while preserving the established escalation cadences.
+
+# v0.5.52-dev — Escalating Sanitization warning audio
+
+- Added a single stage-aware pre-execution warning controller with 2.75 s, 1.65 s, 1.0 s, and 0.525 s pulse cadences.
+- Added a short synthesized CRT warning chirp and made cadence, rather than volume, the primary escalation cue.
+- Unlocks Web Audio from the initial Command Key press so the acknowledgment and key-engaged warning are reliable on touch devices.
+- Stops the authorization chirp immediately when the irreversible countdown begins.
+
+# v0.5.51-dev — Warden Sanitization display control
+
+- Added an authenticated Warden control for hiding and reopening the active or executed Facility Sanitization display without changing the irreversible sequence state.
+- Raised the Warden control layer above the Sanitization presentation so authorized controls remain reachable.
+- Corrected the Facility Sanitization authorization credential.
+
+# v0.5.50-dev — Command interlock refinement
+
+- Fixed the Command Key hardware geometry so transient status messages cannot move the tumbler or its labels.
+- Lengthened the visible 90-degree tumbler turn to 1.05 seconds and synchronized the lock sound with its completion.
+- Assigned the Facility Sanitization Protocol its dedicated six-digit command authorization credential.
+- Changed the timer action to `CONFIRM SELECTED DELAY`.
+
+# v0.5.49-dev — Command Authority Interlock
+
+- Added a persistent hardware-style Command Key receptacle to the shared Horizon Base Command rail.
+- Added the concealed three-second interlock gesture, release-delayed mechanical engagement, secondary authorization, delay selection, final hold confirmation, and irreversible countdown.
+- Persisted Command Key and sanitization sequence state across navigation and reloads.
+- Added restrained escalating green CRT warnings and centralized interlock/sanitization audio cues.
+
+# v0.5.48-dev — Centralized ETOS audio layer
+
+- Added a dependency-free Web Audio manager with centralized master, ambient, UI, system, and mechanical gain buses.
+- Added procedural equipment ambience, synthesized UI/security/process/data/hack/research sounds, and the supplied mechanical actuation/fault WAV assets.
+- Wired semantic feedback across terminal navigation, transfers, authentication, hacks, the first genomic reveal, containment releases, facility doors, the garage fault, airlock cycling, and passive packets.
+- Preserved archived communications playback as its existing independent HTML audio implementation.
+
+# v0.5.47-dev — Darker Crew portrait phosphor balance
+
+- Reduced shared Argoza Crew portrait brightness to 72%.
+- Increased the restrained cyan frame wash from 12% to 14% to keep highlights pale blue rather than neutral white.
+- Preserved the existing compact phosphor shadow without increasing glow.
+
+# v0.5.46-dev — Crew portrait cyan CRT integration
+
+- Added a restrained 12% cyan phosphor wash across the shared Argoza portrait frame.
+- Added a compact 1.5px cyan drop-shadow at 18% alpha without inversion, masking, or tonal compression.
+- Reused the terminal-wide CRT scanlines instead of stacking a second portrait scanline layer.
+
+# v0.5.45-dev — Unified Crew portrait delivery
+
+- Applied one shared portrait-image class and raw-rendering rule to both Away Team and Argoza Support cards.
+- Added build-version query strings to all Crew portrait URLs so replacement PNGs cannot be confused with an older cached asset at the same path.
+- Kept Katya Kosmonavt and Dr. Alaric Fritigern on their existing placeholders because no matching portrait assets are present.
+
+# v0.5.44-dev — Raw Crew portrait restoration
+
+- Forced Crew portrait images to render with no filter, mask, opacity reduction, or non-normal blending.
+- Disabled portrait-frame pseudo-elements that could replace or overlay the source artwork.
+- Moved the extremely faint cyan CRT integration effect to the frame shadow rather than the image pixels.
+
+# v0.5.43-dev — Restrained Crew CRT integration
+
+- Preserved the updated Crew PNGs as-authored with opaque white interiors, black linework, and transparent exterior pixels.
+- Added only a one-pixel, low-opacity cyan drop shadow for subtle Argoza CRT integration.
+- Kept all masking, inversion, full-image tinting, opacity reduction, and non-normal blending removed.
+
+# v0.5.42-dev — Native Crew portrait rendering
+
+- Confirmed the four Crew records reference `maas.png`, `anders.png`, `renfield.png`, and `phalange.png`.
+- Removed portrait-specific masking and tint processing so the updated transparent PNG assets render normally.
+- Retained consistent contain-style sizing and existing terminal-level CRT presentation.
+
+# v0.5.41-dev — Argoza cyan consistency pass
+
+- Normalized Argoza primary and secondary text colors to a cyan CRT hierarchy across every Argoza section.
+- Replaced Crew portrait inversion/filter processing with alpha-mask tinting that preserves source transparency.
+- Left all portrait PNG source assets unchanged.
+
+# v0.5.40-dev — Argoza v15 final polish
+
+- Promoted the Home arrival countdown to a full-width primary banner while preserving the approved 2122 target display and destination treatment.
+- Stabilized Mission objective scrolling during the retained staggered reveal.
+- Enlarged selected Crew cards and portraits and simplified portrait coloration to clean cyan linework.
+- Hardened all nine generic Planetary facility hotspots against drag-state click suppression.
+- Installed the five approved final Planetary marker defaults while retaining Warden developer adjustment and export controls.
+
+# v0.5.39-dev — Argoza v14 finalized revision
+
+- Finalized the noon arrival target and fictional 2122 player-facing target line.
+- Removed the standalone Argoza Communications tab while retaining its mission and briefing context.
+- Added the finalized What We Know summary, objective order, sequential load animation, and destination branding.
+- Rebuilt Crew as a selected-team workspace with a right-side vertical cryogenic roster and four approved transparent portraits.
+- Expanded Planetary marker tools to five markers with X/Y/Scale editing and selectable/copyable exports.
+- Split the shared Horizon Base map into generic Planetary orientation and mission-specific Briefing modes.
+- Updated Personnel Manifest name formatting, header hierarchy, and lost-signal status line.
+
+# v0.5.38-dev — Argoza v11 targeted revision
+
+- Enlarged Argoza typography and converted Home into a shipboard status dashboard without duplicate navigation controls.
+- Replaced the sparse Mission cards with readable objective lists and faint Ellison-Tanaka document branding.
+- Enabled bidirectional Planetary breadcrumbs and added persistent X/Y developer controls for all three navigation hotspots.
+- Added restrained hotspot pulses and corrected the shared Horizon Base map with smooth room focus, bounded pan/zoom, and touch pinch-to-zoom.
+- Removed duplicate generated room labels, reordered Briefing Files, and rebuilt the manifest as SUPPORT / MILITARY with the approved hierarchy and roles.
+
+# v0.5.37-dev — ETV Argoza Player Terminal
+
+- Replaced the Argoza placeholder with the complete player-facing mission, crew, planetary, briefing, and communications workstation.
+- Routed first initialization directly to Argoza while preserving Warden-gated switching to Horizon terminals.
+- Added a centralized arrival countdown, four-level planetary drill-down using the supplied orbital and Orison assets, and one shared clean facility-orientation map for Planetary and Briefing Files.
+- Added the approved away team, support crew, 15-berth cryogenic panel, six-objective directive, 25-person Horizon manifest, and spoiler-safe mission-network reference.
+
+# v0.5.36-dev — Dr. Claire Edem Personal Terminal
+
+- Replaced the Edem placeholder with a data-driven amber-phosphor personal workstation inside the existing ETOS shell.
+- Added the approved Mission Log, Research Notes, Personal Journal local cache, remote-archive unavailable state, and direct-opening failed Outbox message.
+- Integrated the existing Ellison-Tanaka branding and `grid_contour_map.svg` as non-interactive low-opacity amber decoration.
+- Preserved terminal switching, CRT effects, Warden/dev infrastructure, Medical authorization, Command systems, and the unprotected Journal requirement.
+
+# v0.5.35-dev — Medical Containment Authorization
+
+- Added Dr. Claire Edem password authorization to individual and bulk specimen-vial retention release.
+- Reused the existing Command security seal, three-second hold, hack animation classes, and timing for a hidden Medical authorization bypass.
+- Kept incorrect-password feedback neutral and prevented the authorization password from appearing in the interface.
+- Added Dr. Edem's sequencing authorization to the unread genomic log and preserved it as secondary post-reveal history without implying she reviewed the result.
+
+# v0.5.34-dev — Medical Terminal Targeted Containment and Research Patch
+
+- Expanded specimen containment from two vials to three using the supplied `vial1.png`, `vial2.png`, and `vial3.png` assets.
+- Moved each individual release control directly below its vial status and added one confirmed release-all action for all remaining secured vials.
+- Promoted Genomic Analysis to its own primary module below Specimen Containment and removed it from the Specimen Analysis tabs.
+- Preserved the first-time staged genomic reveal while adding a dismissible completed comparison overlay and immediate reopen control.
+- Added K-17 survey context to the NF-06 baseline record.
+- Renamed Signal Exposure to Shriek Response Study and added the controlled-vocalization experiment summary.
+
+# v0.5.33-dev — Horizon Base Medical Terminal
+
+- Replaced the Medical placeholder with a persistent three-region clinical workstation using the white monochrome CRT palette.
+- Added focused Signal Exposure, Specimen Analysis, Personnel Scans, and Specimen Containment evidence modules using the supplied source imagery with code-rendered overlays.
+- Added the deliberate unread genomic comparison reveal identifying the hostile specimen as transformed NF-06 without assigning a causative mechanism.
+- Added independently persistent release controls for two sealed live-specimen vials, including confirmation and short lock-disengagement sequences.
+- Added the NF-06 baseline record, hydrofluoric-acid carapace assay, LCPL Talia Resnick scan findings, and Sample H-17 chain-of-custody record.
+- Preserved Command, Dr. Edem, Argoza, terminal transfer, Warden controls, global CRT behavior, and supplied image assets.
+
 ## v0.5.32-dev
 - Fixed controlled-door hatch by restoring SVG pattern child visibility.
 - Forced room-label vector paths to CRT green at source and CSS levels.

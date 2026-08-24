@@ -94,3 +94,6 @@ Open Command → Planetary Weather Surveillance and select **LAYOUT SANDBOX** in
 
 ## Weather development tools
 Open Command > Weather and select WEATHER DEV TOOLS. Settings save locally and COPY ALL SETTINGS creates a JSON block for the next locked build.
+# ETOS audio
+
+`js/audio.js` exposes the centralized `window.ETOSAudio` API. Sound identities are invoked with `ETOSAudio.play(name)`, and future Warden controls can use `setVolume(group,value)` for the `master`, `ambient`, `ui`, `system`, and `mechanical` buses. Electronic cues and ambience are synthesized with Web Audio; only the two physical mechanism cues use WAV assets. Archived communications playback remains independent.

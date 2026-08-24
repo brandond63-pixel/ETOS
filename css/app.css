@@ -14,3 +14,17 @@
 .theme-command .facility-management-host dt,
 .theme-command .facility-management-host i,
 .theme-command .facility-management-host em{color:var(--accent-soft)}
+
+/* v0.5.59-dev — Warden-only sequence test resets. */
+#warden-controls{max-height:min(78vh,760px);overflow-y:auto;padding-right:4px}
+#start-sanitization-final-countdown:disabled{opacity:.38;box-shadow:none;cursor:not-allowed}
+.warden-sequence-resets{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.warden-sequence-resets h3{margin:0 0 10px;color:var(--accent-soft);font-size:12px;letter-spacing:.14em}
+.warden-reset-group{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:9px}
+.warden-reset-group>span{grid-column:1/-1;color:var(--accent-soft);opacity:.72;font-size:10px;letter-spacing:.12em}
+.warden-reset-group button{min-height:34px;border:1px solid var(--line);background:var(--bg);color:var(--accent-soft);padding:7px 9px;text-align:left;font-size:10px;letter-spacing:.05em}
+.warden-reset-group button:active{border-color:var(--accent);color:var(--accent)}
+.warden-reset-group button[data-sequence-reset="command"],.warden-reset-group button[data-sequence-reset="medical-all"]{grid-column:1/-1}
+.warden-reset-status{min-height:16px;margin:9px 0 0;color:var(--accent);font-size:11px;letter-spacing:.08em}
+.warden-audio-diagnostics{display:grid;gap:7px;margin-top:8px;font-size:10px;letter-spacing:.04em}.warden-audio-runtime,.warden-audio-asset{border:1px solid var(--line);padding:7px 9px;color:var(--accent-soft)}.warden-audio-runtime{display:grid;gap:3px}.warden-audio-runtime span,.warden-audio-asset span{overflow-wrap:anywhere;user-select:text;-webkit-user-select:text}.warden-audio-runtime b,.warden-audio-asset b{color:var(--text);font-weight:400}.warden-audio-asset{display:grid;gap:3px}.warden-audio-asset>strong{margin-bottom:3px;color:var(--accent);letter-spacing:.09em}.warden-audio-asset.is-loaded{border-color:var(--accent)}.warden-audio-asset.is-failed{border-color:var(--red);border-style:dashed}.warden-audio-asset.is-failed>strong,.warden-audio-error{color:var(--red)!important}.warden-audio-error{padding-top:3px;border-top:1px dotted currentColor}#test-sanitization-warning:disabled,#test-facility-alarm:disabled{opacity:.38;box-shadow:none;cursor:not-allowed}
+@media(max-width:620px){.warden-reset-group{grid-template-columns:1fr}.warden-reset-group>*{grid-column:1!important}}
