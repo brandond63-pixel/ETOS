@@ -1,3 +1,12 @@
+# 2026-08-24 — v0.5.76-dev
+
+- Audited fixed marker boxes: System Orison 54×54 px, Argoza approach 10×10 px, Orison Sector 84×58 px, and Horizon Sector sites 22×22 px.
+- Converted those shapes to 7.27%, 1.35%, 16.91%, and 4.02% of their fitted artwork width, respectively; aspect ratios remain explicit and device-independent.
+- At 1024×768 and 1366×768, Horizon and Heron anchor boxes measured approximately 4.02% of artwork width and their rotated diamonds approximately 5.68%.
+- At developer scale 1.5, the selected anchor measured approximately 6.03% and its rotated diamond approximately 8.52% at both viewports, with no X/Y movement.
+- Verified developer scale persistence through reload, restored both Sector markers to scale 1, and confirmed System/Orison marker fractions remain constant across both viewports.
+- Horizon Base room hit areas required no change because their dimensions were already percentage-based inside the shared artwork/pan/zoom coordinate space.
+
 # 2026-08-24 — v0.5.75-dev
 
 - Confirmed source dimensions of 1536×1024 (System), 1254×1254 (Orison), 1672×941 (Horizon Sector), and 333×318 (Horizon Base SVG viewBox).

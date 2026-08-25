@@ -1,3 +1,10 @@
+# v0.5.76-dev — Map-relative marker sizing
+
+- Replaced fixed-pixel planetary marker dimensions with artwork-width percentages calibrated to the landscape-iPad presentation.
+- Retained each stored developer `scale` value as a centered multiplier over the normalized base size.
+- Added artwork-container-relative label spacing with readable typography clamps.
+- Preserved marker coordinates, navigation, animations, developer controls, and Horizon Base pan/zoom interactions.
+
 # v0.5.75-dev — Artwork-anchored map markers
 
 - Anchored planetary marker X/Y values to the marker icon rather than the marker-plus-label box.
