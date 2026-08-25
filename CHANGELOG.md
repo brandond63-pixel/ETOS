@@ -1,3 +1,10 @@
+# v0.5.75-dev — Artwork-anchored map markers
+
+- Anchored planetary marker X/Y values to the marker icon rather than the marker-plus-label box.
+- Made each fitted overlay follow the map image's intrinsic aspect ratio and exact rendered bounds.
+- Preserved one normalized coordinate set, developer controls, hierarchy navigation, and Horizon Base shared pan/zoom behavior.
+- Added an explicit latest-build refresh path that retires stale ETOS workers and caches before a versioned reload.
+
 # v0.5.74-dev — iPad-first Command overview
 
 - Replaced the player-facing absolute-positioned Command dashboard with a landscape-tablet CSS Grid.

@@ -1,3 +1,12 @@
+# 2026-08-24 — v0.5.75-dev
+
+- Confirmed source dimensions of 1536×1024 (System), 1254×1254 (Orison), 1672×941 (Horizon Sector), and 333×318 (Horizon Base SVG viewBox).
+- Changed map images to establish undistorted wrapper height with `width: 100%` and `height: auto`; overlays now have the exact same rendered rectangle as the artwork.
+- Removed label dimensions from marker anchoring. At 1024×768 and 1366×768, the Horizon icon remains at approximately 46.3% / 45.6% and Heron remains at approximately 71% / 51.5% through resizing.
+- Verified developer X edits update immediately, persist through reload, and restore without device-specific values.
+- Verified Horizon Base image and room hit areas remain in one shared transform; the Command room stayed at approximately 55.6% / 19.8% before and after 1.18× zoom.
+- Registered the development cache-clearing worker and upgraded `CHECK FOR LATEST BUILD` to unregister old workers, clear ETOS origin caches, and perform a versioned reload.
+
 # 2026-08-23 — v0.5.74-dev
 
 - Command System Overview now uses a tablet-first 3-column / 3-row grid in normal player mode.

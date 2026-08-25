@@ -112,10 +112,22 @@
 /* Responsive map overlays share the fitted source-art coordinate space. */
 .argoza-map-frame{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden}
 .argoza-map-coordinate-space{position:relative;flex:none;max-width:none;max-height:none}
-.argoza-map-coordinate-space>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:fill}
+.argoza-map-coordinate-space>img{display:block;width:100%;height:auto;max-width:none;max-height:none}
 .argoza-system-art .argoza-map-coordinate-space>img{filter:saturate(.78) contrast(1.12) brightness(.72)}
 .argoza-orison-art .argoza-map-coordinate-space>img{filter:saturate(.82) brightness(.82)}
-.argoza-sector-map .argoza-map-coordinate-space>img{object-fit:fill;filter:hue-rotate(135deg) saturate(.65) brightness(.72)}
+.argoza-sector-map .argoza-map-coordinate-space>img{filter:hue-rotate(135deg) saturate(.65) brightness(.72)}
 .argoza-system-art>small{z-index:4;pointer-events:none}
 .argoza-floorplan-wrap{height:auto;max-width:none;aspect-ratio:auto}
-.argoza-floorplan-wrap>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:fill}
+.argoza-floorplan-wrap>img{display:block;width:100%;height:auto;max-width:none;max-height:none}
+
+/* X/Y identifies the artwork point under the marker icon, never the label box. */
+.argoza-orison-target,.argoza-sector-target,.argoza-sector-site{padding:0}
+.argoza-orison-target{width:54px;height:54px}
+.argoza-sector-target{width:84px;height:58px}
+.argoza-sector-site{width:22px;height:22px}
+.argoza-orison-target>i,.argoza-sector-target>i,.argoza-sector-site>i{position:absolute;inset:0;display:block;box-sizing:border-box;width:100%;height:100%}
+.argoza-orison-target>strong,.argoza-sector-target>strong,.argoza-sector-site>strong{position:absolute;left:0;top:calc(100% + 6px);margin:0}
+.argoza-orison-target>span,.argoza-sector-target>span,.argoza-sector-site>span{position:absolute;left:0;top:calc(100% + 23px)}
+.argoza-approach-marker{display:block;width:10px;height:10px}
+.argoza-approach-marker>i{position:absolute;inset:0;box-sizing:border-box;width:100%;height:100%}
+.argoza-approach-marker>span{position:absolute;left:17px;top:0;white-space:nowrap}
