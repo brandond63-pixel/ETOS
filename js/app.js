@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.77-dev';
+  const VERSION = '0.5.78-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -94,6 +94,7 @@
   let argozaCrewTeam = 'away';
   let argozaPlanetaryLevel = 'system';
   let argozaBriefingFile = 'deployment';
+  let argozaManifestBranch = 'support';
   let argozaMissionDirective = false;
   let argozaPersonnelBriefingView = 'closed';
   let argozaPersonnelBriefing = null;
@@ -2600,7 +2601,8 @@
 
   function renderArgozaManifest(){
     const renderGroup=group=>`<section><h4>${group.group}</h4>${group.people.map(([name,role])=>`<p><strong>${name}</strong><span>${role}</span></p>`).join('')}</section>`;
-    return `<article class="argoza-file-document argoza-manifest"><header><span>HORIZON BASE</span><h3>PERSONNEL MANIFEST</h3><strong>25 ASSIGNED PERSONNEL // PRE-MISSION ROSTER</strong></header><div class="argoza-manifest-columns"><section class="argoza-manifest-branch"><h3>SUPPORT</h3>${argozaPersonnelManifest.support.map(renderGroup).join('')}</section><section class="argoza-manifest-branch is-military"><h3>MILITARY</h3>${argozaPersonnelManifest.military.map(renderGroup).join('')}</section></div><footer>LIVE PERSONNEL STATUS UNAVAILABLE // LOCATION DATA UNAVAILABLE // HORIZON SIGNAL LOST</footer></article>`;
+    const branch=argozaManifestBranch==='military'?'military':'support',label=branch.toUpperCase();
+    return `<article class="argoza-file-document argoza-manifest"><header><span>HORIZON BASE</span><h3>PERSONNEL MANIFEST</h3><strong>25 ASSIGNED PERSONNEL // PRE-MISSION ROSTER</strong></header><nav class="argoza-manifest-tabs" aria-label="Personnel roster branch"><button type="button" class="${branch==='support'?'is-active':''}" data-argoza-manifest-branch="support" aria-pressed="${branch==='support'}">SUPPORT</button><button type="button" class="${branch==='military'?'is-active':''}" data-argoza-manifest-branch="military" aria-pressed="${branch==='military'}">MILITARY</button></nav><div class="argoza-manifest-roster" role="region" aria-label="${label} personnel roster" aria-live="polite"><section class="argoza-manifest-branch is-selected">${argozaPersonnelManifest[branch].map(renderGroup).join('')}</section></div><footer>LIVE PERSONNEL STATUS UNAVAILABLE // LOCATION DATA UNAVAILABLE // HORIZON SIGNAL LOST</footer></article>`;
   }
 
   function renderArgozaBriefingDocument(){
@@ -2646,9 +2648,9 @@
   function loadState(){ try {const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'),sanitization={...SANITIZATION_DEFAULT,...(saved.sanitization||{})},auditToken={...AUDIT_TOKEN_DEFAULT,...(saved.auditToken||{})};if(!['auth','timer','confirm'].includes(sanitization.resumePhase))sanitization.resumePhase='auth';if(!sanitization.keyEngaged&&['detected','turning'].includes(sanitization.phase))sanitization.phase='dormant';if(['removal-pending','removing'].includes(sanitization.phase)){sanitization.keyEngaged=false;sanitization.phase='dormant';sanitization.resumePhase='auth';sanitization.delaySeconds=0;sanitization.initiatedAt=null;sanitization.completesAt=null;sanitization.complete=false;}if(sanitization.keyEngaged&&sanitization.phase==='dormant')sanitization.phase='auth';if(sanitization.phase==='active'&&sanitization.completesAt&&Date.now()>=sanitization.completesAt)sanitization.complete=true;return {activeTerminal:'command',initialized:false,section:'overview',...saved,sanitization,auditToken};} catch { return {activeTerminal:'command',initialized:false,section:'overview',sanitization:{...SANITIZATION_DEFAULT},auditToken:{...AUDIT_TOKEN_DEFAULT}}; } }
   function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
   function showScreen(name){ [els.boot,els.terminal,els.transfer].forEach(el=>el.hidden=true); els[name].hidden=false; }
-  const DEV_PREF_KEY = 'etos.devtools.visible.v1';
-  function loadDevPrefs(){ try { return {show:true, ...JSON.parse(localStorage.getItem(DEV_PREF_KEY)||'{}')}; } catch { return {show:true}; } }
-  function saveDevPrefs(prefs){ localStorage.setItem(DEV_PREF_KEY, JSON.stringify(prefs)); }
+  let devControlsEnabled=false;
+  function loadDevPrefs(){return {show:devControlsEnabled};}
+  function saveDevPrefs(prefs){devControlsEnabled=!!prefs.show;}
   function applyDevVisibility(){ const prefs=loadDevPrefs(); els.app.dataset.devControls=prefs.show?'shown':'hidden'; if(!prefs.show){ els.workspace.querySelectorAll('[data-overview-dev-toggle],[data-overview-layout-toggle],[data-overview-editor-toggle],[data-overview-dev-panel],[data-overview-layout-panel],[data-overview-editor-panel],[data-communications-font-toggle],[data-communications-font-panel],[data-facility-font-toggle],[data-facility-font-panel]').forEach(el=>{ if(el.matches('aside')) el.hidden=true; else el.remove(); }); } }
 
   let commandInterlockHoldTimer=null,commandInterlockTurnTimer=null,commandInterlockRevealTimer=null,commandInterlockAcknowledged=false,commandInterlockHoldMode=null,commandInterlockMessage='',commandInterlockMessageTimer=null;
@@ -3302,6 +3304,8 @@
     state.initialized=true;
     state.activeTerminal='argoza';
     state.section='home';
+    devControlsEnabled=false;
+    if(els.devVisible)els.devVisible.checked=false;
     argozaSection='home';
     argozaPlanetaryLevel='system';
     saveState();
@@ -3375,7 +3379,9 @@
     const argozaMarkerCopy=e.target.closest('[data-argoza-marker-copy]');
     if(argozaMarkerCopy){const key=argozaMarkerCopy.dataset.argozaMarkerCopy,field=els.workspace.querySelector(`[data-argoza-marker-export="${key}"]`);if(field){field.focus();field.select();navigator.clipboard?.writeText(field.value).catch(()=>{});}return;}
     const argozaFileButton=e.target.closest('[data-argoza-file]');
-    if(argozaFileButton){argozaBriefingFile=argozaFileButton.dataset.argozaFile;if(argozaBriefingFile==='personnel'){playAudio('restricted');resetArgozaPersonnelBriefing('access');renderTerminal();setTimeout(()=>document.getElementById('argoza-personnel-code')?.focus(),40);return;}playAudio('uiSelect');resetArgozaPersonnelBriefing();if(argozaBriefingFile!=='layout')argozaRoomFocus(null);renderTerminal();return;}
+    if(argozaFileButton){argozaBriefingFile=argozaFileButton.dataset.argozaFile;if(argozaBriefingFile==='manifest')argozaManifestBranch='support';if(argozaBriefingFile==='personnel'){playAudio('restricted');resetArgozaPersonnelBriefing('access');renderTerminal();setTimeout(()=>document.getElementById('argoza-personnel-code')?.focus(),40);return;}playAudio('uiSelect');resetArgozaPersonnelBriefing();if(argozaBriefingFile!=='layout')argozaRoomFocus(null);renderTerminal();return;}
+    const argozaManifestButton=e.target.closest('[data-argoza-manifest-branch]');
+    if(argozaManifestButton){playAudio('uiSelect');argozaManifestBranch=argozaManifestButton.dataset.argozaManifestBranch==='military'?'military':'support';renderTerminal();return;}
     const argozaRoomButton=e.target.closest('[data-argoza-room]');
     if(argozaRoomButton){playAudio('uiSelect');setArgozaFacilityFocus(argozaRoomButton.dataset.argozaRoom,true);return;}
     if(e.target.closest('[data-argoza-map-reset]')){setArgozaFacilityFocus(null,true);return;}

@@ -1,3 +1,12 @@
+# 2026-08-24 — v0.5.78-dev
+
+- Reworked Briefing Files → Personnel Manifest into large Support/Military selectors with one vertically ordered roster visible at a time; opening the file always selects Support.
+- Kept all 25 existing names, roles, subgroup hierarchy, and `RANK/TITLE LAST NAME, FIRST NAME` strings unchanged, with no KIA/MIA state.
+- At 1024×768, verified 52 px selector height, 14 px subgroup headers, 12 px names, 10 px roles, full-width single roster rows, visibly separated subgroup sections, a Support roster that fits without scrolling, and contained vertical scrolling for the longer Military roster.
+- Verified Military swaps into the same panel immediately and Support resets when the manifest is reopened; desktop at 1366×768 uses the same single-roster structure.
+- Replaced persisted dev visibility with a runtime-only Warden-authorized flag. Fresh initialization and refresh start hidden; the authenticated checkbox still reveals Argoza marker panels and export controls for the current session.
+- Browser QA verified boot exposes only Initialize, Initialize loads ETV Argoza directly, Warden authorization gates terminal selection, the original three-second Warden hold is restored, and the console is clean.
+
 # 2026-08-24 — v0.5.77-dev
 
 - Finalized planetary marker defaults: System Orison 82.7/49/1; Argoza Approach 70/65/1; Orison Horizon Sector 55/44.5/0.5; Sector Horizon Base 46.3/45.6/0.5; Sector Heron Station 65/50/0.5.

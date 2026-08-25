@@ -1,3 +1,11 @@
+# v0.5.78-dev — Argoza Personnel Manifest readability
+
+- Replaced the simultaneous Support/Military manifest columns with two large same-panel roster selectors.
+- Defaulted each Personnel Manifest opening to Support and retained the existing names, roles, hierarchy, and formatting.
+- Increased subgroup prominence and breathing room while presenting personnel as readable single roster rows.
+- Made developer visibility Warden-authorized for the current runtime only, guaranteeing hidden tools on initial load and refresh.
+- Preserved direct Argoza initialization, Warden-gated terminal switching, map behavior, and unrelated ETOS systems.
+
 # v0.5.77-dev — Final planetary marker defaults
 
 - Updated the five System, Orison, and Horizon Sector marker defaults to their finalized X/Y/scale values.
