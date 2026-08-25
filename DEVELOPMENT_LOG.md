@@ -1,3 +1,9 @@
+# 2026-08-24 — v0.5.77-dev
+
+- Finalized planetary marker defaults: System Orison 82.7/49/1; Argoza Approach 70/65/1; Orison Horizon Sector 55/44.5/0.5; Sector Horizon Base 46.3/45.6/0.5; Sector Heron Station 65/50/0.5.
+- Advanced `etos.argoza.planetary-markers.v1` to `v2`, isolating the required marker-default refresh without clearing session state or unrelated developer preferences.
+- Made no coordinate, sizing, artwork, label, navigation, animation, developer-control, or pan/zoom changes.
+
 # 2026-08-24 — v0.5.76-dev
 
 - Audited fixed marker boxes: System Orison 54×54 px, Argoza approach 10×10 px, Orison Sector 84×58 px, and Horizon Sector sites 22×22 px.

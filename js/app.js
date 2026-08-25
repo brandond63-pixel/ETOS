@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.76-dev';
+  const VERSION = '0.5.77-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -78,13 +78,13 @@
   const ARGOZA_TARGET_DISPLAY = 'AUG 30, 2122, 12:00 PM';
   const ARGOZA_PLANETARY_TRANSITION_MS = 420;
   const ARGOZA_FACILITY_ZOOM = {min:1,max:2.6,step:.18,focus:1.9,transitionMs:1200};
-  const ARGOZA_MARKER_LAYOUT_KEY = 'etos.argoza.planetary-markers.v1';
+  const ARGOZA_MARKER_LAYOUT_KEY = 'etos.argoza.planetary-markers.v2';
   const ARGOZA_MARKER_DEFAULTS = {
-    systemOrison:{x:84.4,y:50.4,scale:1,label:'ORISON'},
-    systemArgoza:{x:85,y:65,scale:1,label:'ARGOZA APPROACH'},
-    orisonSector:{x:55.7,y:46.2,scale:1,label:'HORIZON SECTOR'},
-    sectorHorizon:{x:46.3,y:45.6,scale:1,label:'HORIZON BASE'},
-    sectorHeron:{x:71,y:51.5,scale:1,label:'HERON STATION'}
+    systemOrison:{x:82.7,y:49,scale:1,label:'ORISON'},
+    systemArgoza:{x:70,y:65,scale:1,label:'ARGOZA APPROACH'},
+    orisonSector:{x:55,y:44.5,scale:.5,label:'HORIZON SECTOR'},
+    sectorHorizon:{x:46.3,y:45.6,scale:.5,label:'HORIZON BASE'},
+    sectorHeron:{x:65,y:50,scale:.5,label:'HERON STATION'}
   };
   const ARGOZA_FACILITY_FOCUS = {
     command:{x:55.6,y:19.8,zoom:1.9},

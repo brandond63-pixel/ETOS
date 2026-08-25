@@ -1,3 +1,9 @@
+# v0.5.77-dev — Final planetary marker defaults
+
+- Updated the five System, Orison, and Horizon Sector marker defaults to their finalized X/Y/scale values.
+- Advanced only the planetary-marker preference key so prior development overrides cannot mask the committed defaults.
+- Preserved normalized positioning/sizing, developer controls, navigation, artwork, labels, animations, and pan/zoom behavior.
+
 # v0.5.76-dev — Map-relative marker sizing
 
 - Replaced fixed-pixel planetary marker dimensions with artwork-width percentages calibrated to the landscape-iPad presentation.
