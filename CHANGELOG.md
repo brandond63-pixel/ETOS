@@ -1,3 +1,9 @@
+# v0.5.79-dev — Argoza portrait and map annotation cleanup
+
+- Added the supplied Fritigern portrait to his existing Away Team card through the shared crew portrait renderer.
+- Removed the River System and Reservoir decorative overlays from the Horizon Sector map.
+- Preserved the map artwork, marker configuration, navigation, developer controls, and unrelated terminal behavior.
+
 # v0.5.78-dev — Argoza Personnel Manifest readability
 
 - Replaced the simultaneous Support/Military manifest columns with two large same-panel roster selectors.

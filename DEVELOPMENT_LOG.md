@@ -1,3 +1,9 @@
+# 2026-08-24 — v0.5.79-dev
+
+- Mapped `assets/img/fritigern.png` onto Dr. Alaric Fritigern's existing Away Team card; the shared portrait frame, containment, and CRT styling remain unchanged.
+- Removed only the `RIVER SYSTEM` and `RESERVOIR` positioned annotations from the Horizon Sector render template, retaining `DAM / WATER CONTROL` and the complete underlying terrain artwork.
+- Preserved Horizon Base and Heron Station marker values, planetary forward/back navigation, developer controls, Crew layout, and Cryogenic Bay behavior.
+
 # 2026-08-24 — v0.5.78-dev
 
 - Reworked Briefing Files → Personnel Manifest into large Support/Military selectors with one vertically ordered roster visible at a time; opening the file always selects Support.
