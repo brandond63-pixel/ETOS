@@ -2377,3 +2377,215 @@
     grid-template-areas:"planet beacon" "weather weather" "directive communications" "planetary systems";
   }
 }
+
+/* v0.5.80-dev — canonical iPad-first Command sizing and containment */
+.theme-command{
+  --terminal-font-xs:clamp(9px,.9vw,11px);
+  --terminal-font-sm:clamp(11px,1.1vw,13px);
+  --terminal-font-md:clamp(13px,1.35vw,15px);
+  --terminal-font-lg:clamp(17px,1.85vw,22px);
+  --terminal-font-xl:clamp(22px,2.5vw,30px);
+  --terminal-font-countdown:clamp(48px,7vw,74px);
+  --terminal-space-xs:clamp(4px,.45vw,6px);
+  --terminal-space-sm:clamp(7px,.7vw,10px);
+  --terminal-space-md:clamp(10px,1vw,14px);
+  --terminal-space-lg:clamp(14px,1.45vw,20px);
+  --terminal-panel-padding:clamp(10px,1.15vw,16px);
+  --terminal-modal-padding:clamp(16px,2vw,28px);
+  --terminal-touch-target:44px;
+  --command-rail-width:clamp(148px,16vw,190px);
+  --command-shell-gap:clamp(7px,.8vw,10px);
+}
+.theme-command .terminal-screen{
+  gap:var(--terminal-space-sm);
+  padding:max(var(--terminal-space-md),env(safe-area-inset-top)) max(var(--terminal-space-md),env(safe-area-inset-right)) max(var(--terminal-space-sm),env(safe-area-inset-bottom)) max(var(--terminal-space-md),env(safe-area-inset-left));
+}
+.theme-command .terminal-header,.theme-command .terminal-footer{margin:0}
+.theme-command .terminal-header{min-height:62px;padding:var(--terminal-space-sm) var(--terminal-space-lg)}
+.theme-command .terminal-header h1{font-size:var(--terminal-font-xl)}
+.theme-command .terminal-header .eyebrow,.theme-command .status-block{font-size:var(--terminal-font-xs)}
+.theme-command .terminal-footer{min-height:32px;align-items:center;padding:var(--terminal-space-xs) var(--terminal-space-md);font-size:var(--terminal-font-xs)}
+.theme-command .terminal-workspace,.theme-command .command-layout,.theme-command .command-content,.theme-command .module-body{min-width:0;min-height:0}
+.command-layout{grid-template-columns:var(--command-rail-width) minmax(0,1fr);gap:var(--command-shell-gap)}
+.theme-command .command-nav{
+  gap:var(--terminal-space-sm);
+  padding:var(--terminal-space-sm);
+  padding-bottom:var(--terminal-space-sm);
+  overflow-x:hidden;
+  overflow-y:auto;
+  scrollbar-width:thin;
+}
+.theme-command .command-nav>.node-strip{
+  position:relative;
+  left:auto;
+  right:auto;
+  bottom:auto;
+  width:100%;
+  height:auto;
+  min-height:112px;
+  margin-top:auto;
+  padding:var(--terminal-space-sm) var(--terminal-space-xs);
+  flex:0 0 auto;
+  box-shadow:none;
+}
+.command-rail-brand{gap:var(--terminal-space-xs);padding:var(--terminal-space-xs) var(--terminal-space-xs) var(--terminal-space-sm)}
+.command-rail-brand img{width:clamp(42px,5vw,54px);height:clamp(42px,5vw,54px)}
+.command-rail-brand strong{font-size:var(--terminal-font-lg)}
+.command-rail-brand span,.systems-rail-status span,.systems-rail-status small{font-size:var(--terminal-font-xs);line-height:1.2}
+.systems-rail-status{gap:var(--terminal-space-xs);margin-top:0;padding:var(--terminal-space-sm)}
+.systems-rail-status strong{font-size:var(--terminal-font-sm);line-height:1.2}
+.rail-circuit{flex:1 1 28px;min-height:12px;margin:var(--terminal-space-xs) var(--terminal-space-sm);gap:var(--terminal-space-sm)}
+.command-interlock{flex:0 0 96px;height:96px;min-height:96px;margin:0;padding:var(--terminal-space-sm) var(--terminal-space-sm) 26px;grid-template-columns:44px minmax(0,1fr);gap:var(--terminal-space-xs)}
+.command-interlock-tumbler{width:44px;height:44px}
+.command-interlock-copy strong{font-size:var(--terminal-font-xs)}
+.command-interlock-copy span,.command-interlock-message{font-size:8px}
+.command-nav--return .command-interlock,.command-nav--return .return-systems-control{margin-top:var(--terminal-space-sm)!important}
+.return-systems-control,.facility-rail-return{min-height:72px!important;padding:var(--terminal-space-sm)!important}
+.return-systems-control strong,.facility-rail-return strong{font-size:var(--terminal-font-sm)}
+.return-systems-control small,.facility-rail-return small{font-size:var(--terminal-font-xs)}
+.module-header{min-height:58px;padding:var(--terminal-space-sm) var(--terminal-space-md)}
+.module-header h2{font-size:var(--terminal-font-lg)}
+.module-header .eyebrow,.clearance{font-size:var(--terminal-font-xs)}
+.module-body{padding:var(--terminal-space-sm)}
+.theme-command .command-layout button,.theme-command .directive-modal-layer button,.theme-command .communications-overlay-layer button,.theme-command .facility-overlay button{min-height:var(--terminal-touch-target)}
+.theme-command .facility-map-controls button{min-width:var(--terminal-touch-target);height:var(--terminal-touch-target)}
+
+/* Overview: retain the established grid while lifting its smallest player-facing type. */
+.command-overview-shell:not([data-layout-editor="true"]) .system-panel-heading small,
+.command-overview-shell:not([data-layout-editor="true"]) .panel-command-line span,
+.command-overview-shell:not([data-layout-editor="true"]) .panel-command-line strong,
+.command-overview-shell:not([data-layout-editor="true"]) .planetary-readouts span,
+.command-overview-shell:not([data-layout-editor="true"]) .planetary-readouts strong,
+.command-overview-shell:not([data-layout-editor="true"]) .overview-comm-body .status-line{font-size:var(--terminal-font-xs)!important}
+.command-overview-shell:not([data-layout-editor="true"]) .system-panel-heading h3{font-size:clamp(13px,1.35vw,18px)!important}
+.command-overview-shell:not([data-layout-editor="true"]) .overview-primary-field{padding:var(--terminal-space-sm);gap:var(--terminal-space-sm)}
+.command-overview-shell:not([data-layout-editor="true"]) .command-system-panel{padding:var(--terminal-space-sm)!important}
+
+/* Weather: remove legacy minimums and keep the map as the dominant fitted coordinate space. */
+.weather-terminal{height:100%;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden!important}
+.weather-map-coordinate-space{aspect-ratio:1672/941}
+.weather-grid{height:auto;min-height:0;grid-template-columns:var(--sandbox-left) minmax(0,1fr) var(--sandbox-right)!important}
+.weather-left,.weather-right{min-height:0;overflow-x:hidden;overflow-y:auto;scrollbar-width:thin}
+.weather-panel{padding:var(--terminal-space-sm)}
+.weather-panel h3{font-size:var(--terminal-font-sm)}
+.telemetry-panel>div,.comm-panel>div,.outlook-panel>div,.track-observations-panel div{font-size:var(--terminal-font-xs)}
+.coded-label strong{font-size:13px}.coded-label span{font-size:9px}
+
+/* Directives: compact the index geometry and give documents a readable bounded column. */
+.directive-archive{gap:var(--terminal-space-sm);padding:var(--terminal-panel-padding)}
+.directive-archive-header{gap:var(--terminal-space-md);padding-bottom:var(--terminal-space-sm)}
+.directive-archive-header h3{font-size:var(--terminal-font-xl)}
+.directive-list{gap:var(--terminal-space-sm)}
+.directive-entry{grid-template-columns:clamp(48px,6vw,72px) minmax(0,1fr) clamp(70px,9vw,105px) clamp(115px,14vw,170px);gap:var(--terminal-space-sm);padding:var(--terminal-space-sm) var(--terminal-space-md)}
+.directive-entry-number{font-size:var(--terminal-font-xl)}
+.directive-entry-title strong,.directive-entry-priority strong,.directive-entry-status strong{font-size:var(--terminal-font-sm)}
+.directive-entry small,.directive-entry em,.directive-archive-footer{font-size:var(--terminal-font-xs)}
+.directive-modal-layer{padding:var(--terminal-space-md)}
+.corporate-directive{width:min(800px,100%);max-height:100%;overflow-y:auto;padding:var(--terminal-modal-padding)}
+.corporate-directive-header h3{font-size:var(--terminal-font-xl)}
+.corporate-directive section,.corporate-directive section p,.corporate-directive section li{font-size:var(--terminal-font-md);line-height:1.55}
+.directive-lock-panel{width:min(640px,100%);max-height:100%;overflow-y:auto;padding:var(--terminal-modal-padding)}
+.directive-code-entry input,.directive-code-entry button,.directive-back{min-height:var(--terminal-touch-target)}
+
+/* Communications: replace desktop minimum columns with contained, readable panes. */
+.communications-history{gap:var(--terminal-space-sm)}
+.communications-summary>div,.communications-summary>button{padding:var(--terminal-space-sm)}
+.communications-workspace{grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);gap:var(--terminal-space-sm)}
+.communications-message{grid-template-columns:70px minmax(0,1fr) 96px;gap:var(--terminal-space-xs);min-height:48px;padding:var(--terminal-space-xs) var(--terminal-space-sm)}
+.communications-message strong,.communications-message em{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.communications-message-wave{left:80px;right:104px}
+.communications-detail{padding-left:var(--terminal-space-md)}
+.communications-metadata>div{padding:var(--terminal-space-sm)}
+.communications-copy{max-width:72ch;font-size:var(--terminal-font-md);line-height:1.55}
+.communications-audio-controls button{min-height:var(--terminal-touch-target);height:auto}
+.communications-overlay-layer{padding:var(--terminal-space-md)}
+.communications-diagnostic{width:min(900px,100%);min-height:0;max-height:100%}
+.communications-diagnostic>header{padding:var(--terminal-space-md) var(--terminal-space-lg)}
+.communications-diagnostic h3{font-size:var(--terminal-font-xl)}
+.communications-diagnostic header small,.communications-diagnostic dt{font-size:var(--terminal-font-xs)}
+.communications-diagnostic dd{font-size:var(--terminal-font-md)}
+.communications-diagnostic .communications-diagnostic-expected dd,.communications-diagnostic .communications-diagnostic-observed dd{font-size:clamp(24px,4vw,36px)}
+.communications-diagnostic-result{gap:var(--terminal-space-sm);padding:var(--terminal-space-lg)}
+.communications-diagnostic-result small,.communications-diagnostic>footer{font-size:var(--terminal-font-xs)}
+.communications-diagnostic-result strong{font-size:var(--terminal-font-lg)}
+.communications-diagnostic-result p{font-size:var(--terminal-font-md)}
+
+/* Facility, personnel, biosignals, records, and map. */
+.facility-management{font-size:var(--terminal-font-md)}
+.facility-intro,.facility-page-header{gap:var(--terminal-space-md);padding:var(--terminal-space-sm) var(--terminal-space-md)}
+.facility-intro h3,.facility-page-header h3{font-size:var(--terminal-font-lg)}
+.facility-comparison,.facility-horizon-home,.facility-personnel,.facility-biosignals,.facility-map-page,.facility-record-browser{gap:var(--terminal-space-sm);padding:var(--terminal-space-xs)}
+.facility-comparison-grid,.facility-module-grid,.facility-map-layout,.facility-record-workspace{gap:var(--terminal-space-sm)}
+.facility-station-card>header,.facility-station-card dl>div,.facility-local-metrics>div,.facility-status-summary>div,.facility-fleet-strip>div,.biosignal-summary>div{padding:var(--terminal-space-sm)}
+.facility-station-card>p,.facility-record-detail>p{font-size:var(--terminal-font-md);line-height:1.5}
+.facility-station-card>button,.facility-page-header>button,.facility-module-grid>button{min-height:var(--terminal-touch-target)}
+.facility-horizon-main{grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:var(--terminal-space-lg);padding:0 var(--terminal-space-sm)}
+.facility-module-grid>button{min-height:94px;padding:var(--terminal-space-md)}
+.facility-org-scroll{grid-template-columns:1fr;gap:var(--terminal-space-sm)}
+.facility-command-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--terminal-space-sm)}
+.facility-person{min-height:52px;padding:var(--terminal-space-sm)}
+.biosignal-list{grid-template-columns:1fr}
+.biosignal-list>div{grid-template-columns:minmax(180px,.72fr) 1fr;min-height:56px;padding:var(--terminal-space-sm) var(--terminal-space-md)}
+.facility-map-layout{grid-template-columns:minmax(0,1.55fr) minmax(220px,.7fr)}
+.facility-map-sidebar{grid-template-rows:minmax(180px,.82fr) minmax(210px,1.18fr);gap:var(--terminal-space-sm)}
+.facility-fault-row{min-height:var(--terminal-touch-target);padding:var(--terminal-space-xs) var(--terminal-space-sm)}
+.facility-room-info{padding:var(--terminal-panel-padding)}
+.facility-record-workspace{grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr)}
+.facility-record-index>button{grid-template-columns:76px minmax(0,1fr) 80px;min-height:var(--terminal-touch-target);gap:var(--terminal-space-xs);padding:var(--terminal-space-sm)}
+.facility-record-index button strong{overflow-wrap:anywhere}
+.facility-record-detail{padding:var(--terminal-panel-padding)}
+.facility-overlay{padding:var(--terminal-space-md)}
+.facility-overlay input,.facility-overlay select{min-height:var(--terminal-touch-target)}
+.facility-access-lock,.facility-heron-modal,.facility-heron-reactor{max-height:100%}
+
+/* Sanitization and Audit Token workflows stay centered in the usable content viewport. */
+.sanitization-layer:not(.is-active),.audit-token-layer{left:calc(var(--command-rail-width) + var(--command-shell-gap));padding:var(--terminal-space-md)}
+.sanitization-window,.audit-token-window{width:min(680px,100%);max-height:100%;padding:var(--terminal-modal-padding);overscroll-behavior:contain}
+.sanitization-window h2,.audit-token-window h2{font-size:var(--terminal-font-xl)}
+.sanitization-window h3,.audit-token-window h3{font-size:var(--terminal-font-lg)}
+.sanitization-window p,.audit-token-window p{font-size:var(--terminal-font-sm)}
+.sanitization-window button,.audit-token-window button,.sanitization-abort{min-height:var(--terminal-touch-target)!important}
+.sanitization-abort{top:var(--terminal-space-sm);right:var(--terminal-space-sm);padding:var(--terminal-space-xs) var(--terminal-space-sm)!important}
+.sanitization-time-display,.sanitization-countdown{font-size:var(--terminal-font-countdown)}
+.audit-token-listening{min-height:clamp(125px,22vh,170px)}
+.audit-token-passcode{grid-template-columns:minmax(0,1fr) clamp(110px,15vw,140px)}
+
+/* Warden remains a shared system, but these touch/layout rules apply only while Command is active. */
+.theme-command #warden-overlay{padding:var(--terminal-space-md)}
+.theme-command #warden-overlay .modal-card{width:min(700px,100%);max-height:calc(100dvh - (2 * var(--terminal-space-md)));display:grid;grid-template-rows:auto auto minmax(0,1fr);padding:var(--terminal-modal-padding);overflow:hidden}
+.theme-command #pin-step,.theme-command #warden-controls{min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.theme-command #warden-controls{padding-right:var(--terminal-space-xs)}
+.theme-command #warden-overlay button,.theme-command #warden-overlay input,.theme-command #warden-overlay select{min-height:var(--terminal-touch-target)}
+.theme-command .warden-reset-group{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--terminal-space-sm)}
+.theme-command .warden-reset-group button{white-space:normal}
+
+@media(max-width:1100px){
+  .theme-command{--command-rail-width:148px}
+  .command-layout--weather{grid-template-columns:var(--command-rail-width) minmax(0,1fr)!important}
+  .weather-topbar{grid-template-columns:1fr 1fr 1fr 1fr;gap:var(--terminal-space-xs);padding:var(--terminal-space-xs)}
+  .weather-brand-mini img{width:40px;height:40px}.weather-brand-mini strong{font-size:13px}.weather-brand-mini span{font-size:10px}
+  .weather-title span{font-size:10px}.weather-title strong{font-size:18px}
+  .weather-system-online,.weather-date{min-height:52px;padding:var(--terminal-space-xs);font-size:9px}
+  .coded-label strong{font-size:11px}.coded-label span{font-size:8px}
+  .directive-entry{grid-template-columns:52px minmax(0,1fr) 72px 122px}
+  .communications-summary{grid-template-columns:1.25fr repeat(3,minmax(0,.75fr))}
+  .communications-summary strong{overflow-wrap:anywhere}
+  .facility-live-columns{overflow-x:auto}
+  .facility-horizon-main{grid-template-columns:minmax(0,1.08fr) minmax(230px,.72fr);gap:var(--terminal-space-md)}
+  .facility-horizon-brand img{width:min(360px,78%)}
+  .facility-horizon-brand strong{font-size:var(--terminal-font-xl)}
+  .facility-horizon-brand span{font-size:var(--terminal-font-md)}
+  .facility-map-layout{grid-template-columns:minmax(0,1.55fr) minmax(220px,.7fr)}
+  .facility-map-sidebar{grid-template-columns:1fr;grid-template-rows:minmax(170px,.8fr) minmax(210px,1.2fr)}
+}
+
+@media(max-height:800px){
+  .theme-command .terminal-header{min-height:56px;padding-block:var(--terminal-space-xs)}
+  .theme-command .terminal-footer{min-height:28px}
+  .command-rail-brand img{width:40px;height:40px}
+  .command-rail-brand strong{font-size:16px}
+  .command-interlock{flex-basis:88px;height:88px;min-height:88px}
+  .theme-command .command-nav>.node-strip{min-height:104px}
+  .audit-token-socket{height:34px}
+  .sanitization-window,.audit-token-window{padding:var(--terminal-space-lg)}
+}

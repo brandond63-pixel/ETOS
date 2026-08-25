@@ -1,3 +1,10 @@
+# v0.5.80-dev — Command Terminal iPad normalization
+
+- Added a Command-scoped responsive sizing system for typography, spacing, panels, touch targets, chrome, and modal padding with 1024×768 landscape as the canonical target.
+- Normalized the Command rail, Overview, Weather, Directives, Communications, Facility Management, personnel, biosignals, maps, sanitization, Audit Token, and Warden layouts without changing their narratives or workflows.
+- Replaced legacy desktop minimum widths with contained flexible grids and intentional internal scrolling while retaining the existing map coordinate spaces, pan/zoom behavior, alarms, long-press controls, and developer tools.
+- Restored the Weather artwork height from its source aspect ratio so terrain, storm, labels, forecast path, site markers, and scale share the same fitted overlay rectangle at every tested size.
+
 # v0.5.79-dev — Argoza portrait and map annotation cleanup
 
 - Added the supplied Fritigern portrait to his existing Away Team card through the shared crew portrait renderer.

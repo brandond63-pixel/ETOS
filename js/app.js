@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.79-dev';
+  const VERSION = '0.5.80-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -943,21 +943,21 @@
   let communicationsAudioPreloadPromise = null;
   let communicationsAudioPreloadState = 'idle';
   const COMMUNICATIONS_AUDIO_PATH = 'assets/audio/archived-signal-0718.wav';
-  const COMMUNICATIONS_FONT_KEY = 'etos.command.communications-fonts.v2';
+  const COMMUNICATIONS_FONT_KEY = 'etos.command.communications-fonts.v3';
   const communicationsFontDefaults = {
     overallScale:100,
-    summaryLabels:15,
-    summaryValues:20,
-    sectionHeadings:16,
-    listDates:12,
-    listTitles:18,
-    listStatuses:14,
-    detailHeading:26,
-    metadataLabels:12,
-    metadataValues:20,
-    bodyText:20,
+    summaryLabels:10,
+    summaryValues:13,
+    sectionHeadings:12,
+    listDates:10,
+    listTitles:12,
+    listStatuses:10,
+    detailHeading:18,
+    metadataLabels:9,
+    metadataValues:12,
+    bodyText:14,
     controls:11,
-    footer:16
+    footer:9
   };
   const communicationsWaveform = [4,5,5,23,36,43,40,32,31,35,42,36,48,45,55,37,59,59,54,61,35,41,36,37,37,43,40,41,42,48,47,42,51,42,41,52,51,42,42,37,47,42,48,54,52,63,52,50,61,53,62,62,58,61,62,60,63,61,68,79,47,66,65,43,64,49,49,66,53,49,59,49,52,58,66,62,61,46,47,50,52,43,41,48,52,61,56,59,55,59,67,64,53,56,49,60,64,54,62,60,65,69,71,85,96,72,92,90,77,82,85,77,85,76,87,79,67,70,58,57,51,48,51,44,40,45,39,41,41,36,38,35,34,42,43,34,34,35,31,37,29,34,28,37,33,23,28,23,26,40,23,41,36,20,33,34,32,21,30,20,31,25,32,18,29,19,25,34,31,18,29,29,27,21,37,20,30,29,19,12];
   const communicationsRecords = [
@@ -1280,8 +1280,8 @@
   }
 
   const MAINTENANCE_ACCESS_CODE = '12345';
-  const FACILITY_FONT_KEY = 'etos.command.facility-fonts.v1';
-  const facilityFontDefaults = {overallScale:100,comparisonPrompt:16,stationHeading:28,stationData:16,stationBody:16,stationButton:15,telemetryLabels:9,telemetryValues:20,pageHeading:26,moduleTitles:28,moduleMeta:12,personnelNames:12,personnelRoles:10,biosignalNames:12,biosignalState:11,biosignalDetail:10,recordTitles:13,recordBody:16,vehicleStatus:19,roomLabels:13};
+  const FACILITY_FONT_KEY = 'etos.command.facility-fonts.v2';
+  const facilityFontDefaults = {overallScale:100,comparisonPrompt:13,stationHeading:22,stationData:13,stationBody:14,stationButton:12,telemetryLabels:9,telemetryValues:16,pageHeading:22,moduleTitles:18,moduleMeta:10,personnelNames:12,personnelRoles:10,biosignalNames:12,biosignalState:11,biosignalDetail:10,recordTitles:12,recordBody:14,vehicleStatus:15,roomLabels:12};
   let facilityView = 'comparison';
   let facilityOverlay = null;
   let facilityMaintenanceUnlocked = false;
@@ -2278,8 +2278,8 @@
             <div class="sandbox-controls">
               <fieldset><legend>Screen layout</legend>
                 <label>Command rail <output data-out="navWidth"></output><input type="range" min="0" max="240" step="5" data-layout="navWidth"></label>
-                <label>Left panels <output data-out="leftWidth"></output><input type="range" min="180" max="380" step="5" data-layout="leftWidth"></label>
-                <label>Right panels <output data-out="rightWidth"></output><input type="range" min="260" max="520" step="5" data-layout="rightWidth"></label>
+                <label>Left panels <output data-out="leftWidth"></output><input type="range" min="150" max="380" step="5" data-layout="leftWidth"></label>
+                <label>Right panels <output data-out="rightWidth"></output><input type="range" min="180" max="520" step="5" data-layout="rightWidth"></label>
                 <label>Column gap <output data-out="gap"></output><input type="range" min="4" max="18" step="1" data-layout="gap"></label>
                 <label>Panel text <output data-out="fontScale"></output><input type="range" min="80" max="125" step="1" data-layout="fontScale"></label>
               </fieldset>
@@ -2909,8 +2909,8 @@
     update(); weatherTimer=setInterval(update,4200);
   }
 
-  const WEATHER_LAYOUT_KEY = 'etos.weather.map-layout.v3';
-  const weatherLayoutDefaults = {"navWidth":240,"leftWidth":300,"rightWidth":360,"gap":9,"fontScale":100,"mapZoom":101,"mapX":50,"mapY":45,"horizonX":46.3,"horizonY":45.6,"heronX":66.3,"heronY":50.2,"blinkSpeed":3,"markerSize":24,"stormX":-6,"stormY":0,"stormScale":89,"stormOpacity":85,"stormRotation":0,"stormDuration":240,"animateStorm":true,"stormReverse":false,"showLabels":true,"labelScale":125,"horizonLabelX":0.1,"horizonLabelY":-4.5,"heronLabelX":0,"heronLabelY":-4.5,"showPath":true,"currentX":21.7,"currentY":48.9,"bendX":32,"bendY":45.3,"pathWidth":1.9,"pathDashSpeed":5,"coneWidth":17,"coneOpacity":24,"showScale":true,"scaleX":70,"scaleY":91,"scaleWidth":25,"scaleText":100};
+  const WEATHER_LAYOUT_KEY = 'etos.weather.map-layout.v4';
+  const weatherLayoutDefaults = {"navWidth":190,"leftWidth":185,"rightWidth":230,"gap":8,"fontScale":100,"mapZoom":101,"mapX":50,"mapY":45,"horizonX":46.3,"horizonY":45.6,"heronX":66.3,"heronY":50.2,"blinkSpeed":3,"markerSize":24,"stormX":-6,"stormY":0,"stormScale":89,"stormOpacity":85,"stormRotation":0,"stormDuration":240,"animateStorm":true,"stormReverse":false,"showLabels":true,"labelScale":100,"horizonLabelX":0.1,"horizonLabelY":-4.5,"heronLabelX":0,"heronLabelY":-4.5,"showPath":true,"currentX":21.7,"currentY":48.9,"bendX":32,"bendY":45.3,"pathWidth":1.9,"pathDashSpeed":5,"coneWidth":17,"coneOpacity":24,"showScale":true,"scaleX":70,"scaleY":91,"scaleWidth":25,"scaleText":100};
   function loadWeatherLayout(){try{return {...weatherLayoutDefaults,...JSON.parse(localStorage.getItem(WEATHER_LAYOUT_KEY)||'{}')}}catch{return {...weatherLayoutDefaults}}}
   function saveWeatherLayout(settings){localStorage.setItem(WEATHER_LAYOUT_KEY,JSON.stringify(settings));}
   function pctPoint(x,y){return [x*16.72,y*9.41]}

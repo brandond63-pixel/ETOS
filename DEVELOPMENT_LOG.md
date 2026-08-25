@@ -1,3 +1,14 @@
+# 2026-08-24 — v0.5.80-dev
+
+- Established Command-only `clamp()`-based typography, spacing, padding, touch-target, rail, and modal variables with a stable chrome → flexible workspace → contained panel architecture.
+- Moved the rail Audit Token block back into normal flex flow, removing the compact rail overflow caused by its old absolute positioning.
+- Removed Weather, Communications, Facility, map, and record-browser desktop minimum-width assumptions at the iPad breakpoint; retained the fitted-art coordinate layers and map interaction logic unchanged.
+- Added bounded internal scrolling for dense lists and documents, larger touch areas for map and workflow controls, and Command-scoped Warden modal containment.
+- Advanced the Communications and Facility typography preference keys so the new canonical defaults replace incompatible legacy desktop tuning.
+- Corrected the Weather coordinate-space collapse with a Command-only 1672:941 aspect ratio; this restores the existing forecast path, site markers, labels, and scale without changing their stored coordinates or the shared map-fitting function.
+- Browser QA at 1024×768 exercised Overview, Weather, Directive index/document, Communications/diagnostic, Facility comparison/home/personnel/biosignals/map, room selection, all sanitization states, Audit Token manual fallback/acquisition states, and the Warden final-countdown control. Representative 1366×900 checks covered Overview and Weather. No screen-level horizontal overflow or undersized visible controls remained; intentionally long documents, lists, sidebars, and Warden controls scroll internally.
+- Restored the original three-second Warden, Command Key, and Audit Token holds after accelerated state testing. A fresh v0.5.80 load reported no console warnings or errors.
+
 # 2026-08-24 — v0.5.79-dev
 
 - Mapped `assets/img/fritigern.png` onto Dr. Alaric Fritigern's existing Away Team card; the shared portrait frame, containment, and CRT styling remain unchanged.
