@@ -1,3 +1,14 @@
+# v0.5.82-dev — Command Terminal iPad correction pass
+
+- Refit the Distress Beacon and Atmospheric Advisory overlays inside the usable Command Overview workspace at tablet landscape sizes.
+- Assigned Directive 015's active badge its own responsive archive-row column and stabilized the Command Key directly above the Audit Data port across Command modules.
+- Rebalanced the Communications History index and shortened list-only date labels so date, title, and status remain on one readable line without changing stored record dates.
+
+# v0.5.81-dev — Horizon Sector dam-label cleanup
+
+- Removed the coded `DAM / WATER CONTROL` annotation overlay from the Argoza Horizon Sector map.
+- Preserved the underlying terrain artwork, Horizon Base and Heron Station markers, normalized coordinates, developer controls, and planetary navigation.
+
 # v0.5.80-dev — Command Terminal iPad normalization
 
 - Added a Command-scoped responsive sizing system for typography, spacing, panels, touch targets, chrome, and modal padding with 1024×768 landscape as the canonical target.

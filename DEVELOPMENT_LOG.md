@@ -1,3 +1,14 @@
+# 2026-08-25 — v0.5.82-dev
+
+- Added a Command-scoped correction layer for the two Overview overlays, Directive 015 archive geometry, Communications row allocation, and stable Command Key/Audit Data rail stacking.
+- Kept the full Communications dates in the record model and detail view while using `MM/DD/YY` only in the compact index rows.
+- Preserved Command workflows, production hold timings, stored Weather coordinates, persistence behavior, and all narrative content.
+
+# 2026-08-25 — v0.5.81-dev
+
+- Removed only the `argoza-map-feature is-dam` markup from `renderArgozaSectorView()`.
+- Left the Horizon Sector image, marker elements and values, hotspot behavior, developer-control renderer, and forward/back planetary navigation unchanged.
+
 # 2026-08-24 — v0.5.80-dev
 
 - Established Command-only `clamp()`-based typography, spacing, padding, touch-target, rail, and modal variables with a stable chrome → flexible workspace → contained panel architecture.
