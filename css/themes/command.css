@@ -2688,3 +2688,73 @@
 @media(max-width:1100px){
   .directive-entry--active{grid-template-columns:52px minmax(0,1fr) 88px 72px 122px}
 }
+
+/* v0.5.83-dev — contained Communications playback and simplified Weather surveillance */
+.command-layout--communications,
+.command-layout--communications .command-content,
+.command-layout--communications .module-body,
+.communications-history,
+.communications-workspace,
+.communications-index,
+.communications-detail,
+.communications-copy,
+.communications-player{
+  min-width:0;
+  max-width:100%;
+}
+.command-layout--communications,
+.command-layout--communications .command-content,
+.command-layout--communications .module-body,
+.communications-history,
+.communications-workspace,
+.communications-detail,
+.communications-copy,
+.communications-player{overflow-x:hidden}
+.communications-detail-header>div,
+.communications-player header>div,
+.communications-audio-controls>*{min-width:0}
+.communications-metadata dd,
+.communications-copy>p,
+.communications-player header strong{overflow-wrap:anywhere}
+.communications-signal-route>div{
+  min-width:0;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  white-space:normal;
+}
+.communications-signal-route>div span{min-width:0;overflow-wrap:anywhere}
+.communications-signal-route>div b{flex:0 0 auto}
+.communications-player{width:100%}
+.communications-waveform{width:100%;min-width:0}
+.communications-audio-controls{grid-template-columns:minmax(100px,120px) minmax(0,1fr) minmax(72px,90px)}
+
+.weather-grid{
+  grid-template-columns:minmax(135px,var(--sandbox-left)) minmax(0,1fr) minmax(165px,var(--sandbox-right))!important;
+  overflow:hidden;
+}
+.weather-left{
+  grid-template-rows:auto minmax(0,1fr)!important;
+  overflow:hidden;
+}
+.weather-right{
+  grid-template-rows:auto auto minmax(0,1fr) minmax(0,1fr)!important;
+  overflow:hidden;
+}
+.weather-left>.weather-panel,.weather-right>.weather-panel{min-width:0}
+.weather-radar-panel,.radar-map,.weather-map-frame,.weather-map-coordinate-space{overflow:hidden!important}
+.weather-map-frame>.weather-map-coordinate-space{
+  position:absolute!important;
+  left:50%;
+  top:50%;
+  max-width:none;
+  max-height:none;
+  transform:translate(-50%,-50%) scale(var(--sandbox-map-zoom,1));
+}
+.weather-imminent{animation:weatherImminentPulse 1.3s ease-in-out infinite}
+@keyframes weatherImminentPulse{
+  0%,100%{opacity:1;filter:brightness(1.2);text-shadow:0 0 8px rgba(124,255,62,.65)}
+  50%{opacity:.45;filter:brightness(.7);text-shadow:0 0 2px rgba(124,255,62,.2)}
+}
+.sandbox-toggle{right:var(--terminal-space-sm);top:var(--terminal-space-sm);bottom:auto}
+@media(prefers-reduced-motion:reduce){.weather-imminent{animation:none}}

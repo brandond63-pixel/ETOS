@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.82-dev';
+  const VERSION = '0.5.83-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -2266,15 +2266,12 @@
           <div class="weather-grid">
             <aside class="weather-left">
               <section class="weather-panel storm-id"><span>ACTIVE WEATHER SYSTEM</span><strong>LV-872</strong><b>STORM CELL</b><small>CLASSIFICATION</small><em>CATEGORY IV SUPERCELL</em></section>
-              <section class="weather-panel warning-level"><span>WARNING LEVEL</span><strong>RED</strong><div class="warning-bars">▰▰▰▰▰▰▰</div></section>
               <section class="weather-panel telemetry-panel"><h3>STORM METRICS</h3>
                 <div><span>SURFACE WINDS</span><b data-telemetry="wind">87 MPH</b></div><div><span>PEAK GUSTS</span><b data-telemetry="gust">126 MPH</b></div><div><span>PRESSURE</span><b data-telemetry="pressure">27.62 inHg ↓</b></div><div><span>STORM BEARING</span><b>218° SW</b></div><div><span>FORWARD VELOCITY</span><b data-telemetry="velocity">17 MPH</b></div><div><span>HUMIDITY</span><b data-telemetry="humidity">94%</b></div><div><span>VISIBILITY</span><b data-telemetry="visibility">&lt; 0.3 MI</b></div><div><span>TEMPERATURE</span><b data-telemetry="temperature">77.2 °F</b></div><div><span>ELECTRICAL ACTIVITY</span><b class="amber-text">EXTREME</b></div>
               </section>
-              <section class="weather-panel comm-panel"><h3>COMMUNICATIONS STATUS</h3><div><span>ORBITAL RELAY</span><b>ONLINE</b></div><div><span>HORIZON BASE</span><b class="amber-text">DEGRADED</b></div><div><span>HERON STATION</span><b class="amber-text">INTERMITTENT</b></div></section>
-              <section class="weather-panel weather-advisory"><span class="warning-triangle">!</span><div><h3>WEATHER ADVISORY</h3><p>A severe supercell storm is impacting LV-872. Horizon Base is within the immediate impact zone. Expect extreme winds, heavy rainfall, flooding, and extensive communication disruption. Remain indoors. Secure all exterior access points.</p></div></section>
             </aside>
             <main class="weather-radar-panel"><div class="radar-label">SATELLITE / RADAR COMPOSITE <small>INFRARED INTENSITY</small></div><div class="radar-map" data-weather-map><div class="argoza-map-frame weather-map-frame" data-argoza-map-frame data-map-width="1672" data-map-height="941"><div class="argoza-map-coordinate-space weather-map-coordinate-space" data-argoza-map-coordinate-space><img class="weather-terrain-layer" src="assets/img/command/weather-terrain.png" alt="Topographic terrain surrounding Horizon Base and Heron Station"><img class="weather-storm-layer" src="assets/img/command/weather-storm.png" alt="Category IV supercell cloud overlay"><svg class="weather-code-overlay" viewBox="0 0 1672 941" preserveAspectRatio="none" aria-label="Weather forecast overlay"><defs><marker id="forecastArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z"/></marker></defs><path class="forecast-cone" data-map-cone></path><path class="forecast-path" data-map-path marker-end="url(#forecastArrow)"></path><circle class="storm-position" data-map-current r="8"></circle><g class="coded-base coded-base--horizon" data-coded-base="horizon"><polygon points="0,-18 18,16 -18,16"></polygon></g><g class="coded-base coded-base--heron" data-coded-base="heron"><polygon points="0,-18 18,16 -18,16"></polygon></g></svg><div class="coded-label coded-label--horizon" data-coded-label="horizon"><strong>HORIZON BASE</strong><span>ELEV. 212 M</span></div><div class="coded-label coded-label--heron" data-coded-label="heron"><strong>HERON STATION</strong><span>ELEV. 134 M</span></div><div class="map-scale" data-map-scale><div class="scale-rule"></div><div class="scale-values"><span>0</span><span>5</span><span>10</span><span>15</span><span>20 KM</span></div></div></div></div></div></main>
-            <aside class="weather-right"><section class="weather-panel weather-system-online"><span>SYSTEM STATUS</span><strong>ONLINE</strong><i></i></section><section class="weather-panel weather-date"><span>DATE <b>2122.08.16</b></span><span>TIME <b data-weather-clock>09:43:17 LOCAL</b></span></section><section class="weather-panel impact-panel"><h3>HORIZON BASE</h3><span>ESTIMATED ARRIVAL</span><strong>IMMINENT</strong><div><small>IMPACT PROBABILITY</small><b>93%</b></div><i><u style="width:93%"></u></i></section><section class="weather-panel impact-panel"><h3>HERON STATION</h3><span>PREDICTED IMPACT</span><strong>ETA UNKNOWN</strong><div><small>IMPACT PROBABILITY</small><b>87%</b></div><i><u style="width:87%"></u></i></section><section class="weather-panel outlook-panel"><h3>REGIONAL OUTLOOK</h3><div><span>STORM SIZE</span><b>323 MI</b></div><div><span>RAIN RATE</span><b data-telemetry="rain">9.4 IN/HR</b></div><div><span>TIDE IMPACT</span><b>MAJOR</b></div><div><span>FLOOD RISK</span><b class="amber-text">EXTREME</b></div><div><span>LANDSLIDE RISK</span><b>HIGH</b></div></section><section class="weather-panel latest-observations-panel"><h3>LATEST OBSERVATIONS</h3><div><span>WIND SHEAR</span><b>HIGH</b></div><div><span>PRECIPITATION</span><b>HEAVY</b></div><div><span>LIGHTNING</span><b>VERY HIGH</b></div><div><span>SENSOR COVERAGE</span><b data-telemetry="coverage">92%</b></div></section><section class="weather-panel power-restored-panel"><h3>POWER RESTORED</h3><p data-power-restored>2122.08.16 // 09:43:17 LOCAL</p></section></aside>
+            <aside class="weather-right"><section class="weather-panel weather-date"><span>DATE <b>2122.08.16</b></span><span>TIME <b data-weather-clock>09:43:17 LOCAL</b></span></section><section class="weather-panel impact-panel impact-panel--horizon"><h3>HORIZON BASE</h3><span>ESTIMATED ARRIVAL</span><strong class="weather-imminent">IMMINENT</strong><div><small>IMPACT PROBABILITY</small><b>93%</b></div><i><u style="width:93%"></u></i></section><section class="weather-panel outlook-panel"><h3>REGIONAL OUTLOOK</h3><div><span>STORM SIZE</span><b>323 MI</b></div><div><span>RAIN RATE</span><b data-telemetry="rain">9.4 IN/HR</b></div><div><span>TIDE IMPACT</span><b>MAJOR</b></div><div><span>FLOOD RISK</span><b class="amber-text">EXTREME</b></div><div><span>LANDSLIDE RISK</span><b>HIGH</b></div></section><section class="weather-panel latest-observations-panel"><h3>LATEST OBSERVATIONS</h3><div><span>WIND SHEAR</span><b>HIGH</b></div><div><span>PRECIPITATION</span><b>HEAVY</b></div><div><span>LIGHTNING</span><b>VERY HIGH</b></div><div><span>SENSOR COVERAGE</span><b data-telemetry="coverage">92%</b></div></section></aside>
           </div>
           <button class="sandbox-toggle" type="button" data-sandbox-toggle>WEATHER DEV TOOLS</button>
           <aside class="weather-sandbox" data-weather-sandbox hidden>
@@ -2913,8 +2910,8 @@
     update(); weatherTimer=setInterval(update,4200);
   }
 
-  const WEATHER_LAYOUT_KEY = 'etos.weather.map-layout.v4';
-  const weatherLayoutDefaults = {"navWidth":190,"leftWidth":185,"rightWidth":230,"gap":8,"fontScale":100,"mapZoom":101,"mapX":50,"mapY":45,"horizonX":46.3,"horizonY":45.6,"heronX":66.3,"heronY":50.2,"blinkSpeed":3,"markerSize":24,"stormX":-6,"stormY":0,"stormScale":89,"stormOpacity":85,"stormRotation":0,"stormDuration":240,"animateStorm":true,"stormReverse":false,"showLabels":true,"labelScale":100,"horizonLabelX":0.1,"horizonLabelY":-4.5,"heronLabelX":0,"heronLabelY":-4.5,"showPath":true,"currentX":21.7,"currentY":48.9,"bendX":32,"bendY":45.3,"pathWidth":1.9,"pathDashSpeed":5,"coneWidth":17,"coneOpacity":24,"showScale":true,"scaleX":70,"scaleY":91,"scaleWidth":25,"scaleText":100};
+  const WEATHER_LAYOUT_KEY = 'etos.weather.map-layout.v5';
+  const weatherLayoutDefaults = {"navWidth":190,"leftWidth":145,"rightWidth":180,"gap":8,"fontScale":100,"mapZoom":101,"mapX":50,"mapY":45,"horizonX":46.3,"horizonY":45.6,"heronX":66.3,"heronY":50.2,"blinkSpeed":3,"markerSize":24,"stormX":-6,"stormY":0,"stormScale":89,"stormOpacity":85,"stormRotation":0,"stormDuration":240,"animateStorm":true,"stormReverse":false,"showLabels":true,"labelScale":100,"horizonLabelX":0.1,"horizonLabelY":-4.5,"heronLabelX":0,"heronLabelY":-4.5,"showPath":true,"currentX":21.7,"currentY":48.9,"bendX":32,"bendY":45.3,"pathWidth":1.9,"pathDashSpeed":5,"coneWidth":17,"coneOpacity":24,"showScale":true,"scaleX":70,"scaleY":91,"scaleWidth":25,"scaleText":100};
   function loadWeatherLayout(){try{return {...weatherLayoutDefaults,...JSON.parse(localStorage.getItem(WEATHER_LAYOUT_KEY)||'{}')}}catch{return {...weatherLayoutDefaults}}}
   function saveWeatherLayout(settings){localStorage.setItem(WEATHER_LAYOUT_KEY,JSON.stringify(settings));}
   function pctPoint(x,y){return [x*16.72,y*9.41]}
@@ -3205,9 +3202,12 @@
     const sourceHeight=image?.naturalHeight||Number(image?.getAttribute('height'))||Number(frame.dataset.mapHeight);
     const frameWidth=frame.clientWidth,frameHeight=frame.clientHeight;
     if(!coordinateSpace||!sourceWidth||!sourceHeight||!frameWidth||!frameHeight)return;
-    const scale=Math.min(frameWidth/sourceWidth,frameHeight/sourceHeight);
+    const containScale=Math.min(frameWidth/sourceWidth,frameHeight/sourceHeight);
+    const scale=frame.classList.contains('weather-map-frame')
+      ? Math.min(Math.max(frameWidth/sourceWidth,frameHeight/sourceHeight),containScale*1.5)
+      : containScale;
     coordinateSpace.style.width=`${sourceWidth*scale}px`;
-    coordinateSpace.style.height='auto';
+    coordinateSpace.style.height=frame.classList.contains('weather-map-frame')?`${sourceHeight*scale}px`:'auto';
   }
 
   function initArgozaMapCoordinateSpaces(){

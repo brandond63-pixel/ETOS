@@ -1,3 +1,10 @@
+# 2026-08-25 — v0.5.83-dev
+
+- Corrected Communications playback overflow at the shrinking grid/flex descendants; the long Signal Route now wraps and the existing audio, waveform, selection, and audit behavior remain intact.
+- Simplified Weather render markup to Active Weather System, Storm Metrics, Date/Time, Horizon Base impact, Regional Outlook, and Latest Observations around a larger central map.
+- Advanced the Weather layout preference key so the narrower side-column defaults take effect, and changed only the Weather map fitter from contain to cover while preserving the shared source-art coordinate system.
+- Added coordinate-space clipping for the rotating storm and a 1.3-second brightness/opacity pulse on `IMMINENT`.
+
 # 2026-08-25 — v0.5.82-dev
 
 - Added a Command-scoped correction layer for the two Overview overlays, Directive 015 archive geometry, Communications row allocation, and stable Command Key/Audit Data rail stacking.

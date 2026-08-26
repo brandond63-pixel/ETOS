@@ -1,3 +1,9 @@
+# v0.5.83-dev — Command Communications and Weather cleanup
+
+- Contained the archived-signal detail, route, description, waveform, and playback controls so Communications History cannot widen or horizontally drag the Command shell.
+- Removed redundant Weather warning, communications, advisory, online-status, Heron-impact, and power-restored panels while retaining the useful storm telemetry.
+- Expanded the shared Weather map viewport, added a restrained `IMMINENT` pulse, and clipped terrain, storm, markers, track, labels, and scale to one fitted 1672:941 coordinate space.
+
 # v0.5.82-dev — Command Terminal iPad correction pass
 
 - Refit the Distress Beacon and Atmospheric Advisory overlays inside the usable Command Overview workspace at tablet landscape sizes.
