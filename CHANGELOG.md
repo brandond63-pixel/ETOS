@@ -1,3 +1,9 @@
+# v0.5.86-dev — Cryogenic recovery typing audio and reading holds
+
+- Replaced the recovery intro's generic process-tone approximation with the original cryosleep sequence's exact synthesized typing tick: alternating non-space indices, randomized 760–870 Hz square waves, 5 ms attack, 18 ms envelope, 0.008 gain, and independent overlapping oscillator instances.
+- Extended completed narrative paragraph holds by 1.5 seconds, or 2 seconds for longer paragraphs, without changing sentence cadence, line fades, ETOS visual typing speed, block fades, or prose.
+- Preserved Pause/Resume, Skip, Replay, first-run persistence, and the final Argoza transition.
+
 # v0.5.85-dev — Argoza recovery narrative pacing
 
 - Reorganized the recovery prose into natural progressive paragraph builds whose lines accumulate before the complete paragraph fades.

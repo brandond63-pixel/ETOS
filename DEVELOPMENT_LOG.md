@@ -1,3 +1,10 @@
+# 2026-08-26 — v0.5.86-dev
+
+- Traced the original standalone `cryo/script.js` typewriter audio path and ported its oscillator creation, frequency randomization, square waveform, gain envelope, duration, stop tail, and per-character trigger gate into the shared audio engine as `playCryoTypeTick()`.
+- Removed recovery's additional `index % 6` filtering and generic `process` sound, so its existing even-index, non-space character loop now produces the same independent overlapping tick instances as the original sequence.
+- Raised the normal completed-paragraph hold from 1250 ms to 2750 ms and longer-paragraph holds to 3250 ms. The isolated dramatic beat retains its prior extra second at 3750 ms, exactly 1500 ms above its former hold.
+- Left `TYPE_SPEED = 32`, randomized character timing, sentence cadence, line/fade durations, prose, ETOS text, controls, persistence, and terminal transition unchanged.
+
 # 2026-08-26 — v0.5.85-dev
 
 - Reduced 29 prose fade cycles to 17 progressive narrative paragraphs; all lines are laid out up front and revealed individually so earlier text remains fixed and visible as each paragraph builds.

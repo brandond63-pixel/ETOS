@@ -3,7 +3,8 @@
 
   const STORAGE_KEY = 'etos.argoza.recovery-seen.v1';
   const NARRATIVE_LINE_FADE_IN = 420;
-  const NARRATIVE_FINAL_HOLD = 1250;
+  const NARRATIVE_FINAL_HOLD = 2750;
+  const NARRATIVE_LONG_FINAL_HOLD = 3250;
   const NARRATIVE_FADE_OUT = 500;
   const NARRATIVE_GAP = 300;
   const BEAT_GAP = 650;
@@ -24,7 +25,7 @@
     etos(['ETOS // CRYOGENIC RECOVERY','RECOVERY SEQUENCE COMPLETE','REMAIN STATIONARY UNTIL VESTIBULAR AND MOTOR FUNCTION RETURN TO ACCEPTABLE PARAMETERS'],3300),
     narrative(['The pod opens.','Cold air spills over the edge.','For several seconds, memory comes back only in fragments.']),
     narrative(['The Argoza. Ellison-Tanaka.','Transit.','A station somewhere very far away.','Then the obvious thought arrives.']),
-    narrative('You shouldn’t be awake yet.',{className:'is-dramatic',finalHold:2250}),
+    narrative('You shouldn’t be awake yet.',{className:'is-dramatic',finalHold:3750}),
     narrative(['Across the bay, two other cryogenic pods are opening.','Renfield sits upright slowly, blinking against the light.','Anders grips the edge of her pod and waits for the room to stop moving.','Neither of them looks any more informed than you feel.']),
     etos('TRANSIT STATUS: INTERRUPTED',3800,{className:'is-major'}),
     etos('YOUR SCHEDULED TRANSIT HAS BEEN INTERRUPTED UNDER ELLISON-TANAKA EMERGENCY-RESPONSE AUTHORITY',3000),
@@ -87,7 +88,9 @@
       if(!await animate(lines[index],[{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:NARRATIVE_LINE_FADE_IN,easing:'ease-out'},id))return false;
       if(index<lines.length-1){const words=step.lines[index].trim().split(/\s+/).length,cadence=words<=4?650:words<=10?850:words<=18?1100:1300;if(!await delay(cadence,id))return false;}
     }
-    if(!await delay(step.finalHold??NARRATIVE_FINAL_HOLD,id))return false;
+    const wordCount=step.lines.join(' ').trim().split(/\s+/).filter(Boolean).length;
+    const finalHold=step.finalHold??(wordCount>=38?NARRATIVE_LONG_FINAL_HOLD:NARRATIVE_FINAL_HOLD);
+    if(!await delay(finalHold,id))return false;
     if(!await animate(card,[{opacity:1},{opacity:0}],{duration:NARRATIVE_FADE_OUT,easing:'ease-in'},id))return false;
     session.stage.replaceChildren();return delay(NARRATIVE_GAP,id);
   }

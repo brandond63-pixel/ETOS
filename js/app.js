@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.85-dev';
+  const VERSION = '0.5.86-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -2649,7 +2649,7 @@
   const argozaRecoverySeen=()=>!!window.ETOSArgozaRecovery?.isSeen();
   function startArgozaRecovery(){
     if(state.activeTerminal!=='argoza'||!state.initialized)return;
-    window.ETOSArgozaRecovery?.start({host:els.terminal,onTick:index=>{if(index%6===0)playAudio('process',{frequency:760+Math.random()*110});},onFinish:()=>{if(state.initialized&&state.activeTerminal==='argoza')renderTerminal();}});
+    window.ETOSArgozaRecovery?.start({host:els.terminal,onTick:()=>window.ETOSAudio?.playCryoTypeTick?.(),onFinish:()=>{if(state.initialized&&state.activeTerminal==='argoza')renderTerminal();}});
   }
   function stopArgozaRecovery(){window.ETOSArgozaRecovery?.stop();}
   let state = loadState(); let holdTimer = null;

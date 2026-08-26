@@ -188,6 +188,20 @@
     return oscillator;
   }
 
+  function playCryoTypeTick(){
+    if(!context||!buses)return false;
+    if(context.state!=='running'&&context.state!=='closed')void context.resume().catch(()=>undefined);
+    const start=context.currentTime,oscillator=context.createOscillator(),gain=context.createGain();
+    oscillator.type='square';
+    oscillator.frequency.setValueAtTime(760+Math.random()*110,start);
+    gain.gain.setValueAtTime(.0001,start);
+    gain.gain.exponentialRampToValueAtTime(.008,start+.005);
+    gain.gain.exponentialRampToValueAtTime(.0001,start+.018);
+    oscillator.connect(gain).connect(buses.master);
+    oscillator.start(start);oscillator.stop(start+.048);
+    return oscillator;
+  }
+
   function noiseBurst({duration=.12,gain=.035,frequency=1200,bus='system',delay=0,q=.7,track=null}){
     if(!unlocked||!context||context.state!=='running')return;
     const frames=Math.max(1,Math.floor(context.sampleRate*duration)),buffer=context.createBuffer(1,frames,context.sampleRate),data=buffer.getChannelData(0);
@@ -508,6 +522,6 @@
     if(buses?.[group])buses[group].gain.setTargetAtTime(volumes[group],now(),.04);
   }
 
-  window.ETOSAudio={unlock,prepareSanitizationAudio,play,startAmbient,stopAmbient,startBiometricScan,startBiometricSweep,stopBiometricScan,completeBiometricScan,stopAuditToken,stopSanitizationWarning,playSanitizationWarningPulse,startFacilityAlarm,stopFacilityAlarm,duckFacilityAlarm,restoreFacilityAlarm,testSanitizationWarning,toggleFacilityAlarmTest,stopFacilityAlarmTest,setVolume,getVolumes:()=>({...volumes}),getAssetStatus:()=>Object.fromEntries(Object.entries(assetStatus).map(([name,status])=>[name,{...status}])),isUnlocked:()=>unlocked};
+  window.ETOSAudio={unlock,prepareSanitizationAudio,play,playCryoTypeTick,startAmbient,stopAmbient,startBiometricScan,startBiometricSweep,stopBiometricScan,completeBiometricScan,stopAuditToken,stopSanitizationWarning,playSanitizationWarningPulse,startFacilityAlarm,stopFacilityAlarm,duckFacilityAlarm,restoreFacilityAlarm,testSanitizationWarning,toggleFacilityAlarmTest,stopFacilityAlarmTest,setVolume,getVolumes:()=>({...volumes}),getAssetStatus:()=>Object.fromEntries(Object.entries(assetStatus).map(([name,status])=>[name,{...status}])),isUnlocked:()=>unlocked};
   document.documentElement.dataset.etosAudio='ready';
 })();
