@@ -1,3 +1,10 @@
+# 2026-08-25 — v0.5.84-dev
+
+- Integrated the player recovery narrative as a full-viewport overlay appended inside the live terminal screen after Argoza renders; completion removes the overlay and reveals the already-interactive Home view.
+- Ported the standalone cryo sequence's line/cursor/character-loop behavior into an Argoza-only controller, with pause-aware waits and Web Animations so pause/resume preserves the exact current beat and typed character.
+- Persisted only `etos.argoza.recovery-seen.v1`; completion and Skip set it, Replay leaves other state intact, and the new Warden reset clears only this flag.
+- Added iPad-first constrained typography, no-scroll staging, cyan CRT styling, small Pause/Skip utilities, and a discreet post-completion replay button in the Argoza navigation footer.
+
 # 2026-08-25 — v0.5.83-dev
 
 - Corrected Communications playback overflow at the shrinking grid/flex descendants; the long Signal Route now wraps and the existing audio, waveform, selection, and audit behavior remain intact.

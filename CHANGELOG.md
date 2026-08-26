@@ -1,3 +1,9 @@
+# v0.5.84-dev — Argoza cryogenic recovery sequence
+
+- Added a first-run cinematic recovery overlay inside the initialized Argoza terminal, with timed narrative beats and the established Alien-style ETOS character typing behavior.
+- Added exact pause/resume, smooth skip, persistent completion, and a discreet replay control without changing other Argoza state.
+- Added a Warden reset for the recovery-seen flag while preserving direct Argoza initialization and all other terminal gating.
+
 # v0.5.83-dev — Command Communications and Weather cleanup
 
 - Contained the archived-signal detail, route, description, waveform, and playback controls so Communications History cannot widen or horizontally drag the Command shell.
