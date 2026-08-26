@@ -1,3 +1,11 @@
+# 2026-08-26 — v0.5.85-dev
+
+- Reduced 29 prose fade cycles to 17 progressive narrative paragraphs; all lines are laid out up front and revealed individually so earlier text remains fixed and visible as each paragraph builds.
+- Set narrative line fade-in to 420 ms, spoken cadence to 650–1300 ms by line length, completed-paragraph hold to 1250 ms, paragraph fade-out to 500 ms, and inter-paragraph gap to 300 ms.
+- Retained a 2250 ms completed hold for the isolated `You shouldn’t be awake yet.` beat.
+- Changed the recovery base to solid `rgb(0,4,8)` and moved the translucent CRT texture above that opaque layer.
+- Left `TYPE_SPEED = 32`, `typeLine()`, `showEtos()`, ETOS block holds/fades/gaps, persistence, Pause/Resume, Skip, Replay, and Warden reset behavior unchanged.
+
 # 2026-08-25 — v0.5.84-dev
 
 - Integrated the player recovery narrative as a full-viewport overlay appended inside the live terminal screen after Argoza renders; completion removes the overlay and reveals the already-interactive Home view.

@@ -1,3 +1,10 @@
+# v0.5.85-dev — Argoza recovery narrative pacing
+
+- Reorganized the recovery prose into natural progressive paragraph builds whose lines accumulate before the complete paragraph fades.
+- Shortened narrative-only fades, cadence delays, final holds, and gaps while preserving the dramatic isolation of `You shouldn’t be awake yet.`
+- Made the recovery overlay base fully opaque so the live Argoza interface cannot bleed through before the intended reveal.
+- Preserved the ETOS typewriter speed, line-building behavior, completed-block holds, fades, and controls.
+
 # v0.5.84-dev — Argoza cryogenic recovery sequence
 
 - Added a first-run cinematic recovery overlay inside the initialized Argoza terminal, with timed narrative beats and the established Alien-style ETOS character typing behavior.
