@@ -50,7 +50,7 @@ test('Heron conditions remain available with passive restrictions and reactor ad
   assert.equal((html.match(/<button /g) || []).length, 2);
 });
 test('Facility CSS retains compact touch targets without changing the sidebar', () => {
-  const patch = css.slice(css.indexOf('/* v0.5.91-dev'));
+  const patch = css.slice(css.indexOf('/* v0.5.91-dev'), css.indexOf('/* v0.5.92-dev'));
   assert.match(patch, /grid-auto-rows:minmax\(56px,auto\);gap:7px/);
   assert.match(patch, /\.facility-horizon-home \.facility-module-grid>button\{\s*min-height:56px/);
   assert.doesNotMatch(patch, /\.command-nav|\.node-strip|\.audit-token|data-command-interlock/);

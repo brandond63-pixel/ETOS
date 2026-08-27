@@ -65,7 +65,7 @@ test('selection replaces prior detail and resets only the detail scroll position
   assert.match(panel.innerHTML, /data-airlock-cycle/);
 });
 test('layout uses separate scroll areas and normal-flow controls without map or rail changes', () => {
-  const patch = css.slice(css.indexOf('/* v0.5.92-dev'));
+  const patch = css.slice(css.indexOf('/* v0.5.92-dev'), css.indexOf('/* v0.5.93-dev'));
   assert.match(patch, /min-height:54px/);
   assert.match(patch, /grid-template-columns:minmax\(0,1fr\) clamp\(220px,28%,300px\)/);
   assert.match(patch, /grid-template-rows:min\(210px,40%\) minmax\(0,1fr\)/);

@@ -1,3 +1,23 @@
+# 2026-08-27 — v0.5.94-dev
+
+- Audit Token only: added voice-ready and voice-initializing views. The Initialize button directly requests microphone access; no active listening view, spoken prompt, or 8-second attempt timer is entered until SpeechRecognition emits audiostart with a live microphone.
+- Initialization uses a separate 30-second deadline. A generation guard stops streams from late permission grants after fallback/Abort; all callbacks, recognition handlers, lifecycle listeners, timers, speech audio, and owned pointer capture are cleaned up. The microphone is retained across ordinary retries and stopped on success, fallback, Abort, or transfer.
+- Visibility/focus restoration checks real wall-clock deadlines and microphone health without cancelling a healthy session merely for temporary visibility loss. Genuine pagehide safely invalidates the voice session. Removed the delayed manual-input autofocus so it cannot steal focus from Warden or race the iPad keyboard.
+- Preserved three normal attempts, 8-second listening windows, both spoken prompts, normalized initialize command, passcode, rejection/success cues, acquisition behavior, and the existing 300x44 secondary Abort control. Infrastructure/API failures now go directly to manual fallback as requested.
+- 57 regression tests pass, including 29 Audit cases covering first/pre-granted permission, denial/throws/unsupported APIs, ignored prompts, startup failures, recognition errors, expired lifecycle restoration, late callbacks, retry resource reuse, manual verification, Abort, and re-entry. Existing Facility CSS tests now bound their assertions to their own version section instead of all subsequent CSS.
+- At 1024x768, the real application UI with test-only API fixtures passed first-grant voice success, three failed attempts with one permission request, denied/error fallback with tappable input and responsive Verify, page interruption with late-stream disposal, and Abort/re-entry. The Warden heading passed hit-testing and its unchanged 3-second pointer handler while permission was pending, after denial/manual fallback, and after Abort. This was simulated pointer input, not native device gestures.
+- Manual input hit-testing succeeds; Abort removes every Audit overlay; no horizontal page overflow or console warnings/errors were observed. The local test server injects mocks only on /__audit-test__/, never on the normal application route. See tests/AUDIT_VOICE_QA.md for the native iPad/PWA permission-dialog, keyboard, and lifecycle checklist; those OS-level checks remain unverified here.
+- The real-time unresolved-permission watchdog also reached manual fallback while Warden remained open and its PIN kept focus. A subsequent late grant stopped its track without returning to listening; manual Verify and Abort both still responded.
+
+# 2026-08-26 — v0.5.93-dev
+
+- Only the Work Order and Vehicle history lists changed: date/title/status grid, 12px titles, 10px dates/statuses, 44px touch rows, compact padding, and display-only MM/DD/YY formatting.
+- Shifted about 20px of workspace width to the lists at 1024x768; page headings and detail-panel vertical geometry are unchanged. No detail renderer, fields, narrative, stored dates, or selection handlers changed.
+- Browser QA at 1024x768: all seven Work Order titles and three of four Vehicle titles fit one line; the full research transport return title takes two. All statuses share a right edge and remain one line. Previous row heights were 136-175px.
+- All eleven record selections retain the expected detail heading and selected highlight, with stable panel bounds and no root/list/row horizontal overflow. All records now fit vertically at the canonical size.
+- At 1024x520, Work Order and Vehicle lists independently scrolled 110px and 99px; the detail scroll position remained zero and its bounds stayed fixed. Restored 1024x768 for final visual review. Console warnings/errors are empty.
+- JavaScript syntax and all 28 regression tests pass, including data immutability and full detail-content checks. QA used browser emulation, not native iPad hardware.
+
 # 2026-08-26 — v0.5.92-dev
 
 - Schematics-only fixed inspector: compact toolbar, numbered fault list, independent list/detail scrolling, and normal-flow controls. No drawer or new overlay.

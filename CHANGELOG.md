@@ -1,3 +1,16 @@
+# v0.5.94-dev — Audit Token microphone recovery
+
+- Added explicit Initialize Voice Authorization and permission/startup states; listening begins only after microphone access and speech audio capture succeed.
+- Added a 30-second initialization watchdog, lifecycle recovery, and stale-callback protection. Manual authentication and the existing secondary Abort control remain available.
+- Centralized microphone, recognition, timer, listener, audio, and pointer-capture cleanup; retained three normal voice attempts, existing prompts/command/passcode, and acquisition behavior.
+- Added state-machine regression tests and a local-only browser fixture; native iPad permission-dialog and keyboard verification remains a device follow-up.
+
+# v0.5.93-dev — Compact Facility record lists
+
+- Compacted Work Order Archive and Vehicle Dispatch history into 44px date/title/status rows, with display-only two-digit years.
+- Used intrinsic date/status columns, slightly smaller list-only type, and a small width rebalance to keep most titles on one line without truncation.
+- Preserved record data, detail content, selection highlights, headings, and independent list scrolling.
+
 # v0.5.92-dev — Fixed Schematics fault inspector
 
 - Shortened the toolbar to 54px, reclaiming 24px of map height at 1024x768.

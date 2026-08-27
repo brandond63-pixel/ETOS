@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.92-dev';
+  const VERSION = '0.5.94-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -1792,15 +1792,20 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
     return `<div class="facility-overlay" data-facility-overlay><section class="facility-access-lock" role="dialog" aria-modal="true" aria-labelledby="maintenance-lock-title"><button type="button" data-facility-overlay-close>× CLOSE</button><small>FACILITY SERVICE OVERLAY</small><h3 id="maintenance-lock-title">MAINTENANCE AUTHORIZATION REQUIRED</h3><dl><div><dt>ACCESS CLASS</dt><dd>TECHNICAL OPERATIONS</dd></div><div><dt>AUTHORIZED ROLE</dt><dd>FACILITY MECHANIC</dd></div></dl><label>ENTER MAINTENANCE CODE<input id="maintenance-access-code" type="password" inputmode="numeric" maxlength="5" autocomplete="off"></label><button type="button" data-maintenance-submit>VERIFY</button><p data-maintenance-error role="alert"></p><button type="button" class="directive-security-mark facility-security-mark" data-facility-hack="maintenance" aria-label="Ellison-Tanaka corporate seal"><img src="assets/img/ellison-tanaka-logo.svg" alt=""></button></section></div>`;
   }
 
+  // Compact archive dates are presentation-only; retained records keep their full year.
+  function formatFacilityRecordDate(date){
+    return date.replace(/^(\d{2}\/\d{2}\/)\d{2}(\d{2})$/, '$1$2');
+  }
+
   function renderVehicleLog(){
     const record=facilityVehicleLogs.find(item=>item.id===facilitySelectedVehicle)||facilityVehicleLogs[3];
-    return `<div class="facility-management facility-record-browser facility-record-browser--vehicles"><header class="facility-page-header"><div><small>ELECTRIC SURFACE FLEET</small><h3>VEHICLE INVENTORY &amp; DISPATCH LOG</h3></div><strong>LOCAL VEHICLE BUS // DEGRADED</strong></header><section class="facility-fleet-strip"><div><small>APC-01</small><strong>DEPLOYED</strong><span>LAST DESTINATION // HERON</span></div><div><small>APC-02</small><strong>GARAGE</strong><span>BATTERY RECOVERY // OPEN</span></div><div><small>ATV GROUP</small><strong>DEPLOYED</strong><span>MILITARY ESCORT</span></div></section><div class="facility-record-workspace"><section class="facility-record-index"><h4>DISPATCH HISTORY</h4>${facilityVehicleLogs.map(item=>`<button type="button" data-vehicle-record="${item.id}" class="${item.id===record.id?'is-selected':''}"><span>${item.date}</span><strong>${item.title}</strong><em>${item.status}</em></button>`).join('')}</section><article class="facility-record-detail"><header><small>VEHICLE OPERATIONS RECORD</small><h3>${record.title}</h3><strong>${record.status}</strong></header><dl>${record.fields.map(([key,value])=>`<div><dt>${key}</dt><dd>${value}</dd></div>`).join('')}</dl><p>${record.body}</p></article></div></div>`;
+    return `<div class="facility-management facility-record-browser facility-record-browser--vehicles"><header class="facility-page-header"><div><small>ELECTRIC SURFACE FLEET</small><h3>VEHICLE INVENTORY &amp; DISPATCH LOG</h3></div><strong>LOCAL VEHICLE BUS // DEGRADED</strong></header><section class="facility-fleet-strip"><div><small>APC-01</small><strong>DEPLOYED</strong><span>LAST DESTINATION // HERON</span></div><div><small>APC-02</small><strong>GARAGE</strong><span>BATTERY RECOVERY // OPEN</span></div><div><small>ATV GROUP</small><strong>DEPLOYED</strong><span>MILITARY ESCORT</span></div></section><div class="facility-record-workspace"><section class="facility-record-index"><h4>DISPATCH HISTORY</h4>${facilityVehicleLogs.map(item=>`<button type="button" data-vehicle-record="${item.id}" class="${item.id===record.id?'is-selected':''}"><span>${formatFacilityRecordDate(item.date)}</span><strong>${item.title}</strong><em>${item.status}</em></button>`).join('')}</section><article class="facility-record-detail"><header><small>VEHICLE OPERATIONS RECORD</small><h3>${record.title}</h3><strong>${record.status}</strong></header><dl>${record.fields.map(([key,value])=>`<div><dt>${key}</dt><dd>${value}</dd></div>`).join('')}</dl><p>${record.body}</p></article></div></div>`;
   }
 
   function renderWorkOrders(){
     const record=facilityWorkOrders.find(item=>item.id===facilitySelectedWorkOrder)||facilityWorkOrders.at(-1);
     const detail=record.archived?`<article class="facility-record-detail facility-record-detail--archived"><header><small>WORK ORDER SUMMARY</small><h3>${record.title}</h3><strong>${record.status}</strong></header><dl><div><dt>CATEGORY</dt><dd>ROUTINE FACILITY MAINTENANCE</dd></div><div><dt>SERVICE RESULT</dt><dd>COMPLETED</dd></div><div><dt>DETAIL RECORD</dt><dd>ARCHIVED</dd></div></dl><p>Routine service details and technician attachments were removed under the facility maintenance retention policy.</p><footer>NO ACTIVE ACTION REQUIRED</footer></article>`:`<article class="facility-record-detail"><header><small>FACILITY WORK ORDER</small><h3>${record.title}</h3><strong>${record.status}</strong></header><dl>${record.fields.map(([key,value])=>`<div><dt>${key}</dt><dd>${value}</dd></div>`).join('')}</dl><p>${record.body}</p>${record.resolution?`<div class="facility-resolution">${record.resolution.map(line=>`<span>${line}</span>`).join('')}</div>`:''}</article>`;
-    return `<div class="facility-management facility-record-browser facility-record-browser--workorders"><header class="facility-page-header"><div><small>FACILITY MAINTENANCE REQUESTS</small><h3>WORK ORDER ARCHIVE</h3></div><strong>07 RETAINED RECORDS</strong></header><div class="facility-record-workspace"><section class="facility-record-index"><h4>ORDER HISTORY</h4>${facilityWorkOrders.map(item=>`<button type="button" data-work-order="${item.id}" class="${item.id===record.id?'is-selected':''}"><span>${item.date}</span><strong>${item.title}</strong><em>${item.status}</em></button>`).join('')}</section>${detail}</div></div>`;
+    return `<div class="facility-management facility-record-browser facility-record-browser--workorders"><header class="facility-page-header"><div><small>FACILITY MAINTENANCE REQUESTS</small><h3>WORK ORDER ARCHIVE</h3></div><strong>07 RETAINED RECORDS</strong></header><div class="facility-record-workspace"><section class="facility-record-index"><h4>ORDER HISTORY</h4>${facilityWorkOrders.map(item=>`<button type="button" data-work-order="${item.id}" class="${item.id===record.id?'is-selected':''}"><span>${formatFacilityRecordDate(item.date)}</span><strong>${item.title}</strong><em>${item.status}</em></button>`).join('')}</section>${detail}</div></div>`;
   }
 
   function renderHeronTelemetry(){
@@ -2660,6 +2665,8 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
   let sanitizationAuthError='',sanitizationTimerError='',sanitizationWarningTimer=null,sanitizationWarningStage=null,sanitizationCountdownTimer=null,sanitizationDisplayDismissed=false,sanitizationFinalCountdownTimer=null,sanitizationFinalCountdownActive=false,sanitizationFinalCountdownValue=null,sanitizationSpeechToken=0,sanitizationActivationAnnouncementPending=false;
   let auditTokenView='closed',auditTokenHoldTimer=null,auditTokenHoldComplete=false,auditTokenSuppressClick=false,auditTokenDetectionStep=0,auditTokenVoiceAttempt=0,auditTokenVoiceStatus='',auditTokenManualError='',auditTokenProgress=0,auditTokenRecognition=null,auditTokenRecognitionTimeout=null,auditTokenSessionId=0;
   const auditTokenTimers=new Set();
+  const AUDIT_TOKEN_VOICE_INIT_MS=30000;
+  let auditTokenMicrophone=null,auditTokenVoiceGeneration=0,auditTokenVoicePhase='idle',auditTokenInitTimer=null,auditTokenInitDeadline=0,auditTokenListeningDeadline=0,auditTokenLifecycleCleanup=null,auditTokenPointerCapture=null;
   let sequenceResetStatusTimer=null;
   const sanitizationState=()=>state.sanitization||(state.sanitization={...SANITIZATION_DEFAULT});
   const formatSanitizationDelay=seconds=>`${String(Math.floor(Math.max(0,seconds)/60)).padStart(2,'0')}:${String(Math.max(0,seconds)%60).padStart(2,'0')}`;
@@ -2741,13 +2748,79 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
   function startSanitizationSystems(){const p=sanitizationState(),profile=sanitizationWarningProfile();if(!profile)stopSanitizationWarning();else if(sanitizationWarningStage!==profile.stage){stopSanitizationWarning();sanitizationWarningStage=profile.stage;document.documentElement.dataset.sanitizationWarningScheduler=profile.stage;console.info(`[SanitizationAudio] warning scheduler STARTED // ${profile.stage}`);const pulse=()=>{const current=sanitizationWarningProfile();if(state.activeTerminal!=='command'||!current||sanitizationWarningStage!==current.stage)return;document.documentElement.dataset.sanitizationWarningPulseRequested=String(Date.now());console.info('[SanitizationAudio] warning pulse REQUESTED');void window.ETOSAudio?.playSanitizationWarningPulse?.();sanitizationWarningTimer=setTimeout(pulse,current.cadence);};pulse();}if(p.phase==='active'&&!sanitizationCountdownTimer){const update=()=>{const remaining=Math.max(0,Math.ceil((p.completesAt-Date.now())/1000)),out=els.workspace.querySelector('[data-sanitization-countdown]');if(out)out.textContent=formatSanitizationDelay(remaining);if(remaining===0&&!p.complete){p.complete=true;saveState();playAudio('sanitizationExecute');renderTerminal();}};update();sanitizationCountdownTimer=setInterval(update,250);}}
 
   const auditTokenState=()=>state.auditToken||(state.auditToken={...AUDIT_TOKEN_DEFAULT});
-  function scheduleAuditToken(callback,delay){const timer=setTimeout(()=>{auditTokenTimers.delete(timer);callback();},delay);auditTokenTimers.add(timer);return timer;}
+  function scheduleAuditToken(callback,delay){const session=auditTokenSessionId;const timer=setTimeout(()=>{auditTokenTimers.delete(timer);if(session===auditTokenSessionId)callback();},delay);auditTokenTimers.add(timer);return timer;}
   function clearAuditTokenTimers(){auditTokenTimers.forEach(timer=>clearTimeout(timer));auditTokenTimers.clear();if(auditTokenRecognitionTimeout!==null)clearTimeout(auditTokenRecognitionTimeout);auditTokenRecognitionTimeout=null;}
-  function stopAuditTokenListening(){
-    if(auditTokenRecognition){const recognition=auditTokenRecognition;auditTokenRecognition=null;recognition.onresult=null;recognition.onerror=null;recognition.onend=null;try{recognition.abort();}catch{}}
+  function stopAuditTokenRecognition(){
+    if(auditTokenRecognition){const recognition=auditTokenRecognition;auditTokenRecognition=null;recognition.onstart=null;recognition.onaudiostart=null;recognition.onresult=null;recognition.onerror=null;recognition.onend=null;try{recognition.abort();}catch{}}
     if(auditTokenRecognitionTimeout!==null)clearTimeout(auditTokenRecognitionTimeout);auditTokenRecognitionTimeout=null;
+    auditTokenListeningDeadline=0;
   }
-  function stopAuditTokenAudio(){window.ETOSAudio?.stopAuditToken?.();try{window.speechSynthesis?.cancel();}catch{}}
+  function releaseAuditTokenPointer(){
+    const capture=auditTokenPointerCapture;auditTokenPointerCapture=null;
+    try{if(capture?.element.hasPointerCapture(capture.id))capture.element.releasePointerCapture(capture.id);}catch{}
+  }
+  function stopAuditTokenStream(stream){
+    try{for(const track of stream?.getTracks()||[]){track.onended=null;try{track.stop();}catch{}}}catch{}
+  }
+  function clearAuditTokenInitialization(){
+    if(auditTokenInitTimer!==null)clearTimeout(auditTokenInitTimer);auditTokenInitTimer=null;auditTokenInitDeadline=0;
+  }
+  function stopAuditTokenListening(){
+    // Invalidate unresolved permission promises before releasing any resources.
+    auditTokenVoiceGeneration+=1;clearAuditTokenInitialization();stopAuditTokenRecognition();
+    auditTokenLifecycleCleanup?.();auditTokenLifecycleCleanup=null;
+    stopAuditTokenStream(auditTokenMicrophone);auditTokenMicrophone=null;auditTokenVoicePhase='idle';
+    releaseAuditTokenPointer();
+  }
+  function auditTokenMicrophoneUsable(){
+    return !!auditTokenMicrophone?.getAudioTracks().some(track=>track.readyState==='live'&&track.enabled);
+  }
+  function auditTokenVoiceFailure(reason){
+    console.info('[AuditTokenVoice] manual fallback:',reason);
+    showAuditTokenManualFallback();
+  }
+  function armAuditTokenInitialization(){
+    clearAuditTokenInitialization();auditTokenInitDeadline=Date.now()+AUDIT_TOKEN_VOICE_INIT_MS;
+    const generation=auditTokenVoiceGeneration;
+    auditTokenInitTimer=setTimeout(()=>{if(generation===auditTokenVoiceGeneration)auditTokenVoiceFailure('initialization timeout');},AUDIT_TOKEN_VOICE_INIT_MS);
+  }
+  function bindAuditTokenVoiceLifecycle(){
+    const resume=()=>{
+      if(document.hidden)return;
+      if(auditTokenInitDeadline&&Date.now()>=auditTokenInitDeadline){auditTokenVoiceFailure('initialization expired while interrupted');return;}
+      if(auditTokenMicrophone&&!auditTokenMicrophoneUsable()){auditTokenVoiceFailure('microphone unavailable on return');return;}
+      if(auditTokenVoicePhase==='permission-granted'){startAuditTokenVoiceAttempt();return;}
+      if(auditTokenVoicePhase==='listening'&&(!auditTokenRecognition||Date.now()>=auditTokenListeningDeadline))auditTokenVoiceFailure('voice session interrupted');
+    };
+    const hide=()=>auditTokenVoiceFailure('page hidden/unloaded');
+    // A permission dialog may temporarily hide/blur the PWA. Allow it to resolve;
+    // enforce a wall-clock deadline on return even when iPadOS suspended timers.
+    document.addEventListener('visibilitychange',resume);
+    window.addEventListener('focus',resume);window.addEventListener('pageshow',resume);window.addEventListener('pagehide',hide);
+    auditTokenLifecycleCleanup=()=>{document.removeEventListener('visibilitychange',resume);window.removeEventListener('focus',resume);window.removeEventListener('pageshow',resume);window.removeEventListener('pagehide',hide);};
+  }
+  function prepareAuditTokenVoice(){
+    stopAuditTokenListening();auditTokenView='voice-ready';auditTokenVoiceAttempt=1;auditTokenVoiceStatus='';renderTerminal();
+  }
+  async function initializeAuditTokenVoice(){
+    if(auditTokenView!=='voice-ready')return;
+    stopAuditTokenListening();const generation=auditTokenVoiceGeneration;
+    auditTokenVoicePhase='permission';auditTokenView='voice-initializing';auditTokenVoiceStatus='REQUESTING MICROPHONE ACCESS...';renderTerminal();
+    bindAuditTokenVoiceLifecycle();armAuditTokenInitialization();
+    try{
+      if(!(window.SpeechRecognition||window.webkitSpeechRecognition)||!navigator.mediaDevices?.getUserMedia){auditTokenVoiceFailure('voice API unavailable');return;}
+      console.info('[AuditTokenVoice] permission request started');
+      // Called directly from the Initialize click; never from a transition timer.
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      if(generation!==auditTokenVoiceGeneration){stopAuditTokenStream(stream);return;}
+      auditTokenMicrophone=stream;
+      if(Date.now()>=auditTokenInitDeadline||!auditTokenMicrophoneUsable()){auditTokenVoiceFailure('microphone initialization failed');return;}
+      for(const track of stream.getAudioTracks())track.onended=()=>{if(generation===auditTokenVoiceGeneration)auditTokenVoiceFailure('microphone ended');};
+      console.info('[AuditTokenVoice] permission granted');auditTokenVoicePhase='permission-granted';
+      if(!document.hidden)startAuditTokenVoiceAttempt();
+    }catch(error){if(generation===auditTokenVoiceGeneration)auditTokenVoiceFailure(error?.name||'microphone request failed');}
+  }
+  function stopAuditTokenAudio(){try{window.ETOSAudio?.stopAuditToken?.();}catch{}try{window.speechSynthesis?.cancel();}catch{}}
   function speakAuditToken(text){
     try{if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==='undefined')return;window.speechSynthesis.cancel();const message=new SpeechSynthesisUtterance(text);message.rate=.78;message.pitch=.68;message.volume=.86;window.speechSynthesis.speak(message);}catch{}
   }
@@ -2762,8 +2835,10 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
     if(auditTokenView==='detecting'){
       const lines=['EXTERNAL DEVICE DETECTED','AUDIT TOKEN','READING DEVICE CREDENTIALS...','TOKEN ID VERIFIED','CORPORATE AUDIT AUTHORITY CONFIRMED'];
       body=`<small>EXTERNAL HARDWARE INTERFACE</small><h2>EXTERNAL DEVICE DETECTED</h2><div class="audit-token-readout">${lines.slice(1,Math.min(lines.length,auditTokenDetectionStep+2)).map((line,index)=>`<p class="${index===auditTokenDetectionStep?'is-active':'is-complete'}">${line}</p>`).join('')}</div>${auditTokenAbortControl()}`;
+    } else if(['voice-ready','voice-initializing'].includes(auditTokenView)){
+      body=`<small>AUDIT TOKEN // VERIFIED</small><h2>INCIDENT DATA ACQUISITION PROTOCOL</h2><h3>VOICE AUTHORIZATION REQUIRED</h3><p role="status">${auditTokenView==='voice-ready'?'VOICE INTERFACE READY TO INITIALIZE':auditTokenVoiceStatus}</p><div class="audit-token-controls">${auditTokenView==='voice-ready'?'<button type="button" data-audit-token-initialize>INITIALIZE VOICE AUTHORIZATION</button>':''}<button type="button" data-audit-token-manual>USE MANUAL AUTHENTICATION</button>${auditTokenAbortControl()}</div>`;
     } else if(auditTokenView==='voice'){
-      body=`<small>AUDIT TOKEN // VERIFIED</small><h2>INCIDENT DATA ACQUISITION PROTOCOL</h2><h3>VOICE AUTHORIZATION REQUIRED</h3><p class="audit-token-attempt">VOICE AUTHORIZATION ATTEMPT ${Math.max(1,auditTokenVoiceAttempt)} OF 3</p><div class="audit-token-listening${auditTokenVoiceStatus==='LISTENING...'?' is-listening':''}"><i aria-hidden="true"></i><strong>${auditTokenVoiceStatus||'PREPARING VOICE INTERFACE...'}</strong></div>${auditTokenAbortControl()}`;
+      body=`<small>AUDIT TOKEN // VERIFIED</small><h2>INCIDENT DATA ACQUISITION PROTOCOL</h2><h3>VOICE AUTHORIZATION REQUIRED</h3><p class="audit-token-attempt">VOICE AUTHORIZATION ATTEMPT ${Math.max(1,auditTokenVoiceAttempt)} OF 3</p><div class="audit-token-listening${auditTokenVoiceStatus==='LISTENING...'?' is-listening':''}"><i aria-hidden="true"></i><strong>${auditTokenVoiceStatus||'PREPARING VOICE INTERFACE...'}</strong></div><div class="audit-token-controls"><button type="button" data-audit-token-manual>USE MANUAL AUTHENTICATION</button>${auditTokenAbortControl()}</div>`;
     } else if(auditTokenView==='manual'){
       body=`<small>AUDIT TOKEN // VERIFIED</small><h2>INCIDENT DATA ACQUISITION PROTOCOL</h2><h3>VOICE AUTHORIZATION UNAVAILABLE</h3><strong class="audit-token-manual-required">MANUAL AUTHENTICATION REQUIRED</strong><label for="audit-token-passcode">ENTER AUDIT AUTHORIZATION PASSCODE</label><div class="audit-token-passcode"><input id="audit-token-passcode" type="password" maxlength="8" autocomplete="off" autocapitalize="characters"><button type="button" data-audit-token-passcode>VERIFY</button></div><p class="audit-token-error" data-audit-token-error>${auditTokenManualError}</p>${auditTokenAbortControl()}`;
     } else if(auditTokenView==='authorized'){
@@ -2777,42 +2852,69 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
     } else if(auditTokenView==='complete'){
       body=`<small>AUDIT TOKEN // CONNECTED</small><h2>INCIDENT DATA ACQUISITION PROTOCOL</h2><div class="audit-token-complete" role="status"><strong>ACQUISITION COMPLETE</strong><p>INCIDENT DATA PACKAGE VERIFIED</p></div><div class="audit-token-controls"><button type="button" class="audit-token-primary" data-audit-token-close>RETURN TO COMMAND TERMINAL</button>${auditTokenAbortControl()}</div>`;
     }
-    return `<div class="audit-token-layer"><section class="audit-token-window" role="dialog" aria-modal="true" aria-label="Audit Token protocol">${body}</section></div>`;
+    const preparing=['voice-ready','voice-initializing'].includes(auditTokenView);
+    return `<div class="audit-token-layer${preparing?' audit-token-layer--voice-preparation':''}"><section class="audit-token-window" role="dialog" aria-modal="${!preparing}" aria-label="Audit Token protocol">${body}</section></div>`;
   }
   function normalizeAuditTokenCommand(value){return String(value||'').toLowerCase().replace(/[^a-z0-9]/g,'').trim();}
   function beginAuditTokenDetection(){
     auditTokenSessionId+=1;clearAuditTokenTimers();stopAuditTokenListening();stopAuditTokenAudio();auditTokenDetectionStep=0;auditTokenVoiceAttempt=0;auditTokenVoiceStatus='';auditTokenManualError='';auditTokenProgress=0;
     const token=auditTokenState();token.connected=true;token.complete=false;auditTokenView='detecting';saveState();playAudio('auditDetect');renderTerminal();
     [520,1050,1580,2110].forEach((delay,index)=>scheduleAuditToken(()=>{if(auditTokenView!=='detecting')return;auditTokenDetectionStep=index+1;playAudio('auditRead');renderTerminal();},delay));
-    scheduleAuditToken(()=>{if(auditTokenView!=='detecting')return;auditTokenView='voice';auditTokenVoiceAttempt=1;auditTokenVoiceStatus='PREPARING VOICE INTERFACE...';renderTerminal();scheduleAuditToken(()=>startAuditTokenVoiceAttempt(),350);},2750);
+    scheduleAuditToken(()=>{if(auditTokenView==='detecting')prepareAuditTokenVoice();},2750);
   }
   function beginAuditTokenHold(event){
     if(event.pointerType==='mouse'&&event.button!==0)return;if(auditTokenState().connected||auditTokenHoldTimer!==null||auditTokenHoldComplete)return;
-    if(!window.ETOSAudio?.isUnlocked())void window.ETOSAudio?.unlock();event.currentTarget?.setPointerCapture?.(event.pointerId);auditTokenHoldComplete=false;
+    if(!window.ETOSAudio?.isUnlocked())void window.ETOSAudio?.unlock();
+    try{event.currentTarget?.setPointerCapture?.(event.pointerId);auditTokenPointerCapture={element:event.currentTarget,id:event.pointerId};}catch{}
+    auditTokenHoldComplete=false;
     auditTokenHoldTimer=setTimeout(()=>{auditTokenHoldTimer=null;auditTokenHoldComplete=true;auditTokenSuppressClick=true;beginAuditTokenDetection();},AUDIT_TOKEN_HOLD_MS);
   }
   function finishAuditTokenHold(){
-    if(auditTokenHoldComplete){auditTokenHoldComplete=false;setTimeout(()=>{auditTokenSuppressClick=false;},120);return;}
+    releaseAuditTokenPointer();
+    if(auditTokenHoldComplete){auditTokenHoldComplete=false;scheduleAuditToken(()=>{auditTokenSuppressClick=false;},120);return;}
     if(auditTokenHoldTimer!==null)clearTimeout(auditTokenHoldTimer);auditTokenHoldTimer=null;
   }
   function startAuditTokenVoiceAttempt(){
-    if(auditTokenView!=='voice')return;const session=auditTokenSessionId;stopAuditTokenListening();auditTokenVoiceStatus='LISTENING...';renderTerminal();
-    speakAuditToken(auditTokenVoiceAttempt===1?'Audit interface ready. State acquisition command.':'Command not recognized. Repeat acquisition command.');
-    const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(!Recognition){scheduleAuditToken(()=>failAuditTokenVoiceAttempt(),900);return;}
-    const recognition=new Recognition();auditTokenRecognition=recognition;let settled=false;recognition.lang='en-US';recognition.continuous=false;recognition.interimResults=false;recognition.maxAlternatives=3;
-    const settle=(success)=>{if(settled||session!==auditTokenSessionId||auditTokenView!=='voice')return;settled=true;if(auditTokenRecognition===recognition)auditTokenRecognition=null;if(auditTokenRecognitionTimeout!==null)clearTimeout(auditTokenRecognitionTimeout);auditTokenRecognitionTimeout=null;try{recognition.stop();}catch{}success?acceptAuditTokenVoice():failAuditTokenVoiceAttempt();};
-    recognition.onresult=event=>{const transcripts=[];for(let i=event.resultIndex;i<event.results.length;i+=1){for(let j=0;j<event.results[i].length;j+=1)transcripts.push(event.results[i][j].transcript);}settle(transcripts.some(text=>normalizeAuditTokenCommand(text)==='initialize'));};
-    recognition.onerror=event=>{if(event.error!=='aborted')settle(false);};recognition.onend=()=>settle(false);
-    try{recognition.start();auditTokenRecognitionTimeout=setTimeout(()=>settle(false),8000);}catch{settle(false);}
+    if(!['voice','voice-initializing'].includes(auditTokenView))return;
+    if(!auditTokenMicrophoneUsable()){auditTokenVoiceFailure('no usable microphone');return;}
+    if(document.hidden){auditTokenVoicePhase='permission-granted';if(!auditTokenInitDeadline)armAuditTokenInitialization();return;}
+    const generation=auditTokenVoiceGeneration;stopAuditTokenRecognition();
+    auditTokenVoicePhase='starting';auditTokenView='voice-initializing';auditTokenVoiceStatus='INITIALIZING VOICE INTERFACE...';renderTerminal();
+    if(!auditTokenInitDeadline)armAuditTokenInitialization();
+    let recognition;
+    const current=()=>generation===auditTokenVoiceGeneration&&auditTokenRecognition===recognition;
+    const settle=success=>{if(!current())return;stopAuditTokenRecognition();auditTokenVoicePhase='between-attempts';success?acceptAuditTokenVoice():failAuditTokenVoiceAttempt();};
+    try{
+      const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+      recognition=new Recognition();auditTokenRecognition=recognition;
+      recognition.lang='en-US';recognition.continuous=false;recognition.interimResults=false;recognition.maxAlternatives=3;
+      recognition.onstart=()=>{if(current())console.info('[AuditTokenVoice] recognition initialized; awaiting audio');};
+      recognition.onaudiostart=()=>{
+        if(!current()||auditTokenVoicePhase!=='starting')return;
+        if(Date.now()>=auditTokenInitDeadline||!auditTokenMicrophoneUsable()){auditTokenVoiceFailure('audio initialization failed');return;}
+        clearAuditTokenInitialization();auditTokenVoicePhase='listening';auditTokenView='voice';auditTokenVoiceStatus='LISTENING...';
+        auditTokenListeningDeadline=Date.now()+8000;auditTokenRecognitionTimeout=setTimeout(()=>settle(false),8000);
+        console.info('[AuditTokenVoice] audio capture started');renderTerminal();
+        speakAuditToken(auditTokenVoiceAttempt===1?'Audit interface ready. State acquisition command.':'Command not recognized. Repeat acquisition command.');
+      };
+      recognition.onresult=event=>{
+        if(!current()||auditTokenVoicePhase!=='listening')return;
+        try{const transcripts=[];for(let i=event.resultIndex;i<event.results.length;i+=1){for(let j=0;j<event.results[i].length;j+=1)transcripts.push(event.results[i][j].transcript);}settle(transcripts.some(text=>normalizeAuditTokenCommand(text)==='initialize'));}
+        catch{auditTokenVoiceFailure('invalid recognition result');}
+      };
+      recognition.onerror=event=>{if(!current())return;if(event.error==='no-speech'&&auditTokenVoicePhase==='listening')settle(false);else auditTokenVoiceFailure(event.error||'recognition error');};
+      recognition.onend=()=>{if(!current())return;if(auditTokenVoicePhase==='listening')settle(false);else auditTokenVoiceFailure('recognition ended before audio capture');};
+      console.info('[AuditTokenVoice] recognition initialization started');
+      Promise.resolve(recognition.start()).catch(()=>{if(current())auditTokenVoiceFailure('recognition start rejected');});
+    }catch{auditTokenVoiceFailure('recognition initialization failed');}
   }
   function failAuditTokenVoiceAttempt(){
-    if(auditTokenView!=='voice')return;stopAuditTokenListening();auditTokenVoiceStatus='COMMAND NOT RECOGNIZED';playAudio('auditReject');renderTerminal();
+    if(auditTokenView!=='voice')return;stopAuditTokenRecognition();auditTokenVoicePhase='between-attempts';auditTokenVoiceStatus='COMMAND NOT RECOGNIZED';playAudio('auditReject');renderTerminal();
     if(auditTokenVoiceAttempt>=3){scheduleAuditToken(()=>showAuditTokenManualFallback(),1450);return;}
     scheduleAuditToken(()=>{if(auditTokenView!=='voice')return;auditTokenVoiceAttempt+=1;auditTokenVoiceStatus='PREPARING NEXT ATTEMPT...';renderTerminal();scheduleAuditToken(()=>startAuditTokenVoiceAttempt(),450);},1350);
   }
   function acceptAuditTokenVoice(){stopAuditTokenListening();stopAuditTokenAudio();auditTokenVoiceStatus='VOICE AUTHORIZATION ACCEPTED';auditTokenView='authorized';playAudio('auditConfirm');renderTerminal();scheduleAuditToken(()=>{if(auditTokenView==='authorized'){auditTokenView='confirm';renderTerminal();}},1550);}
-  function showAuditTokenManualFallback(){stopAuditTokenListening();stopAuditTokenAudio();if(!auditTokenState().connected)return;auditTokenView='manual';auditTokenVoiceAttempt=3;auditTokenVoiceStatus='';auditTokenManualError='';renderTerminal();setTimeout(()=>document.getElementById('audit-token-passcode')?.focus(),50);}
+  function showAuditTokenManualFallback(){auditTokenSessionId+=1;clearAuditTokenTimers();stopAuditTokenListening();stopAuditTokenAudio();if(!auditTokenState().connected)return;auditTokenView='manual';auditTokenVoiceAttempt=3;auditTokenVoiceStatus='';auditTokenManualError='';renderTerminal();console.info('[AuditTokenVoice] cleanup complete; manual authentication ready');}
   function authorizeAuditTokenPasscode(){
     const input=document.getElementById('audit-token-passcode');if(!input)return;
     if(input.value.trim().toUpperCase()!==AUDIT_TOKEN_PASSCODE){auditTokenManualError='AUTHENTICATION REJECTED';playAudio('auditReject');input.value='';input.focus();const error=els.workspace.querySelector('[data-audit-token-error]');if(error)error.textContent=auditTokenManualError;return;}
@@ -2827,7 +2929,7 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
     auditTokenView='closed';auditTokenDetectionStep=0;auditTokenVoiceAttempt=0;auditTokenVoiceStatus='';auditTokenManualError='';auditTokenProgress=0;state.auditToken={...AUDIT_TOKEN_DEFAULT};saveState();if(!silent)playAudio('uiBack');if(render)renderTerminal();
   }
   function suspendAuditTokenWorkflow(){auditTokenSessionId+=1;clearAuditTokenTimers();stopAuditTokenListening();stopAuditTokenAudio();if(auditTokenHoldTimer!==null)clearTimeout(auditTokenHoldTimer);auditTokenHoldTimer=null;auditTokenHoldComplete=false;auditTokenSuppressClick=false;auditTokenView='closed';auditTokenVoiceAttempt=0;auditTokenVoiceStatus='';auditTokenManualError='';auditTokenProgress=0;}
-  function openConnectedAuditToken(){if(!auditTokenState().connected||auditTokenView!=='closed')return;if(auditTokenState().complete){auditTokenView='complete';renderTerminal();return;}auditTokenView='voice';auditTokenVoiceAttempt=1;auditTokenVoiceStatus='PREPARING VOICE INTERFACE...';renderTerminal();scheduleAuditToken(()=>startAuditTokenVoiceAttempt(),350);}
+  function openConnectedAuditToken(){if(!auditTokenState().connected||auditTokenView!=='closed')return;if(auditTokenState().complete){auditTokenView='complete';renderTerminal();return;}prepareAuditTokenVoice();}
   function closeCompletedAuditToken(){if(auditTokenView!=='complete')return;clearAuditTokenTimers();stopAuditTokenListening();stopAuditTokenAudio();auditTokenView='closed';playAudio('uiBack');renderTerminal();}
 
   function resetCommandSequenceForDev(){
@@ -3375,6 +3477,8 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
     if(e.target.closest('[data-argoza-recovery-replay]')){playAudio('confirm');startArgozaRecovery();return;}
     if(medicalInjectorSuppressClick&&e.target.closest('[data-medical-injector-open],.medical-hardware-layer')){medicalInjectorSuppressClick=false;e.preventDefault();return;}
     if(e.target.closest('[data-audit-token-abort]')){resetAuditTokenSession();return;}
+    if(e.target.closest('[data-audit-token-initialize]')){void initializeAuditTokenVoice();return;}
+    if(e.target.closest('[data-audit-token-manual]')){showAuditTokenManualFallback();return;}
     if(e.target.closest('[data-audit-token-passcode]')){authorizeAuditTokenPasscode();return;}
     if(e.target.closest('[data-audit-token-acquire]')){beginAuditTokenAcquisition();return;}
     if(e.target.closest('[data-audit-token-close]')){closeCompletedAuditToken();return;}

@@ -2926,3 +2926,44 @@
 .facility-map-page .facility-room-info>p{margin:8px 0;font-size:13px;line-height:1.45}
 .facility-map-page .facility-command-result:empty{display:none}
 .facility-map-page .facility-room-info>footer{margin-top:8px;padding-top:8px;font-size:11px;line-height:1.4}
+
+/* v0.5.93-dev — Compact Facility archive rows; detail panels retain their layout. */
+.facility-record-browser:is(.facility-record-browser--workorders,.facility-record-browser--vehicles) .facility-record-workspace{
+  grid-template-columns:minmax(280px,.87fr) minmax(0,1.13fr);
+}
+.facility-record-browser:is(.facility-record-browser--workorders,.facility-record-browser--vehicles) .facility-record-index{
+  min-width:0;
+  padding:4px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
+}
+.facility-record-browser:is(.facility-record-browser--workorders,.facility-record-browser--vehicles) .facility-record-index>button{
+  grid-template-columns:auto minmax(0,1fr) auto;
+  min-height:44px;
+  gap:4px;
+  padding:5px 4px;
+}
+.facility-record-browser:is(.facility-record-browser--workorders,.facility-record-browser--vehicles) .facility-record-index button strong{
+  min-width:0;
+  font-size:12px!important;
+  line-height:1.25;
+  letter-spacing:0;
+  overflow-wrap:normal;
+  word-break:normal;
+  white-space:normal;
+}
+.facility-record-browser:is(.facility-record-browser--workorders,.facility-record-browser--vehicles) .facility-record-index button :is(span,em){
+  font-size:10px;
+  line-height:1.25;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+.facility-record-browser:is(.facility-record-browser--workorders,.facility-record-browser--vehicles) .facility-record-index button em{text-align:right}
+
+/* v0.5.94-dev — Pending microphone permission is not a touch-blocking layer. */
+.audit-token-layer--voice-preparation{pointer-events:none}
+.audit-token-layer--voice-preparation>.audit-token-window{pointer-events:auto}
+.audit-token-layer[hidden],.audit-token-window[hidden]{display:none!important;pointer-events:none!important}
+.audit-token-layer::before,.audit-token-layer::after{pointer-events:none}
