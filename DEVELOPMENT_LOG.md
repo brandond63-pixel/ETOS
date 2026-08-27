@@ -1,3 +1,12 @@
+# 2026-08-26 — v0.5.89-dev
+
+- Command Weather only: shared baseline-aligned label/value grids across Storm Metrics, Regional Outlook, Latest Observations, and Date/Time; right-aligned tabular values remain unbroken. Panel widths and map coordinates are unchanged.
+- Clarified the Active Weather System hierarchy and removed Horizon Base impact probability content per the latest user instruction, retaining the existing IMMINENT pulse.
+- Changed rotation default, fallback, and reset to 500 seconds. A timing-only migration preserves all saved terrain, marker, path, scale, opacity, and direction settings; subsequent developer timing adjustments remain persistent.
+- Gated the Weather header button and sandbox markup with existing loadDevPrefs().show. The existing global preference handler rerenders Command; player rendering still applies saved map settings without developer markup.
+- JavaScript syntax and 11 focused Node tests passed (tests/weather-refinements.test.cjs). These exercise rendering, settings migration, map properties, sandbox event handlers, and CSS source contracts; they do not measure rendered layout.
+- Browser QA was blocked by the browser URL security policy after the initial local server connection failed. Actual 1024x768 fit, overflow, computed animation, and live global-toggle geometry need a follow-up browser/device check. Production 3-second Warden holds were not modified.
+
 # 2026-08-26 — v0.5.88-dev
 
 - Replaced only the `sequence` content in `js/argoza-recovery.js` with the user-supplied shortened recovery script.

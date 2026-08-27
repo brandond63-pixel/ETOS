@@ -390,7 +390,7 @@
 @keyframes alertGlyph{0%,100%{opacity:1}50%{opacity:.52}}
 
 .weather-storm-layer{
-  animation:weatherStormRotate var(--storm-duration,240s) linear infinite!important;
+  animation:weatherStormRotate var(--storm-duration,500s) linear infinite!important;
   transform-origin:31% 48%!important;
   transform:translate(var(--storm-x,0%),var(--storm-y,0%)) rotate(var(--storm-rotation,0deg)) scale(var(--storm-scale,1));
 }
@@ -2758,3 +2758,58 @@
 }
 .sandbox-toggle{right:var(--terminal-space-sm);top:var(--terminal-space-sm);bottom:auto}
 @media(prefers-reduced-motion:reduce){.weather-imminent{animation:none}}
+
+/* v0.5.89-dev — Weather telemetry alignment; map geometry is unchanged. */
+.weather-terminal .weather-topbar{
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)!important;
+  /* Match the existing 58px emblem row in both developer-visibility states. */
+  grid-template-rows:58px;
+  gap:var(--terminal-space-sm);
+  padding:var(--terminal-space-xs);
+}
+.weather-terminal .weather-topbar--dev{
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) auto!important;
+}
+.weather-topbar>.weather-brand-mini,.weather-topbar>.weather-title{min-width:0}
+.weather-topbar>.weather-title{grid-column:auto;justify-self:stretch}
+.weather-topbar>.sandbox-toggle{
+  position:static;
+  margin:0;
+  padding:6px 8px;
+  font-size:10px;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+.weather-terminal :is(.telemetry-panel,.outlook-panel,.latest-observations-panel)>div,
+.weather-terminal .weather-date>span{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) max-content;
+  align-items:baseline;
+  column-gap:4px;
+  padding:4px 0;
+  font-size:calc(clamp(10px,.95vw,11px) * var(--sandbox-font,1));
+  line-height:1.35;
+}
+.weather-terminal :is(.telemetry-panel,.outlook-panel,.latest-observations-panel)>div>span,
+.weather-terminal .weather-date>span>span{display:block;min-width:0;text-align:left}
+.weather-terminal :is(.telemetry-panel,.outlook-panel,.latest-observations-panel)>div>b,
+.weather-terminal .weather-date>span>b{
+  white-space:nowrap;
+  text-align:right;
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.weather-terminal .weather-date{gap:2px;align-content:center}
+.weather-terminal .weather-date>span{padding:2px 0}
+.weather-terminal :is(.telemetry-panel,.outlook-panel,.latest-observations-panel){overflow-y:auto;scrollbar-width:thin}
+.weather-terminal :is(.telemetry-panel,.outlook-panel,.latest-observations-panel) h3{margin:0 0 7px}
+.weather-terminal .latest-observations-panel{display:block}
+.weather-terminal .storm-id{align-content:start;gap:4px;text-align:left;line-height:1.3}
+.weather-terminal .storm-id>span{font-size:var(--terminal-font-sm)}
+.weather-terminal .storm-id>strong{margin:2px 0;font-size:28px;line-height:1.1}
+.weather-terminal .storm-id>b{font-size:14px}
+.weather-terminal .storm-id>small{font-size:10px}
+.weather-terminal .storm-id>em{display:grid;gap:2px;font-size:var(--terminal-font-sm)}
+.weather-terminal .impact-panel--horizon{align-content:start;gap:7px}
+.weather-terminal .impact-panel--horizon>h3{margin:0}
+.weather-terminal .impact-panel--horizon>.weather-imminent{margin:2px 0;line-height:1.2}

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.88-dev';
+  const VERSION = '0.5.89-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -2259,22 +2259,22 @@
     weather: {
       label: 'PLANETARY WEATHER SURVEILLANCE', clearance: 'GENERAL', render: () => `
         <div class="weather-terminal" data-weather-terminal>
-          <header class="weather-topbar">
+          <header class="weather-topbar${loadDevPrefs().show ? ' weather-topbar--dev' : ''}">
             <div class="weather-brand-mini"><img src="assets/img/ellison-tanaka-logo.svg" alt="Ellison-Tanaka corporate emblem"><div><strong>ELLISON–TANAKA</strong><span>COLONIAL SYSTEMS</span><small>BUILDING BETTER FUTURES.</small></div></div>
             <div class="weather-title"><span>PLANETARY WEATHER SURVEILLANCE</span><strong>LV-872</strong></div>
+            ${loadDevPrefs().show ? '<button class="sandbox-toggle" type="button" data-sandbox-toggle>WEATHER DEV TOOLS</button>' : ''}
           </header>
           <div class="weather-grid">
             <aside class="weather-left">
-              <section class="weather-panel storm-id"><span>ACTIVE WEATHER SYSTEM</span><strong>LV-872</strong><b>STORM CELL</b><small>CLASSIFICATION</small><em>CATEGORY IV SUPERCELL</em></section>
+              <section class="weather-panel storm-id"><span>ACTIVE WEATHER<br>SYSTEM</span><strong>LV-872</strong><b>STORM CELL</b><small>CLASSIFICATION</small><em><span>CATEGORY IV</span><span>SUPERCELL</span></em></section>
               <section class="weather-panel telemetry-panel"><h3>STORM METRICS</h3>
                 <div><span>SURFACE WINDS</span><b data-telemetry="wind">87 MPH</b></div><div><span>PEAK GUSTS</span><b data-telemetry="gust">126 MPH</b></div><div><span>PRESSURE</span><b data-telemetry="pressure">27.62 inHg ↓</b></div><div><span>STORM BEARING</span><b>218° SW</b></div><div><span>FORWARD VELOCITY</span><b data-telemetry="velocity">17 MPH</b></div><div><span>HUMIDITY</span><b data-telemetry="humidity">94%</b></div><div><span>VISIBILITY</span><b data-telemetry="visibility">&lt; 0.3 MI</b></div><div><span>TEMPERATURE</span><b data-telemetry="temperature">77.2 °F</b></div><div><span>ELECTRICAL ACTIVITY</span><b class="amber-text">EXTREME</b></div>
               </section>
             </aside>
             <main class="weather-radar-panel"><div class="radar-label">SATELLITE / RADAR COMPOSITE <small>INFRARED INTENSITY</small></div><div class="radar-map" data-weather-map><div class="argoza-map-frame weather-map-frame" data-argoza-map-frame data-map-width="1672" data-map-height="941"><div class="argoza-map-coordinate-space weather-map-coordinate-space" data-argoza-map-coordinate-space><img class="weather-terrain-layer" src="assets/img/command/weather-terrain.png" alt="Topographic terrain surrounding Horizon Base and Heron Station"><img class="weather-storm-layer" src="assets/img/command/weather-storm.png" alt="Category IV supercell cloud overlay"><svg class="weather-code-overlay" viewBox="0 0 1672 941" preserveAspectRatio="none" aria-label="Weather forecast overlay"><defs><marker id="forecastArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z"/></marker></defs><path class="forecast-cone" data-map-cone></path><path class="forecast-path" data-map-path marker-end="url(#forecastArrow)"></path><circle class="storm-position" data-map-current r="8"></circle><g class="coded-base coded-base--horizon" data-coded-base="horizon"><polygon points="0,-18 18,16 -18,16"></polygon></g><g class="coded-base coded-base--heron" data-coded-base="heron"><polygon points="0,-18 18,16 -18,16"></polygon></g></svg><div class="coded-label coded-label--horizon" data-coded-label="horizon"><strong>HORIZON BASE</strong><span>ELEV. 212 M</span></div><div class="coded-label coded-label--heron" data-coded-label="heron"><strong>HERON STATION</strong><span>ELEV. 134 M</span></div><div class="map-scale" data-map-scale><div class="scale-rule"></div><div class="scale-values"><span>0</span><span>5</span><span>10</span><span>15</span><span>20 KM</span></div></div></div></div></div></main>
-            <aside class="weather-right"><section class="weather-panel weather-date"><span>DATE <b>2122.08.16</b></span><span>TIME <b data-weather-clock>09:43:17 LOCAL</b></span></section><section class="weather-panel impact-panel impact-panel--horizon"><h3>HORIZON BASE</h3><span>ESTIMATED ARRIVAL</span><strong class="weather-imminent">IMMINENT</strong><div><small>IMPACT PROBABILITY</small><b>93%</b></div><i><u style="width:93%"></u></i></section><section class="weather-panel outlook-panel"><h3>REGIONAL OUTLOOK</h3><div><span>STORM SIZE</span><b>323 MI</b></div><div><span>RAIN RATE</span><b data-telemetry="rain">9.4 IN/HR</b></div><div><span>TIDE IMPACT</span><b>MAJOR</b></div><div><span>FLOOD RISK</span><b class="amber-text">EXTREME</b></div><div><span>LANDSLIDE RISK</span><b>HIGH</b></div></section><section class="weather-panel latest-observations-panel"><h3>LATEST OBSERVATIONS</h3><div><span>WIND SHEAR</span><b>HIGH</b></div><div><span>PRECIPITATION</span><b>HEAVY</b></div><div><span>LIGHTNING</span><b>VERY HIGH</b></div><div><span>SENSOR COVERAGE</span><b data-telemetry="coverage">92%</b></div></section></aside>
+            <aside class="weather-right"><section class="weather-panel weather-date"><span><span>DATE</span><b>2122.08.16</b></span><span><span>TIME</span><b data-weather-clock>09:43:17 LOCAL</b></span></section><section class="weather-panel impact-panel impact-panel--horizon"><h3>HORIZON BASE</h3><span>ESTIMATED ARRIVAL</span><strong class="weather-imminent">IMMINENT</strong></section><section class="weather-panel outlook-panel"><h3>REGIONAL OUTLOOK</h3><div><span>STORM SIZE</span><b>323 MI</b></div><div><span>RAIN RATE</span><b data-telemetry="rain">9.4 IN/HR</b></div><div><span>TIDE IMPACT</span><b>MAJOR</b></div><div><span>FLOOD RISK</span><b class="amber-text">EXTREME</b></div><div><span>LANDSLIDE RISK</span><b>HIGH</b></div></section><section class="weather-panel latest-observations-panel"><h3>LATEST OBSERVATIONS</h3><div><span>WIND SHEAR</span><b>HIGH</b></div><div><span>PRECIPITATION</span><b>HEAVY</b></div><div><span>LIGHTNING</span><b>VERY HIGH</b></div><div><span>SENSOR COVERAGE</span><b data-telemetry="coverage">92%</b></div></section></aside>
           </div>
-          <button class="sandbox-toggle" type="button" data-sandbox-toggle>WEATHER DEV TOOLS</button>
-          <aside class="weather-sandbox" data-weather-sandbox hidden>
+          ${loadDevPrefs().show ? `<aside class="weather-sandbox" data-weather-sandbox hidden>
             <header><div><small>DEVELOPER TOOL</small><strong>WEATHER MAP & LAYOUT SANDBOX</strong></div><button type="button" data-sandbox-toggle aria-label="Close">×</button></header>
             <div class="sandbox-controls">
               <fieldset><legend>Screen layout</legend>
@@ -2298,7 +2298,7 @@
                 <label>Opacity <output data-out="stormOpacity"></output><input type="range" min="15" max="100" step="1" data-layout="stormOpacity"></label>
                 <label>Starting angle <output data-out="stormRotation"></output><input type="range" min="-180" max="180" step="1" data-layout="stormRotation"></label>
                 <label>Full rotation duration <output data-out="stormDuration"></output><input type="range" min="10" max="600" step="5" data-layout="stormDuration"></label>
-                <button class="sandbox-mini-action" type="button" data-storm-reset>RESET ROTATION TO 240s</button>
+                <button class="sandbox-mini-action" type="button" data-storm-reset>RESET ROTATION TO 500s</button>
               </fieldset>
               <fieldset><legend>Base markers</legend>
                 <label>Marker size <output data-out="markerSize"></output><input type="range" min="10" max="48" step="1" data-layout="markerSize"></label>
@@ -2336,7 +2336,7 @@
               </fieldset>
             </div>
             <footer><button type="button" data-sandbox-reset>RESET</button><button type="button" data-sandbox-copy>COPY ALL SETTINGS</button><span data-sandbox-status>Changes save locally.</span></footer>
-          </aside>
+          </aside>` : ''}
         </div>`
     },
     directive: {label:'CORPORATE DIRECTIVE ARCHIVE', clearance:'COMMAND', render:renderDirectiveArchive},
@@ -2920,8 +2920,19 @@
   }
 
   const WEATHER_LAYOUT_KEY = 'etos.weather.map-layout.v5';
-  const weatherLayoutDefaults = {"navWidth":190,"leftWidth":145,"rightWidth":180,"gap":8,"fontScale":100,"mapZoom":101,"mapX":50,"mapY":45,"horizonX":46.3,"horizonY":45.6,"heronX":66.3,"heronY":50.2,"blinkSpeed":3,"markerSize":24,"stormX":-6,"stormY":0,"stormScale":89,"stormOpacity":85,"stormRotation":0,"stormDuration":240,"animateStorm":true,"stormReverse":false,"showLabels":true,"labelScale":100,"horizonLabelX":0.1,"horizonLabelY":-4.5,"heronLabelX":0,"heronLabelY":-4.5,"showPath":true,"currentX":21.7,"currentY":48.9,"bendX":32,"bendY":45.3,"pathWidth":1.9,"pathDashSpeed":5,"coneWidth":17,"coneOpacity":24,"showScale":true,"scaleX":70,"scaleY":91,"scaleWidth":25,"scaleText":100};
-  function loadWeatherLayout(){try{return {...weatherLayoutDefaults,...JSON.parse(localStorage.getItem(WEATHER_LAYOUT_KEY)||'{}')}}catch{return {...weatherLayoutDefaults}}}
+  const weatherLayoutDefaults = {"navWidth":190,"leftWidth":145,"rightWidth":180,"gap":8,"fontScale":100,"mapZoom":101,"mapX":50,"mapY":45,"horizonX":46.3,"horizonY":45.6,"heronX":66.3,"heronY":50.2,"blinkSpeed":3,"markerSize":24,"stormX":-6,"stormY":0,"stormScale":89,"stormOpacity":85,"stormRotation":0,"stormDuration":500,"stormTimingVersion":1,"animateStorm":true,"stormReverse":false,"showLabels":true,"labelScale":100,"horizonLabelX":0.1,"horizonLabelY":-4.5,"heronLabelX":0,"heronLabelY":-4.5,"showPath":true,"currentX":21.7,"currentY":48.9,"bendX":32,"bendY":45.3,"pathWidth":1.9,"pathDashSpeed":5,"coneWidth":17,"coneOpacity":24,"showScale":true,"scaleX":70,"scaleY":91,"scaleWidth":25,"scaleText":100};
+  function loadWeatherLayout(){
+    let saved;
+    try{saved=JSON.parse(localStorage.getItem(WEATHER_LAYOUT_KEY)||'null')}catch{return {...weatherLayoutDefaults}}
+    const settings={...weatherLayoutDefaults,...saved};
+    // Migrate only the rotation timing; retain the user's saved map and overlay geometry.
+    if(saved && saved.stormTimingVersion!==weatherLayoutDefaults.stormTimingVersion){
+      settings.stormDuration=weatherLayoutDefaults.stormDuration;
+      settings.stormTimingVersion=weatherLayoutDefaults.stormTimingVersion;
+      try{saveWeatherLayout(settings)}catch{/* Apply the timing in memory if storage is unavailable. */}
+    }
+    return settings;
+  }
   function saveWeatherLayout(settings){localStorage.setItem(WEATHER_LAYOUT_KEY,JSON.stringify(settings));}
   function pctPoint(x,y){return [x*16.72,y*9.41]}
   function updateWeatherOverlay(root,s){
@@ -2943,9 +2954,10 @@
   const unitForKey=key=>({fontScale:'%',mapZoom:'%',mapX:'%',mapY:'%',horizonX:'%',horizonY:'%',heronX:'%',heronY:'%',stormX:'%',stormY:'%',stormScale:'%',stormOpacity:'%',stormRotation:'°',stormDriftX:'%',stormDriftY:'%',stormRotateAmp:'°',stormDuration:'s',markerSize:'px',blinkSpeed:'s',labelScale:'%',horizonLabelX:'%',horizonLabelY:'%',heronLabelX:'%',heronLabelY:'%',currentX:'%',currentY:'%',bendX:'%',bendY:'%',pathWidth:'px',pathDashSpeed:'s',coneWidth:'%',coneOpacity:'%',scaleX:'%',scaleY:'%',scaleWidth:'%',scaleText:'%'}[key]||'px');
   function initWeatherSandbox(root){
     if(!root)return;let settings=loadWeatherLayout();applyWeatherLayout(root,settings);const panel=root.querySelector('[data-weather-sandbox]');
+    if(!panel)return;
     root.querySelectorAll('[data-layout]').forEach(input=>{const key=input.dataset.layout;const isCheck=input.type==='checkbox';input[isCheck?'checked':'value']=settings[key];const output=root.querySelector(`[data-out="${key}"]`);if(output&&!isCheck)output.value=`${settings[key]}${unitForKey(key)}`;input.addEventListener('input',()=>{settings[key]=isCheck?input.checked:Number(input.value);if(output&&!isCheck)output.value=`${input.value}${unitForKey(key)}`;applyWeatherLayout(root,settings);saveWeatherLayout(settings);});});
     root.querySelectorAll('[data-sandbox-toggle]').forEach(btn=>btn.addEventListener('click',()=>{panel.hidden=!panel.hidden;}));
-    root.querySelector('[data-storm-reset]')?.addEventListener('click',()=>{settings.stormDuration=240;settings.animateStorm=true;settings.stormReverse=false;saveWeatherLayout(settings);applyWeatherLayout(root,settings);const duration=root.querySelector('[data-layout="stormDuration"]');const animate=root.querySelector('[data-layout="animateStorm"]');const reverse=root.querySelector('[data-layout="stormReverse"]');if(duration){duration.value=240;root.querySelector('[data-out="stormDuration"]').value='240s';}if(animate)animate.checked=true;if(reverse)reverse.checked=false;});
+    root.querySelector('[data-storm-reset]')?.addEventListener('click',()=>{settings.stormDuration=weatherLayoutDefaults.stormDuration;settings.animateStorm=true;settings.stormReverse=false;saveWeatherLayout(settings);applyWeatherLayout(root,settings);const duration=root.querySelector('[data-layout="stormDuration"]');const animate=root.querySelector('[data-layout="animateStorm"]');const reverse=root.querySelector('[data-layout="stormReverse"]');if(duration){duration.value=settings.stormDuration;root.querySelector('[data-out="stormDuration"]').value=settings.stormDuration+'s';}if(animate)animate.checked=true;if(reverse)reverse.checked=false;});
     root.querySelector('[data-sandbox-reset]')?.addEventListener('click',()=>{localStorage.removeItem(WEATHER_LAYOUT_KEY);renderTerminal();});
     root.querySelector('[data-sandbox-copy]')?.addEventListener('click',async()=>{const text=JSON.stringify(settings,null,2);const status=root.querySelector('[data-sandbox-status]');try{await navigator.clipboard.writeText(text);if(status)status.textContent='All settings copied to clipboard.';}catch{if(status)status.textContent=text.replace(/\n/g,' ');}});
   }

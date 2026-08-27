@@ -1,3 +1,11 @@
+# v0.5.89-dev — Command Weather telemetry refinements
+
+- Aligned Weather label/value rows, kept compact values and units together, and clarified Active Weather System hierarchy.
+- Removed the impact probability label, percentage, and bar beneath the still-flashing IMMINENT status.
+- Slowed full storm rotation to 500 seconds, migrating the prior timing without resetting saved map geometry.
+- Made Weather Dev Tools follow global developer visibility, with a reflowing header and a stable emblem-height row.
+- Preserved the current three-column map layout, overlays, storm appearance, remaining telemetry, and all non-Weather terminal behavior.
+
 # v0.5.88-dev — Shortened Argoza recovery script
 
 - Replaced the cryogenic-recovery sequence content with the supplied shorter narrative and ETOS script.
