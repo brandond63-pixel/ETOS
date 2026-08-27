@@ -1,3 +1,9 @@
+# v0.5.92-dev — Fixed Schematics fault inspector
+
+- Shortened the toolbar to 54px, reclaiming 24px of map height at 1024x768.
+- Added compact numbered fault selection and separate list/detail scrolling.
+- Removed compressed detail rows and sticky-button overlap while preserving controls and sidebar positions.
+
 # v0.5.91-dev — Facility comparison and condition layout
 
 - Simplified Facility Comparison to both installations' four live metrics with navigation actions immediately underneath.

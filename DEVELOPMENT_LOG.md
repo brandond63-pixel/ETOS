@@ -1,3 +1,12 @@
+# 2026-08-26 — v0.5.92-dev
+
+- Schematics-only fixed inspector: compact toolbar, numbered fault list, independent list/detail scrolling, and normal-flow controls. No drawer or new overlay.
+- Preserved all seven faults and existing control hooks. Garage retains CLOSED / STALLED / ABOVE LIMIT. Airlock retains cycling, pressure, hatch, decontamination, and weather states.
+- Browser QA at 1024x768: toolbar reduced from 78px to 54px; map grew from 562.59x485.64 to 586.02x509.64, about 71 percent of content width. Fault rows measure 44px. Garage fits without scrolling.
+- All seven selections produced one diagnostic with no overlapping content blocks or horizontal overflow. Independent list/detail scrolling left the map fixed. Selected-row title contrast was corrected.
+- Verified garage failure feedback, airlock opening/closing, zoom/pan/reset, room selection, maintenance authorization, and maintenance/general switching. Restored the hatch to CLOSED. Sidebar geometry is unchanged and console warnings/errors are empty.
+- Syntax and all 24 regression tests passed. Native iPad hardware and two-finger pinch gestures were not tested; existing pinch handlers and gameplay logic remain unchanged.
+
 # 2026-08-26 — v0.5.91-dev
 
 - Facility-only presentation changes: Comparison retains eight live metric/bar hooks and the packet countdown, with one direct navigation button below each installation. Removed the lower detail cards rather than hiding empty frames.

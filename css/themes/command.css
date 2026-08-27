@@ -2869,3 +2869,60 @@
 .facility-condition-panel dd{margin:0;color:var(--accent);font-size:calc(var(--facility-station-data) * var(--facility-overall-scale));text-align:right;line-height:1.4;overflow-wrap:break-word}
 .facility-condition-panel>p{margin:var(--terminal-space-sm) 0 0;padding-top:var(--terminal-space-sm);border-top:1px solid var(--line);font-size:calc(var(--facility-station-body) * var(--facility-overall-scale));line-height:1.45}
 .facility-heron-modal>.facility-condition-panel{margin:12px 20px;overflow:visible}
+
+/* v0.5.92-dev — Fixed Schematics inspector; map transforms and sidebar are unchanged. */
+.facility-map-page>.facility-page-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:54px;
+  padding:5px var(--terminal-space-sm);
+  gap:var(--terminal-space-sm);
+  text-align:left;
+}
+.facility-map-page>.facility-page-header>div{min-width:0}
+.facility-map-page>.facility-page-header h3{margin:0;line-height:1.2}
+.facility-map-page>.facility-page-header>button{min-height:44px;margin:0;padding:8px 12px;flex:0 0 auto}
+.facility-map-page .facility-map-layout{grid-template-columns:minmax(0,1fr) clamp(220px,28%,300px);overflow:hidden}
+.facility-map-page .facility-map-sidebar{
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:min(210px,40%) minmax(0,1fr);
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+}
+.facility-map-page .facility-fault-panel{min-width:0;min-height:0;overflow:hidden}
+.facility-map-page .facility-fault-panel>header{padding:8px}
+.facility-map-page .facility-fault-panel>header h3{display:flex;align-items:baseline;justify-content:space-between;gap:5px;margin:0;font-size:13px;line-height:1.35;letter-spacing:0}
+.facility-map-page .facility-fault-scroll,
+.facility-map-page .facility-room-info{
+  min-width:0;
+  min-height:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent;
+}
+.facility-map-page .facility-fault-scroll{padding:4px}
+.facility-map-page .facility-fault-row{grid-template-columns:22px minmax(0,1fr);align-items:center;gap:5px;min-height:44px;padding:5px;margin:0 0 3px}
+.facility-map-page .facility-fault-row>b{padding:0;font-size:12px}
+.facility-map-page .facility-fault-row strong{font-size:12px;line-height:1.3;letter-spacing:0}
+.facility-map-page .facility-fault-row:is(.is-selected,:hover) strong{color:#001904!important}
+.facility-map-page .facility-room-info{display:block;padding:10px}
+.facility-map-page .facility-room-info>h3{margin:0 0 10px;line-height:1.2;overflow-wrap:break-word}
+.facility-map-page .facility-room-info>small{display:block;margin:0 0 6px;line-height:1.4}
+.facility-map-page .facility-room-info dl{display:block;margin:0}
+.facility-map-page .facility-room-info dl>div{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:baseline;gap:6px;padding:7px 0}
+.facility-map-page .facility-room-info dt{font-size:11px;line-height:1.4;letter-spacing:0}
+.facility-map-page .facility-room-info dd{text-align:right;overflow-wrap:break-word}
+.facility-map-page .facility-room-info>button{
+  position:static;
+  min-height:54px;
+  margin:12px 0 6px;
+  padding:10px 8px;
+}
+.facility-map-page .facility-room-info>p{margin:8px 0;font-size:13px;line-height:1.45}
+.facility-map-page .facility-command-result:empty{display:none}
+.facility-map-page .facility-room-info>footer{margin-top:8px;padding-top:8px;font-size:11px;line-height:1.4}
