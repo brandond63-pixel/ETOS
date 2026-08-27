@@ -1,3 +1,20 @@
+# 2026-08-26 — v0.5.91-dev
+
+- Facility-only presentation changes: Comparison retains eight live metric/bar hooks and the packet countdown, with one direct navigation button below each installation. Removed the lower detail cards rather than hiding empty frames.
+- A shared condition renderer transfers all six existing fields and the full original explanatory note for each installation. Horizon uses the former logo area; Heron uses its existing passive dialog. No new telemetry, control authority, or gameplay state was introduced.
+- Horizon navigation retains the four original data-facility-nav targets with title-only buttons. Equal-width content columns allow the condition panel to fit; its summary metrics and bottom status strip remain intact.
+- Browser-verified at 1024x768: four Horizon cards are 56px high with 7px gaps, no card/condition/root horizontal overflow, and the Horizon condition panel fits without scrolling. Comparison has four metrics per site and correctly placed actions. Heron details remain internally scrollable; its reactor report opens and closes.
+- Compared CMD KEY, Audit Data, and node-strip bounding boxes before/after: all unchanged across Comparison, Horizon, Schematics, Vehicles, and Work Orders. Personnel navigation also passed. No sidebar styles or renderers were modified.
+- Observed live Horizon updates, Heron values updating across a carrier packet, and synchronized countdowns in Comparison and the Heron dialog. Console warning/error logs were empty. No alarm, Warden, developer-tool, telemetry-loop, packet-timing, or persistence code was changed. Native iPad hardware was not tested.
+- Validation: Node syntax check and all 18 tests passed across tests/facility-layout.test.cjs and the existing Weather regression suite.
+
+# 2026-08-26 — v0.5.90-dev
+
+- Only two player-facing Weather changes: removed the Pressure row markup and replaced the right-weighted title columns with equal side tracks around the unchanged title. The developer button remains conditionally rendered in the right track.
+- Browser QA succeeded at 1024x768: title center offset is 0px, eight remaining Storm Metrics rows share identical label-left and value-right edges, row gaps remain 4px, and no row or page horizontal overflow was detected. No header text overlap or console warnings/errors appeared.
+- Before/after bounding rectangles match exactly for the radar panel (472.34375 x 492.109375), map coordinate space, Storm Metrics panel, and right telemetry column. Header height remains 68.1875px and computed storm duration remains 500s. Developer tools are absent in the player render.
+- JavaScript syntax and all 13 focused regression tests passed, including developer rendering/settings handlers and the two new refinements. Visual verification used browser viewport emulation, not native iPad hardware; live developer toggling was not retested in this pass.
+
 # 2026-08-26 — v0.5.89-dev
 
 - Command Weather only: shared baseline-aligned label/value grids across Storm Metrics, Regional Outlook, Latest Observations, and Date/Time; right-aligned tabular values remain unbroken. Panel widths and map coordinates are unchanged.

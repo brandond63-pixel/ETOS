@@ -133,3 +133,18 @@ test('shared telemetry grid keeps compact values and time units together', () =>
   assert.doesNotMatch(patch, /\.weather-grid\s*\{|\.weather-map|\.radar-map\s*\{/);
   assert.equal((css.match(/\{/g) ?? []).length, (css.match(/\}/g) ?? []).length);
 });
+test('Storm Metrics removes only Pressure and retains the other eight rows in order', () => {
+  for (const show of [false, true]) {
+    const panel = render(show).match(/<section class="weather-panel telemetry-panel">([\s\S]*?)<\/section>/)[1];
+    const labels = [...panel.matchAll(/<div><span>([^<]+)<\/span>/g)].map(match => match[1]);
+    assert.deepEqual(labels, ['SURFACE WINDS', 'PEAK GUSTS', 'STORM BEARING', 'FORWARD VELOCITY', 'HUMIDITY', 'VISIBILITY', 'TEMPERATURE', 'ELECTRICAL ACTIVITY']);
+    assert.doesNotMatch(panel, /PRESSURE|data-telemetry="pressure"/);
+  }
+});
+test('weather title uses equal side tracks with unchanged header height and typography', () => {
+  const patch = css.slice(css.indexOf('/* v0.5.89-dev'));
+  assert.match(patch, /grid-template-columns:minmax\(0,1fr\) auto minmax\(0,1fr\)!important/);
+  assert.match(patch, /grid-template-rows:58px/);
+  assert.match(patch, /\.weather-topbar>\.weather-title\{grid-column:2;justify-self:center\}/);
+  assert.doesNotMatch(patch, /\.weather-title[^}]*font-size:/);
+});

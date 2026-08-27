@@ -2761,19 +2761,19 @@
 
 /* v0.5.89-dev — Weather telemetry alignment; map geometry is unchanged. */
 .weather-terminal .weather-topbar{
-  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)!important;
+  /* Equal side tracks center the title on the header, independent of dev visibility. */
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
   /* Match the existing 58px emblem row in both developer-visibility states. */
   grid-template-rows:58px;
   gap:var(--terminal-space-sm);
   padding:var(--terminal-space-xs);
 }
-.weather-terminal .weather-topbar--dev{
-  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) auto!important;
-}
 .weather-topbar>.weather-brand-mini,.weather-topbar>.weather-title{min-width:0}
-.weather-topbar>.weather-title{grid-column:auto;justify-self:stretch}
+.weather-topbar>.weather-title{grid-column:2;justify-self:center}
 .weather-topbar>.sandbox-toggle{
   position:static;
+  grid-column:3;
+  justify-self:end;
   margin:0;
   padding:6px 8px;
   font-size:10px;
@@ -2813,3 +2813,59 @@
 .weather-terminal .impact-panel--horizon{align-content:start;gap:7px}
 .weather-terminal .impact-panel--horizon>h3{margin:0}
 .weather-terminal .impact-panel--horizon>.weather-imminent{margin:2px 0;line-height:1.2}
+
+/* v0.5.91-dev — Facility summaries and local condition details; sidebar stays untouched. */
+.facility-comparison{grid-template-rows:auto auto;align-content:start;overflow-y:auto}
+.facility-comparison .facility-live-columns{overflow:visible}
+.facility-comparison .facility-live-columns>div{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0}
+.facility-comparison .facility-live-columns h4{
+  grid-column:1/-1;
+  padding:14px var(--terminal-space-sm);
+  font-size:calc(var(--facility-station-heading) * var(--facility-overall-scale));
+  border-right:0;
+  border-bottom:1px solid var(--line);
+}
+.facility-comparison .facility-live-columns>div>div{padding:14px var(--terminal-space-md)}
+.facility-comparison .facility-live-columns small{white-space:normal;line-height:1.4}
+.facility-comparison .facility-live-columns>div>button{
+  grid-column:1/-1;
+  min-height:56px;
+  margin:var(--terminal-space-sm);
+  padding:10px var(--terminal-space-sm);
+  border:1px solid var(--accent);
+  background:rgba(124,255,62,.07);
+  color:var(--accent);
+  font:700 calc(var(--facility-station-button) * var(--facility-overall-scale)) var(--font-body);
+}
+.facility-comparison .facility-live-columns>div>button:hover,
+.facility-comparison .facility-live-columns>div>button:focus-visible{outline:1px solid var(--accent);outline-offset:-3px;background:rgba(124,255,62,.14)}
+.facility-horizon-home .facility-horizon-main{grid-template-columns:repeat(2,minmax(0,1fr))}
+.facility-horizon-home .facility-horizon-controls{grid-template-rows:auto minmax(0,1fr);gap:var(--terminal-space-sm)}
+.facility-horizon-home .facility-module-grid{align-content:start;grid-auto-rows:minmax(56px,auto);gap:7px;overflow-y:auto}
+.facility-horizon-home .facility-module-grid>button{
+  min-height:56px;
+  padding:10px 18px;
+  gap:0;
+  align-content:center;
+}
+.facility-horizon-home .facility-module-grid strong{line-height:1.2;overflow-wrap:break-word}
+.facility-condition-panel{
+  min-width:0;
+  min-height:0;
+  padding:var(--terminal-space-md);
+  border:1px solid var(--line);
+  background:rgba(2,14,5,.92);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent;
+}
+.facility-condition-panel>header{display:grid;gap:5px;padding-bottom:var(--terminal-space-sm);border-bottom:1px solid var(--line)}
+.facility-condition-panel>header small,.facility-condition-panel>header span{color:var(--accent-soft);font-size:var(--terminal-font-xs)}
+.facility-condition-panel h4{margin:0;color:var(--accent);font-size:var(--terminal-font-md)}
+.facility-condition-panel dl{margin:var(--terminal-space-sm) 0}
+.facility-condition-panel dl>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:baseline;gap:8px;padding:7px 0;border-bottom:1px solid rgba(124,255,62,.12)}
+.facility-condition-panel dt{color:var(--accent-soft);font-size:var(--terminal-font-sm);line-height:1.4}
+.facility-condition-panel dd{margin:0;color:var(--accent);font-size:calc(var(--facility-station-data) * var(--facility-overall-scale));text-align:right;line-height:1.4;overflow-wrap:break-word}
+.facility-condition-panel>p{margin:var(--terminal-space-sm) 0 0;padding-top:var(--terminal-space-sm);border-top:1px solid var(--line);font-size:calc(var(--facility-station-body) * var(--facility-overall-scale));line-height:1.45}
+.facility-heron-modal>.facility-condition-panel{margin:12px 20px;overflow:visible}

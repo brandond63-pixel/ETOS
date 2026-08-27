@@ -1,3 +1,15 @@
+# v0.5.91-dev — Facility comparison and condition layout
+
+- Simplified Facility Comparison to both installations' four live metrics with navigation actions immediately underneath.
+- Moved the existing condition values and explanatory notes to Horizon's right-hand panel and Heron's passive telemetry dialog.
+- Replaced Horizon's decorative logo with condition telemetry and reduced its four navigation cards to title-only 56px touch targets with 7px gaps.
+- Preserved summary metrics, bottom status systems, telemetry/packet behavior, navigation, and fixed CMD KEY/Audit Data positions.
+
+# v0.5.90-dev — Weather pressure removal and title centering
+
+- Removed only the displayed Pressure row from Storm Metrics; the other eight rows retain their styling and naturally reflow.
+- Centered the top Weather title using balanced header columns without changing title size, header height, map geometry, rotation, or global developer visibility behavior.
+
 # v0.5.89-dev — Command Weather telemetry refinements
 
 - Aligned Weather label/value rows, kept compact values and units together, and clarified Active Weather System hierarchy.

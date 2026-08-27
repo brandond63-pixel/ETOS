@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.89-dev';
+  const VERSION = '0.5.91-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -1417,26 +1417,20 @@
   function renderFacilityComparison(){
     return `<div class="facility-management facility-comparison">
       <header class="facility-intro"><div><small>INSTALLATION CONDITION COMPARISON</small><h3>HORIZON BASE // HERON STATION</h3></div><span>SELECT FACILITY FOR AVAILABLE RECORDS</span></header>
-      <section class="facility-live-comparison"><header><div><small>LIVE FACILITY TELEMETRY</small><strong>LOCAL BUS // DISTRESS CARRIER</strong></div><span>HERON NEXT PACKET // <b data-facility-heron-countdown>00:30</b></span></header><div class="facility-live-columns"><div><h4>HORIZON BASE</h4>${renderFacilityMetricCells('horizon')}</div><div><h4>HERON STATION</h4>${renderFacilityMetricCells('heron')}</div></div></section>
-      <div class="facility-comparison-grid">
-        <section class="facility-station-card facility-station-card--horizon">
-          <header><div><small>LOCAL FACILITY BUS</small><h3>HORIZON BASE</h3></div><strong>CONTINUOUS TELEMETRY</strong></header>
-          <dl><div><dt>HULL INTEGRITY</dt><dd>72%</dd></div><div><dt>HABITAT BREACHES</dt><dd>MULTIPLE</dd></div><div><dt>ATMOSPHERE</dt><dd>UNSTABLE</dd></div><div><dt>INTERIOR PRESSURE</dt><dd>MAINTAINED</dd></div><div><dt>ENVIRONMENTAL EXPOSURE</dt><dd>LOCALIZED</dd></div></dl>
-          <div class="facility-protection"><small>ENVIRONMENTAL PROTECTION</small><strong>LIMITED</strong></div>
-          <p>Multiple habitat breaches detected. Environmental sealing has failed in several sections. Interior pressure remains partially stable. Structure provides limited protection from external conditions. Vacuum suits recommended for prolonged occupancy.</p>
-          <button type="button" data-facility-open="horizon">OPEN HORIZON FACILITY SYSTEMS →</button>
-        </section>
-        <section class="facility-station-card facility-station-card--heron">
-          <header><div><small>AUTOMATED DISTRESS CARRIER</small><h3>HERON STATION</h3></div><strong>30-SECOND PACKET</strong></header>
-          <button type="button" class="facility-remote-alert" data-facility-open="heron"><small>ACTIVE FACILITY ADVISORY // 01</small><strong>REACTOR COOLING PERFORMANCE DEGRADED</strong><span>VIEW PASSIVE TELEMETRY →</span></button>
-          <dl><div><dt>HULL INTEGRITY</dt><dd>94%</dd></div><div><dt>HABITAT BREACHES</dt><dd>NONE DETECTED</dd></div><div><dt>ATMOSPHERE</dt><dd>DEGRADING</dd></div><div><dt>INTERIOR PRESSURE</dt><dd>NOMINAL</dd></div><div><dt>LIFE SUPPORT</dt><dd>REDUCED CAPACITY</dd></div></dl>
-          <div class="facility-protection"><small>ENVIRONMENTAL PROTECTION</small><strong>EFFECTIVE</strong></div>
-          <p>Primary habitat remains structurally intact. Atmospheric processing efficiency continues to decline. Conditions remain habitable for an indeterminate period if critical systems remain operational.</p>
-          <button type="button" data-facility-open="heron">VIEW PASSIVE HERON TELEMETRY →</button>
-        </section>
-      </div>
+      <section class="facility-live-comparison"><header><div><small>LIVE FACILITY TELEMETRY</small><strong>LOCAL BUS // DISTRESS CARRIER</strong></div><span>HERON NEXT PACKET // <b data-facility-heron-countdown>00:30</b></span></header><div class="facility-live-columns"><div><h4>HORIZON BASE</h4>${renderFacilityMetricCells('horizon')}<button type="button" data-facility-open="horizon">OPEN HORIZON FACILITY SYSTEMS →</button></div><div><h4>HERON STATION</h4>${renderFacilityMetricCells('heron')}<button type="button" data-facility-open="heron">VIEW PASSIVE HERON TELEMETRY →</button></div></div></section>
       ${renderFacilityOverlay()}
     </div>`;
+  }
+
+  function renderFacilityCondition(site){
+    const horizon=site==='horizon';
+    const fields=horizon
+      ? [['HULL INTEGRITY','72%'],['HABITAT BREACHES','MULTIPLE'],['ATMOSPHERE','UNSTABLE'],['INTERIOR PRESSURE','MAINTAINED'],['ENVIRONMENTAL EXPOSURE','LOCALIZED'],['ENVIRONMENTAL PROTECTION','LIMITED']]
+      : [['HULL INTEGRITY','94%'],['HABITAT BREACHES','NONE DETECTED'],['ATMOSPHERE','DEGRADING'],['INTERIOR PRESSURE','NOMINAL'],['LIFE SUPPORT','REDUCED CAPACITY'],['ENVIRONMENTAL PROTECTION','EFFECTIVE']];
+    const note=horizon
+      ? 'Multiple habitat breaches detected. Environmental sealing has failed in several sections. Interior pressure remains partially stable. Structure provides limited protection from external conditions. Vacuum suits recommended for prolonged occupancy.'
+      : 'Primary habitat remains structurally intact. Atmospheric processing efficiency continues to decline. Conditions remain habitable for an indeterminate period if critical systems remain operational.';
+    return `<section class="facility-condition-panel" aria-label="${horizon?'Horizon Base':'Heron Station'} facility condition"><header><small>${horizon?'LOCAL FACILITY BUS':'AUTOMATED DISTRESS CARRIER'}</small><h4>FACILITY CONDITION</h4><span>${horizon?'CONTINUOUS TELEMETRY':'30-SECOND PACKET'}</span></header><dl>${fields.map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl><p>${note}</p></section>`;
   }
 
   function renderHorizonFacility(){
@@ -1446,13 +1440,13 @@
         <div class="facility-horizon-controls">
           <section class="facility-local-metrics">${renderFacilityMetricCells('horizon')}</section>
           <section class="facility-module-grid">
-            <button type="button" data-facility-nav="personnel"><small>25 ASSIGNED RECORDS</small><strong>PERSONNEL DIRECTORY</strong><span>ORGANIZATION // BIOSIGNAL ACCESS</span></button>
-            <button type="button" data-facility-nav="map"><small>INTERACTIVE FACILITY RECORD</small><strong>FACILITY SCHEMATICS</strong><span>GENERAL MAP // RESTRICTED MAINTENANCE</span></button>
-            <button type="button" data-facility-nav="vehicles"><small>ELECTRIC SURFACE FLEET</small><strong>VEHICLE INVENTORY &amp; LOG</strong><span>APC STATUS // DISPATCH HISTORY</span></button>
-            <button type="button" data-facility-nav="workorders"><small>07 RETAINED RECORDS</small><strong>WORK ORDER ARCHIVE</strong><span>OPEN // CLOSED // SUMMARY RECORDS</span></button>
+            <button type="button" data-facility-nav="personnel"><strong>PERSONNEL DIRECTORY</strong></button>
+            <button type="button" data-facility-nav="map"><strong>FACILITY SCHEMATICS</strong></button>
+            <button type="button" data-facility-nav="vehicles"><strong>VEHICLE INVENTORY &amp; LOG</strong></button>
+            <button type="button" data-facility-nav="workorders"><strong>WORK ORDER ARCHIVE</strong></button>
           </section>
         </div>
-        <aside class="facility-horizon-brand" aria-hidden="true"><img src="assets/img/ellison-tanaka-logo.svg" alt=""><strong>ELLISON–TANAKA</strong><span>BUILDING BETTER FUTURES.</span></aside>
+        ${renderFacilityCondition('horizon')}
       </div>
       <section class="facility-status-summary"><div><small>HABITAT CONDITION</small><strong>LIMITED PROTECTION</strong></div><div><small>LOCAL PERSONNEL NETWORK</small><strong>PASSIVE MONITORING</strong></div><div><small>FACILITY RECORD BUS</small><strong>AVAILABLE</strong></div></section>
     </div>`;
@@ -1810,7 +1804,7 @@
   }
 
   function renderHeronTelemetry(){
-    return `<div class="facility-overlay" data-facility-overlay><article class="facility-heron-modal" role="dialog" aria-modal="true" aria-labelledby="heron-telemetry-title"><header><div><small>PASSIVE DISTRESS-CARRIER TELEMETRY</small><h3 id="heron-telemetry-title">HERON STATION</h3></div><button type="button" data-facility-overlay-close>× CLOSE</button></header><section class="facility-handshake"><div><small>CONNECTION MODE</small><strong>PASSIVE TELEMETRY ONLY</strong></div><div><small>AUTHENTICATED HANDSHAKE</small><strong>UNAVAILABLE</strong></div><div><small>CONTROL LINK</small><strong>NOT ESTABLISHED</strong></div></section><p>Only automated carrier telemetry is available. Facility controls and internal records cannot be accessed from Horizon Base.</p><button type="button" class="facility-heron-advisory" data-heron-reactor><small>ACTIVE FACILITY ADVISORY // 01</small><strong>REACTOR COOLING PERFORMANCE DEGRADED</strong><span>TOUCH FOR TELEMETRY REPORT →</span></button><footer><span>NEXT CARRIER PACKET // <b data-facility-heron-countdown>00:30</b></span><strong>RESPONSE CHANNEL // UNAVAILABLE</strong></footer></article></div>`;
+    return `<div class="facility-overlay" data-facility-overlay><article class="facility-heron-modal" role="dialog" aria-modal="true" aria-labelledby="heron-telemetry-title"><header><div><small>PASSIVE DISTRESS-CARRIER TELEMETRY</small><h3 id="heron-telemetry-title">HERON STATION</h3></div><button type="button" data-facility-overlay-close>× CLOSE</button></header><section class="facility-handshake"><div><small>CONNECTION MODE</small><strong>PASSIVE TELEMETRY ONLY</strong></div><div><small>AUTHENTICATED HANDSHAKE</small><strong>UNAVAILABLE</strong></div><div><small>CONTROL LINK</small><strong>NOT ESTABLISHED</strong></div></section><p>Only automated carrier telemetry is available. Facility controls and internal records cannot be accessed from Horizon Base.</p>${renderFacilityCondition('heron')}<button type="button" class="facility-heron-advisory" data-heron-reactor><small>ACTIVE FACILITY ADVISORY // 01</small><strong>REACTOR COOLING PERFORMANCE DEGRADED</strong><span>TOUCH FOR TELEMETRY REPORT →</span></button><footer><span>NEXT CARRIER PACKET // <b data-facility-heron-countdown>00:30</b></span><strong>RESPONSE CHANNEL // UNAVAILABLE</strong></footer></article></div>`;
   }
 
   function renderHeronReactor(){
@@ -2268,7 +2262,7 @@
             <aside class="weather-left">
               <section class="weather-panel storm-id"><span>ACTIVE WEATHER<br>SYSTEM</span><strong>LV-872</strong><b>STORM CELL</b><small>CLASSIFICATION</small><em><span>CATEGORY IV</span><span>SUPERCELL</span></em></section>
               <section class="weather-panel telemetry-panel"><h3>STORM METRICS</h3>
-                <div><span>SURFACE WINDS</span><b data-telemetry="wind">87 MPH</b></div><div><span>PEAK GUSTS</span><b data-telemetry="gust">126 MPH</b></div><div><span>PRESSURE</span><b data-telemetry="pressure">27.62 inHg ↓</b></div><div><span>STORM BEARING</span><b>218° SW</b></div><div><span>FORWARD VELOCITY</span><b data-telemetry="velocity">17 MPH</b></div><div><span>HUMIDITY</span><b data-telemetry="humidity">94%</b></div><div><span>VISIBILITY</span><b data-telemetry="visibility">&lt; 0.3 MI</b></div><div><span>TEMPERATURE</span><b data-telemetry="temperature">77.2 °F</b></div><div><span>ELECTRICAL ACTIVITY</span><b class="amber-text">EXTREME</b></div>
+                <div><span>SURFACE WINDS</span><b data-telemetry="wind">87 MPH</b></div><div><span>PEAK GUSTS</span><b data-telemetry="gust">126 MPH</b></div><div><span>STORM BEARING</span><b>218° SW</b></div><div><span>FORWARD VELOCITY</span><b data-telemetry="velocity">17 MPH</b></div><div><span>HUMIDITY</span><b data-telemetry="humidity">94%</b></div><div><span>VISIBILITY</span><b data-telemetry="visibility">&lt; 0.3 MI</b></div><div><span>TEMPERATURE</span><b data-telemetry="temperature">77.2 °F</b></div><div><span>ELECTRICAL ACTIVITY</span><b class="amber-text">EXTREME</b></div>
               </section>
             </aside>
             <main class="weather-radar-panel"><div class="radar-label">SATELLITE / RADAR COMPOSITE <small>INFRARED INTENSITY</small></div><div class="radar-map" data-weather-map><div class="argoza-map-frame weather-map-frame" data-argoza-map-frame data-map-width="1672" data-map-height="941"><div class="argoza-map-coordinate-space weather-map-coordinate-space" data-argoza-map-coordinate-space><img class="weather-terrain-layer" src="assets/img/command/weather-terrain.png" alt="Topographic terrain surrounding Horizon Base and Heron Station"><img class="weather-storm-layer" src="assets/img/command/weather-storm.png" alt="Category IV supercell cloud overlay"><svg class="weather-code-overlay" viewBox="0 0 1672 941" preserveAspectRatio="none" aria-label="Weather forecast overlay"><defs><marker id="forecastArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z"/></marker></defs><path class="forecast-cone" data-map-cone></path><path class="forecast-path" data-map-path marker-end="url(#forecastArrow)"></path><circle class="storm-position" data-map-current r="8"></circle><g class="coded-base coded-base--horizon" data-coded-base="horizon"><polygon points="0,-18 18,16 -18,16"></polygon></g><g class="coded-base coded-base--heron" data-coded-base="heron"><polygon points="0,-18 18,16 -18,16"></polygon></g></svg><div class="coded-label coded-label--horizon" data-coded-label="horizon"><strong>HORIZON BASE</strong><span>ELEV. 212 M</span></div><div class="coded-label coded-label--heron" data-coded-label="heron"><strong>HERON STATION</strong><span>ELEV. 134 M</span></div><div class="map-scale" data-map-scale><div class="scale-rule"></div><div class="scale-values"><span>0</span><span>5</span><span>10</span><span>15</span><span>20 KM</span></div></div></div></div></div></main>
