@@ -13,9 +13,10 @@
     mechanicalActuation: 'assets/audio/09B_heavy_lock_disengage.wav',
     hardwareFault: 'assets/audio/10C_jammed_mechanism_chatter.wav',
     sanitizationWarningPulse: resolveAudioAsset('../assets/audio/ETOS_sanitization_warning_pulse.wav'),
-    facilityEmergencyAlarm: resolveAudioAsset('../assets/audio/699248__mozfoo__emergency-alarm.wav')
+    facilityEmergencyAlarm: resolveAudioAsset('../assets/audio/699248__mozfoo__emergency-alarm.wav'),
+    recoveryIntro: resolveAudioAsset('../assets/audio/Intro.mp3')
   };
-  const volumes = {master:.72,ambient:.16,ui:.28,system:.34,mechanical:.38,sanitization:1};
+  const volumes = {master:.72,ambient:.16,music:.12,ui:.28,system:.34,mechanical:.38,sanitization:1};
   let context = null;
   let buses = null;
   let unlocked = false;
@@ -23,6 +24,11 @@
   const sampleLoads = new Map();
   const assetStatus = {};
   let ambient = null;
+  let ambientStartPromise = null;
+  let ambientRequest = 0;
+  let ambientTargetLevel = 1;
+  let recoveryMusic = null;
+  let recoveryMusicRequest = 0;
   let biometricScanner = null;
   let biometricScannerRequest = 0;
   const auditTokenNodes = new Set();
@@ -57,6 +63,7 @@
     buses={
       master,
       ambient:makeGain(volumes.ambient,master),
+      music:makeGain(volumes.music,master),
       ui:makeGain(volumes.ui,master),
       system:makeGain(volumes.system,master),
       mechanical:makeGain(volumes.mechanical,master),
@@ -122,7 +129,7 @@
         if(contentType.includes('text/html')||headerText.startsWith('<!doctype html')||headerText.startsWith('<html'))fail('INVALID RESPONSE: APP HTML',`app HTML returned for ${url}`);
         const compatibleMime=contentType.startsWith('audio/')||contentType.includes('application/octet-stream')||contentType.includes('binary/octet-stream');
         if(!compatibleMime)fail(`WRONG MIME: ${contentType||'[MISSING]'}`,`unexpected content type ${contentType||'[missing]'} for ${url}`);
-        if(!waveData)fail('INVALID RESPONSE: NOT WAV',`response is not RIFF/WAVE audio for ${url}`);
+        if(name!=='recoveryIntro'&&!waveData)fail('INVALID RESPONSE: NOT WAV',`response is not RIFF/WAVE audio for ${url}`);
         let decoded;
         try{decoded=await decodeAudioData(arrayBuffer.slice(0));}catch(error){error.assetResult='DECODE FAILED';error.assetDecode='FAILED';throw error;}
         if(!decoded||!decoded.duration)fail('DECODE FAILED',`decoded buffer is empty for ${url}`,'FAILED');
@@ -132,8 +139,8 @@
         return true;
       }catch(error){
         samples.delete(name);setAssetStatus(name,{state:'failed',result:error.assetResult||'FETCH FAILED',url,decode:error.assetDecode||'NOT ATTEMPTED',error:String(error?.message||error)});
-        const label=name==='sanitizationWarningPulse'?'WARNING':name==='facilityEmergencyAlarm'?'FACILITY':name;
-        console.error(`[AudioDebug] ${label} WAV LOAD FAILED`,error);
+        const label=name==='sanitizationWarningPulse'?'WARNING':name==='facilityEmergencyAlarm'?'FACILITY':name==='recoveryIntro'?'RECOVERY INTRO':name;
+        console.error(`[AudioDebug] ${label} AUDIO LOAD FAILED`,error);
         return false;
       }finally{sampleLoads.delete(name);document.documentElement.dataset.etosAudioSamples=String(samples.size);}
     })();
@@ -155,7 +162,7 @@
       source.connect(gain);source.start();source.stop(now()+.01);
       unlocked=context.state==='running';
       document.documentElement.dataset.etosAudio=unlocked?'unlocked':'suspended';
-      void loadSamples();
+      void loadSamples(Object.keys(SAMPLE_PATHS).filter(name=>name!=='recoveryIntro'));
       return unlocked;
     }catch(error){document.documentElement.dataset.etosAudio='unavailable';console.warn('ETOS audio could not unlock:',error);return false;}
   }
@@ -200,6 +207,53 @@
     oscillator.connect(gain).connect(buses.master);
     oscillator.start(start);oscillator.stop(start+.048);
     return oscillator;
+  }
+
+  function rampGain(parameter,target,fadeMs){
+    if(!context)return;
+    const time=now(),level=Math.max(.0001,target),duration=Math.max(0,fadeMs)/1000;
+    if(typeof parameter.cancelAndHoldAtTime==='function')parameter.cancelAndHoldAtTime(time);
+    else{const current=Math.max(.0001,parameter.value);parameter.cancelScheduledValues(time);parameter.setValueAtTime(current,time);}
+    if(duration)parameter.exponentialRampToValueAtTime(level,time+duration);
+    else parameter.setValueAtTime(level,time);
+  }
+
+  function setAmbientLevel(level,{fadeMs=0}={}){
+    ambientTargetLevel=Math.max(.0001,Math.min(1,Number(level)||0));
+    if(ambient?.output)rampGain(ambient.output.gain,ambientTargetLevel,fadeMs);
+  }
+
+  function disposeRecoveryMusic({fadeMs=0}={}){
+    const cue=recoveryMusic;recoveryMusic=null;
+    if(!cue){document.documentElement.dataset.recoveryMusic='off';return Promise.resolve(false);}
+    document.documentElement.dataset.recoveryMusic=fadeMs>0?'fading':'off';
+    if(context)rampGain(cue.output.gain,.0001,fadeMs);
+    return new Promise(resolve=>setTimeout(()=>{
+      safe(()=>cue.source.stop());safe(()=>cue.source.disconnect());safe(()=>cue.output.disconnect());
+      if(!recoveryMusic)document.documentElement.dataset.recoveryMusic='off';resolve(true);
+    },Math.max(0,fadeMs)+40));
+  }
+
+  async function startRecoveryMusic({fadeInMs=2000}={}){
+    const request=++recoveryMusicRequest;
+    void disposeRecoveryMusic();
+    setAmbientLevel(.28,{fadeMs:1200});
+    void startAmbient({fadeMs:1200});
+    if(!unlocked&&!await unlock())return false;
+    if(!await loadSample('recoveryIntro')||request!==recoveryMusicRequest||!context||context.state!=='running')return false;
+    const source=context.createBufferSource(),output=makeGain(.0001,buses.music);
+    source.buffer=samples.get('recoveryIntro');source.loop=false;source.connect(output);
+    const cue={source,output,request};recoveryMusic=cue;
+    source.onended=()=>{if(recoveryMusic===cue){recoveryMusic=null;document.documentElement.dataset.recoveryMusic='ended';}safe(()=>source.disconnect());safe(()=>output.disconnect());};
+    rampGain(output.gain,1,fadeInMs);source.start(0);
+    document.documentElement.dataset.recoveryMusic='playing';
+    return true;
+  }
+
+  function finishRecoveryAudio({fadeMs=1800}={}){
+    recoveryMusicRequest+=1;
+    setAmbientLevel(1,{fadeMs});
+    return disposeRecoveryMusic({fadeMs});
   }
 
   function noiseBurst({duration=.12,gain=.035,frequency=1200,bus='system',delay=0,q=.7,track=null}){
@@ -449,9 +503,15 @@
     ambient.driftTimer=setTimeout(driftAmbient,duration*1000);
   }
 
-  async function startAmbient(){
-    if(ambient)return;
-    if(!unlocked&&!await unlock())return;
+  async function startAmbient({level=ambientTargetLevel,fadeMs=2400}={}){
+    setAmbientLevel(level,{fadeMs});
+    if(ambient)return true;
+    if(ambientStartPromise)return ambientStartPromise;
+    const request=ambientRequest;
+    ambientStartPromise=(async()=>{
+    if(!unlocked&&!await unlock())return false;
+    if(request!==ambientRequest)return false;
+    if(ambient)return true;
     const output=makeGain(.0001,buses.ambient),base=context.createOscillator(),harmonic=context.createOscillator(),baseGain=makeGain(.055,output),harmonicGain=makeGain(.018,output);
     base.type='sine';base.frequency.value=random(57,62);harmonic.type='sine';harmonic.frequency.value=base.frequency.value*2;
     base.connect(baseGain);harmonic.connect(harmonicGain);
@@ -459,14 +519,18 @@
     for(let i=0;i<noiseFrames;i++)noiseData[i]=Math.random()*2-1;
     const noise=context.createBufferSource(),noiseFilter=context.createBiquadFilter(),noiseGain=makeGain(.016,output);
     noise.buffer=noiseBuffer;noise.loop=true;noiseFilter.type='lowpass';noiseFilter.frequency.value=430;noiseFilter.Q.value=.25;noise.connect(noiseFilter);noiseFilter.connect(noiseGain);
-    const time=now();output.gain.setValueAtTime(.0001,time);output.gain.exponentialRampToValueAtTime(1,time+2.4);
+    const time=now();output.gain.setValueAtTime(.0001,time);output.gain.exponentialRampToValueAtTime(ambientTargetLevel,time+Math.max(0,fadeMs)/1000);
     base.start();harmonic.start();noise.start();
     ambient={output,base,harmonic,noise,harmonicGain,noiseGain,driftTimer:null,tickTimer:null};
     document.documentElement.dataset.etosAudioAmbient='on';
-    driftAmbient();ambient.tickTimer=setTimeout(equipmentTick,random(12000,35000));
+    driftAmbient();ambient.tickTimer=setTimeout(equipmentTick,random(12000,35000));return true;
+    })();
+    try{return await ambientStartPromise;}finally{ambientStartPromise=null;}
   }
 
   function stopAmbient(){
+    ambientRequest+=1;
+    ambientTargetLevel=1;
     if(!ambient||!context)return;
     const bed=ambient;ambient=null;clearTimeout(bed.driftTimer);clearTimeout(bed.tickTimer);
     document.documentElement.dataset.etosAudioAmbient='off';
@@ -522,6 +586,6 @@
     if(buses?.[group])buses[group].gain.setTargetAtTime(volumes[group],now(),.04);
   }
 
-  window.ETOSAudio={unlock,prepareSanitizationAudio,play,playCryoTypeTick,startAmbient,stopAmbient,startBiometricScan,startBiometricSweep,stopBiometricScan,completeBiometricScan,stopAuditToken,stopSanitizationWarning,playSanitizationWarningPulse,startFacilityAlarm,stopFacilityAlarm,duckFacilityAlarm,restoreFacilityAlarm,testSanitizationWarning,toggleFacilityAlarmTest,stopFacilityAlarmTest,setVolume,getVolumes:()=>({...volumes}),getAssetStatus:()=>Object.fromEntries(Object.entries(assetStatus).map(([name,status])=>[name,{...status}])),isUnlocked:()=>unlocked};
+  window.ETOSAudio={unlock,prepareSanitizationAudio,play,playCryoTypeTick,startRecoveryMusic,finishRecoveryAudio,startAmbient,stopAmbient,startBiometricScan,startBiometricSweep,stopBiometricScan,completeBiometricScan,stopAuditToken,stopSanitizationWarning,playSanitizationWarningPulse,startFacilityAlarm,stopFacilityAlarm,duckFacilityAlarm,restoreFacilityAlarm,testSanitizationWarning,toggleFacilityAlarmTest,stopFacilityAlarmTest,setVolume,getVolumes:()=>({...volumes}),getAssetStatus:()=>Object.fromEntries(Object.entries(assetStatus).map(([name,status])=>[name,{...status}])),isUnlocked:()=>unlocked};
   document.documentElement.dataset.etosAudio='ready';
 })();

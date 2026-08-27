@@ -1,3 +1,10 @@
+# v0.5.87-dev — Argoza recovery music crossfade
+
+- Added the supplied `Intro.mp3` as a single non-looping recovery score on a dedicated music bus beneath the existing typing ticks.
+- Added a gentle two-second score fade-in, recovery-time terminal-ambience ducking, and synchronized score/overlay/terminal-ambience crossfades at normal completion and Skip.
+- Kept music running during Pause, prevented Replay stacking, and cleaned up the cue when recovery finishes, is skipped, is replayed, or is stopped by terminal navigation.
+- Preserved all recovery prose, narrative/ETOS timing, typing audio, controls, persistence, and the normal terminal ambience implementation.
+
 # v0.5.86-dev — Cryogenic recovery typing audio and reading holds
 
 - Replaced the recovery intro's generic process-tone approximation with the original cryosleep sequence's exact synthesized typing tick: alternating non-space indices, randomized 760–870 Hz square waves, 5 ms attack, 18 ms envelope, 0.008 gain, and independent overlapping oscillator instances.

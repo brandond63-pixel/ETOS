@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.86-dev';
+  const VERSION = '0.5.87-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
@@ -2649,9 +2649,10 @@
   const argozaRecoverySeen=()=>!!window.ETOSArgozaRecovery?.isSeen();
   function startArgozaRecovery(){
     if(state.activeTerminal!=='argoza'||!state.initialized)return;
-    window.ETOSArgozaRecovery?.start({host:els.terminal,onTick:()=>window.ETOSAudio?.playCryoTypeTick?.(),onFinish:()=>{if(state.initialized&&state.activeTerminal==='argoza')renderTerminal();}});
+    const started=window.ETOSArgozaRecovery?.start({host:els.terminal,onTick:()=>window.ETOSAudio?.playCryoTypeTick?.(),onTransition:({duration})=>void window.ETOSAudio?.finishRecoveryAudio?.({fadeMs:duration}),onFinish:()=>{if(state.initialized&&state.activeTerminal==='argoza')renderTerminal();}});
+    if(started)void window.ETOSAudio?.startRecoveryMusic?.({fadeInMs:2000});
   }
-  function stopArgozaRecovery(){window.ETOSArgozaRecovery?.stop();}
+  function stopArgozaRecovery(){window.ETOSArgozaRecovery?.stop();void window.ETOSAudio?.finishRecoveryAudio?.({fadeMs:0});}
   let state = loadState(); let holdTimer = null;
   function loadState(){ try {const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'),sanitization={...SANITIZATION_DEFAULT,...(saved.sanitization||{})},auditToken={...AUDIT_TOKEN_DEFAULT,...(saved.auditToken||{})};if(!['auth','timer','confirm'].includes(sanitization.resumePhase))sanitization.resumePhase='auth';if(!sanitization.keyEngaged&&['detected','turning'].includes(sanitization.phase))sanitization.phase='dormant';if(['removal-pending','removing'].includes(sanitization.phase)){sanitization.keyEngaged=false;sanitization.phase='dormant';sanitization.resumePhase='auth';sanitization.delaySeconds=0;sanitization.initiatedAt=null;sanitization.completesAt=null;sanitization.complete=false;}if(sanitization.keyEngaged&&sanitization.phase==='dormant')sanitization.phase='auth';if(sanitization.phase==='active'&&sanitization.completesAt&&Date.now()>=sanitization.completesAt)sanitization.complete=true;return {activeTerminal:'command',initialized:false,section:'overview',...saved,sanitization,auditToken};} catch { return {activeTerminal:'command',initialized:false,section:'overview',sanitization:{...SANITIZATION_DEFAULT},auditToken:{...AUDIT_TOKEN_DEFAULT}}; } }
   function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }

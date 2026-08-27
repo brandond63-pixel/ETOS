@@ -1,3 +1,12 @@
+# 2026-08-26 — v0.5.87-dev
+
+- Added `assets/audio/Intro.mp3` to the shared Web Audio sample loader with MP3 decode support limited to the new recovery cue.
+- Added a dedicated adjustable `music` bus at 0.12 under the existing master bus, plus singleton non-looping recovery playback with a two-second gain ramp.
+- Recovery startup now ducks the existing synthesized terminal ambience to 28 percent while leaving it running. The final overlay fade simultaneously fades out the score and restores that same ambience instance to its normal level.
+- Normal completion retains its 1800 ms fade. Skip now uses the requested short 1200 ms synchronized fade. Pause does not pause ship ambience or music, while Replay disposes any previous cue before restarting from time zero.
+- Leaving recovery through terminal transfer, boot return, reset, refresh lifecycle, or a replacement replay invokes immediate music cleanup through the existing recovery stop path.
+- Left narrative holds, sentence cadence, ETOS typewriter speed, typing oscillator behavior, prose, controls, and terminal rendering unchanged.
+
 # 2026-08-26 — v0.5.86-dev
 
 - Traced the original standalone `cryo/script.js` typewriter audio path and ported its oscillator creation, frequency randomization, square waveform, gain envelope, duration, stop tail, and per-character trigger gate into the shared audio engine as `playCryoTypeTick()`.

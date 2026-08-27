@@ -126,7 +126,8 @@
   async function finish(skipped=false){
     if(!session||session.finishing)return;const ending=session;ending.finishing=true;markSeen();cancelActiveWork();
     ending.pauseButton.disabled=true;ending.skipButton.disabled=true;ending.overlay.classList.remove('is-paused');
-    const duration=(skipped?650:1800)*ending.speed;
+    const duration=(skipped?1200:1800)*ending.speed;
+    ending.onTransition?.({skipped,duration});
     const fade=ending.overlay.animate([{opacity:1},{opacity:0}],{duration:Math.max(1,duration),fill:'forwards',easing:'ease-in-out'});
     try{await fade.finished;}catch{}
     ending.overlay.remove();if(session===ending)session=null;ending.onFinish?.({skipped});
@@ -140,13 +141,13 @@
     if(active(id))await finish(false);
   }
   function stop(){if(!session)return;const old=session;cancelActiveWork();old.overlay.remove();session=null;}
-  function start({host,onFinish,onTick,speed=1}={}){
+  function start({host,onFinish,onTransition,onTick,speed=1}={}){
     if(!host)return false;stop();
     const overlay=document.createElement('section');overlay.className='argoza-recovery-overlay';overlay.dataset.argozaRecovery='';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','ETV Argoza cryogenic recovery sequence');
     overlay.innerHTML=`<header><span>ETOS // CRYOGENIC RECOVERY</span><div><button type="button" data-argoza-recovery-pause aria-pressed="false">PAUSE</button><button type="button" data-argoza-recovery-skip>SKIP</button></div></header><main class="argoza-recovery-stage" data-argoza-recovery-stage aria-live="polite"></main><footer><span>ETV ARGOZA // RECOVERY SYSTEM</span><span>ELLISON-TANAKA COLONIAL SYSTEMS</span></footer>`;
     host.append(overlay);
     const id=++runCounter,pauseButton=overlay.querySelector('[data-argoza-recovery-pause]'),skipButton=overlay.querySelector('[data-argoza-recovery-skip]');
-    session={id,overlay,stage:overlay.querySelector('[data-argoza-recovery-stage]'),pauseButton,skipButton,onFinish,onTick,speed:Math.max(.001,Number(speed)||1),paused:false,aborted:false,finishing:false,waits:new Set(),animations:new Set()};
+    session={id,overlay,stage:overlay.querySelector('[data-argoza-recovery-stage]'),pauseButton,skipButton,onFinish,onTransition,onTick,speed:Math.max(.001,Number(speed)||1),paused:false,aborted:false,finishing:false,waits:new Set(),animations:new Set()};
     pauseButton.addEventListener('click',()=>setPaused(!session?.paused));skipButton.addEventListener('click',()=>void finish(true));
     requestAnimationFrame(()=>{if(active(id))void run(id);});return true;
   }
