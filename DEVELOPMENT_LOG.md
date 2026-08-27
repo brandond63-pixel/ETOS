@@ -1,3 +1,10 @@
+# 2026-08-26 — v0.5.88-dev
+
+- Replaced only the `sequence` content in `js/argoza-recovery.js` with the user-supplied shortened recovery script.
+- Retained the existing helper types and presentation semantics: narrative arrays accumulate through progressive paragraph-line fades, while ETOS arrays type character-by-character with previous lines retained.
+- Preserved the 3750 ms isolated dramatic hold, 3800 ms interrupted-status hold, 4200 ms no-action hold, 2000 ms final welcome hold, and all shared narrative hold calculations.
+- Left the animation controller, typing loop/audio callback, Pause/Resume, Skip, Replay, `Intro.mp3`, ambience duck/crossfade, and final transition code unchanged.
+
 # 2026-08-26 — v0.5.87-dev
 
 - Added `assets/audio/Intro.mp3` to the shared Web Audio sample loader with MP3 decode support limited to the new recovery cue.

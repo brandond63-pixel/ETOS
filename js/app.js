@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.87-dev';
+  const VERSION = '0.5.88-dev';
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;

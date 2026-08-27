@@ -1,3 +1,9 @@
+# v0.5.88-dev — Shortened Argoza recovery script
+
+- Replaced the cryogenic-recovery sequence content with the supplied shorter narrative and ETOS script.
+- Removed the previous Renfield and Anders dialogue, related exit/action prose, and all other legacy beats omitted from the new script.
+- Preserved progressive paragraph builds, ETOS typing and ticks, paragraph/status holds, Pause/Resume, Skip, Replay, recovery music, ambience crossfade, and the final Argoza reveal.
+
 # v0.5.87-dev — Argoza recovery music crossfade
 
 - Added the supplied `Intro.mp3` as a single non-looping recovery score on a dedicated music bus beneath the existing typing ticks.
