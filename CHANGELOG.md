@@ -1,3 +1,11 @@
+# v0.5.95-dev — Medical iPad readability
+
+- UI cleanup: shared version labels display v0.5.95 from the existing version constant; Edem's interface footer label is blank. Edem-specific Medbay/biosignal checks use 0718 while other credentials and the unprotected personal workstation remain unchanged.
+- Replaced the detached Genomic navigation dot with a stable full-row outline using the existing attention pulse.
+- Reduced secondary Specimen/Genomic text at landscape tablet widths; corrected tab/image height allocation so assay controls and genomic results stay inside their panels.
+- Tightened the supplied External Anatomy sentence, centered the three Media Service advisory stages, and removed the redundant containment Context Action.
+- Preserved all workflow handlers, primary findings, assets, audio, and desktop typography. Added targeted regression tests and a local-only layout QA server.
+
 # v0.5.94-dev — Audit Token microphone recovery
 
 - Added explicit Initialize Voice Authorization and permission/startup states; listening begins only after microphone access and speech audio capture succeed.
@@ -464,7 +472,7 @@
 - Added the Horizon Facility Management landing page with a 25-person code-rendered organization directory, protected biosignal list, interactive facility schematic, vehicle log, and work-order archive.
 - Added biosignal states for current local readings, five lost signals, and eighteen alive-at-last-contact signals now outside the local network's range; location data remains unavailable.
 - Integrated the supplied floorplan, room-hitbox, system-element, and maintenance SVG exports as untouched stacked layers with tap selection, room details, drag/pan, pinch/wheel zoom, and map controls.
-- Added password `12345` to the player-facing maintenance schematic overlay and retained `51895` for executive biosignal access.
+- Added password `12345` to the player-facing maintenance schematic overlay and configured `0718` for Dr. Edem's executive biosignal access.
 - Added passive Heron telemetry and the Reactor Thermal Advisory without exposing remote controls or implying a successful handshake.
 - Added APC/ATV inventory and dispatch history, including the July 18 evacuation departure and unconfirmed arrival.
 - Added a compact Work Order Archive with visible OPEN/CLOSED states, neutral archived summaries, routine airlock service, and retained Hinton-related requests.

@@ -47,7 +47,9 @@ There is no visible hack hint or control label in the player interface.
 
 ## Facility Management Access Codes
 
-Personnel biosignal monitor: `51895`
+Dr. Edem's override passcode (Medbay entry lock and personnel biosignal monitor): `0718`.
+
+Her personal workstation and local journal remain unprotected; no new login prompt is added.
 
 Maintenance schematics: `12345`
 

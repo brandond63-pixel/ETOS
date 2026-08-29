@@ -1,3 +1,16 @@
+# 2026-08-27 — v0.5.95-dev
+
+- Final text-only cleanup: derived DISPLAY_VERSION strips only the development suffix and supplies footer, boot, Warden, and audio-diagnostic version labels. The actual build/cache version is unchanged. Edem's empty interface label retains the footer element. No CSS, panel sizing, or approved journal text changed.
+- Repository credential audit: the personal workstation has no authentication gate. Its named Medbay and biosignal override checks previously reused DIRECTIVE_ACCESS_CODE; both now use EDEM_PASSCODE (0718), with four-character inputs. Medical already uses 0718; Directive 015, maintenance, sanitization, Audit Token, Warden, and personnel briefing credentials remain unchanged. Related obsolete documentation was corrected.
+- Cleanup verification: all 74 tests pass, including direct new/old-code acceptance/rejection tests for both Edem-specific checks. Browser checks at 1024x768 confirm all four shared version labels, the empty Edem footer slot, preserved ETOS PERSONAL WORKSTATION branding, and no horizontal overflow.
+- Medical-only presentation patch. The existing has-unread pseudo-element now outlines the complete navigation button, offsets for its existing 3px left border, and retains medicalPulse at 3.8 seconds plus reduced-motion support. Review/sanitization conditions are unchanged.
+- Added a data-medical-module styling hook. Landscape widths 768–1366px use 13px/1.3 secondary Specimen copy (previously 15px/1.4), 11.5px metadata, and 11.5px/1.2 genomic secondary results. Assay reagent/result/observation labels and values, page/tab headings, NF-06, and correlation typography are retained.
+- Specimen content uses an intrinsic tab row plus a flexible remaining row; assay imagery reserves its existing A1–A4 strip. The existing genomic card now constrains the comparison image to available height, preventing intrinsic image size from pushing results below the clipped stage. No new result border or scrollbar was added.
+- Media Service retains three equal grid tracks and centers each stage with flex alignment. Containment keeps its empty context insertion anchor (display:none when empty), preserving both hardware ports while removing only the redundant right-rail action.
+- Browser QA at 1024x768 and 1180x820: Hostile/assay body and findings scrollHeight equals clientHeight; genomic card/results fit inside the comparison stage; no horizontal root overflow. At 1024x768 the advisory cells are each 189.33px wide, with equal 201.33px center spacing. Desktop 1536x1067 retains 15px/21px Specimen body typography.
+- Actual UI release authorization and confirmation passed: Vial 01 RELEASED and Vial 02 SECURED survive reload independently. Bulk release authorization still opens and cancels. The redundant control is absent and the Data Module/Auto-Injector ports remain. No workflow/audio handlers changed.
+- Six new Medical regression tests and all 63 repository tests pass; JavaScript syntax passes. The local-only tests/medical-layout-server.cjs simulates physical holds (including synthetic pointer capture) without changing production timing or loading on the normal app route. Native iPad touch/audio validation remains a device follow-up.
+
 # 2026-08-27 — v0.5.94-dev
 
 - Audit Token only: added voice-ready and voice-initializing views. The Initialize button directly requests microphone access; no active listening view, spoken prompt, or 8-second attempt timer is entered until SpeechRecognition emits audiostart with a live microphone.
@@ -720,7 +733,7 @@ The v0.3.5 build contained a structural JavaScript regression: terminal profiles
 - Built separate telemetry timing models: Horizon values drift from the local facility bus, while Heron values update with the automated 30-second distress-carrier packet.
 - Implemented Horizon and Heron condition assessments without confirming survivors or exposing unavailable Heron controls.
 - Rebuilt the Horizon personnel organization as live HTML from a 25-person roster rather than using the old static chart image.
-- Added a separate biosignal monitor protected by Dr. Edem's `51895` executive code. It reports signal state only and never exposes a personnel location.
+- Added a separate biosignal monitor protected by Dr. Edem's `0718` override passcode. It reports signal state only and never exposes a personnel location.
 - Added the supplied map exports unchanged in a layered interactive viewport. Room polygons provide touch-friendly selection while the floorplan, system elements, and maintenance routes remain independent layers.
 - Added drag/pan, pinch and wheel zoom, zoom controls, selected-room highlighting, and a right-side neutral room information panel.
 - Added a player-facing `VIEW MAINTENANCE SCHEMATICS` control protected by Demar's code, `12345`. The Illustrator master remains the artwork source of truth and is not bundled as a runtime asset.
