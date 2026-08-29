@@ -6,7 +6,7 @@
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
   const STORAGE_KEY = 'etos.session.v18';
-  const DIRECTIVE_ACCESS_CODE = '51895';
+  const DIRECTIVE_ACCESS_CODE = '0718';
   const EDEM_PASSCODE = '0718';
   const SANITIZATION_ACCESS_CODE = '010387';
   const DIRECTIVE_HOLD_MS = 3000;
