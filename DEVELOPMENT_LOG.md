@@ -1,3 +1,12 @@
+# 2026-08-29 — v0.5.96-dev
+
+- Added the surface extraction countdown as a fourth shared screen rather than a terminal profile. Argoza, Command, Medical, and Edem profile renderers were not modified.
+- Countdown state is stored under `countdown` in the existing `etos.session.v18` record: configured milliseconds, running/paused/expired status, absolute target timestamp, and paused remaining milliseconds. The currently open dedicated display is also restored after refresh.
+- Running display values are derived from `targetTimestamp - Date.now()` on every update. Pause snapshots the exact remaining milliseconds; resume creates a new target; running adjustments move the target; paused adjustments change the stored remainder; all paths clamp at zero.
+- Warden controls include duration fields, Start/Pause/Resume, confirmed Reset, and +/-1 or 5 minute adjustments. A hidden four-second hold inside the upper-left 18 by 22 percent of the player display returns to the initialized terminal or boot screen.
+- The player display contains only the tabular HH:MM:SS clock and bottom alert strip. Browser checks at 844x390, 1024x768, and 1366x768 found zero root/display overflow, zero player controls, and no value clipping.
+- Browser interaction QA covered start, pause, refresh persistence, resume, all adjustments while paused and running, display refresh restoration, hidden exit, and switching through all four existing terminal profiles. The existing regression suite and 19 focused countdown checks pass. Native iPhone/iPad installed-PWA behavior remains a device follow-up.
+
 # 2026-08-27 — v0.5.95-dev
 
 - Final text-only cleanup: derived DISPLAY_VERSION strips only the development suffix and supplies footer, boot, Warden, and audio-diagnostic version labels. The actual build/cache version is unchanged. Edem's empty interface label retains the footer element. No CSS, panel sizing, or approved journal text changed.

@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" as="image" href="assets/img/command/weather-terrain.png" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/command/weather-storm.png" fetchpriority="high">
-  <link rel="stylesheet" href="css/app.css?v=0.5.95">
+  <link rel="stylesheet" href="css/app.css?v=0.5.96">
   <link rel="stylesheet" href="css/themes/command.css?v=0.5.95">
   <link rel="stylesheet" href="css/themes/medical.css?v=0.5.95">
   <link rel="stylesheet" href="css/themes/edem.css?v=0.5.95">
@@ -62,6 +62,11 @@
       </div>
     </section>
 
+    <section id="countdown-screen" class="countdown-screen" data-countdown-level="nominal" hidden aria-label="Surface extraction countdown">
+      <div id="countdown-value" class="countdown-value" role="timer" aria-live="off">04:00:00</div>
+      <div id="countdown-alert" class="countdown-alert" role="status">ARGOZA SURFACE RECOVERY WINDOW // NOMINAL</div>
+    </section>
+
     <div id="document-overlay" class="document-modal" hidden>
       <div class="document-frame">
         <header>
@@ -96,6 +101,21 @@
           <button id="apply-terminal" class="terminal-button" type="button">LOAD SELECTED TERMINAL</button>
           <button id="return-boot" class="terminal-button secondary-button" type="button">RETURN TO BOOT SCREEN</button>
           <button id="refresh-app" class="terminal-button secondary-button" type="button">CHECK FOR LATEST BUILD</button>
+          <section class="warden-countdown" aria-labelledby="warden-countdown-title">
+            <h3 id="warden-countdown-title">SURFACE EXTRACTION COUNTDOWN</h3>
+            <button id="open-countdown-display" class="terminal-button" type="button">OPEN COUNTDOWN DISPLAY</button>
+            <div class="warden-countdown-time" aria-label="Countdown duration">
+              <label>HOURS<input id="countdown-hours" type="number" min="0" max="99" inputmode="numeric" value="04"></label><b>:</b>
+              <label>MINUTES<input id="countdown-minutes" type="number" min="0" max="59" inputmode="numeric" value="00"></label><b>:</b>
+              <label>SECONDS<input id="countdown-seconds" type="number" min="0" max="59" inputmode="numeric" value="00"></label>
+            </div>
+            <button id="set-countdown-duration" class="terminal-button secondary-button" type="button">SET DURATION</button>
+            <div class="warden-countdown-actions">
+              <button id="start-countdown" type="button">START</button><button id="pause-countdown" type="button">PAUSE</button><button id="resume-countdown" type="button">RESUME</button><button id="reset-countdown" type="button">RESET</button>
+              <button type="button" data-countdown-adjust="60000">+1 MIN</button><button type="button" data-countdown-adjust="-60000">-1 MIN</button><button type="button" data-countdown-adjust="300000">+5 MIN</button><button type="button" data-countdown-adjust="-300000">-5 MIN</button>
+            </div>
+            <p id="countdown-warden-status" class="warden-countdown-status" role="status" aria-live="polite">READY // 04:00:00</p>
+          </section>
           <button id="toggle-sanitization-display" class="terminal-button secondary-button" type="button" hidden>CLOSE SANITIZATION DISPLAY</button>
           <button id="start-sanitization-final-countdown" class="terminal-button secondary-button" type="button" disabled>START SANITIZATION FINAL COUNTDOWN</button>
           <button id="mute-facility-alarm" class="terminal-button secondary-button" type="button" hidden disabled>MUTE FACILITY ALARM</button>
@@ -146,6 +166,7 @@
   </main>
   <script src="js/audio.js?v=0.5.95"></script>
   <script src="js/argoza-recovery.js?v=0.5.95"></script>
-  <script src="js/app.js?v=0.5.95"></script>
+  <script src="js/countdown-state.js?v=0.5.96"></script>
+  <script src="js/app.js?v=0.5.96"></script>
 </body>
 </html>

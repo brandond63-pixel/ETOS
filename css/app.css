@@ -28,3 +28,23 @@
 .warden-reset-status{min-height:16px;margin:9px 0 0;color:var(--accent);font-size:11px;letter-spacing:.08em}
 .warden-audio-diagnostics{display:grid;gap:7px;margin-top:8px;font-size:10px;letter-spacing:.04em}.warden-audio-runtime,.warden-audio-asset{border:1px solid var(--line);padding:7px 9px;color:var(--accent-soft)}.warden-audio-runtime{display:grid;gap:3px}.warden-audio-runtime span,.warden-audio-asset span{overflow-wrap:anywhere;user-select:text;-webkit-user-select:text}.warden-audio-runtime b,.warden-audio-asset b{color:var(--text);font-weight:400}.warden-audio-asset{display:grid;gap:3px}.warden-audio-asset>strong{margin-bottom:3px;color:var(--accent);letter-spacing:.09em}.warden-audio-asset.is-loaded{border-color:var(--accent)}.warden-audio-asset.is-failed{border-color:var(--red);border-style:dashed}.warden-audio-asset.is-failed>strong,.warden-audio-error{color:var(--red)!important}.warden-audio-error{padding-top:3px;border-top:1px dotted currentColor}#test-sanitization-warning:disabled,#test-facility-alarm:disabled{opacity:.38;box-shadow:none;cursor:not-allowed}
 @media(max-width:620px){.warden-reset-group{grid-template-columns:1fr}.warden-reset-group>*{grid-column:1!important}}
+
+/* v0.5.96-dev — Warden-controlled surface extraction countdown. */
+.countdown-screen{position:absolute;inset:0;z-index:40;display:grid;grid-template-rows:minmax(0,1fr) auto;overflow:hidden;background:#010305;color:#d9fbff;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);isolation:isolate;touch-action:none}
+.countdown-screen::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(110,228,241,.035) 4px);opacity:.72}
+.countdown-value{min-width:0;display:grid;place-items:center;padding:.02em .025em 0;font-variant-numeric:tabular-nums lining-nums;font-family:"Courier New",ui-monospace,monospace;font-size:min(22.2vw,72vh);font-weight:700;line-height:.78;letter-spacing:-.075em;white-space:nowrap;color:#dbfbff;text-shadow:0 0 .08em rgba(126,232,244,.72),0 0 .28em rgba(63,200,219,.2)}
+.countdown-alert{min-height:max(34px,calc(30px + env(safe-area-inset-bottom)));display:grid;place-items:center;padding:8px max(14px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));border-top:1px solid rgba(107,221,237,.44);background:rgba(1,12,16,.94);color:#9cecf6;font-size:clamp(9px,1.55vw,18px);font-weight:700;line-height:1.15;letter-spacing:.13em;text-align:center;white-space:nowrap;text-shadow:0 0 8px rgba(107,221,237,.25)}
+.countdown-screen[data-countdown-level="degraded"] .countdown-alert{border-color:rgba(240,178,75,.66);color:#f2bd68;text-shadow:0 0 8px rgba(240,178,75,.23)}
+.countdown-screen[data-countdown-level="critical"] .countdown-value,.countdown-screen[data-countdown-level="expired"] .countdown-value{color:#ffd8d4;text-shadow:0 0 .08em rgba(255,93,81,.68),0 0 .3em rgba(218,45,35,.2)}
+.countdown-screen[data-countdown-level="critical"] .countdown-alert,.countdown-screen[data-countdown-level="expired"] .countdown-alert{border-color:rgba(255,91,79,.72);color:#ff9c93;text-shadow:0 0 8px rgba(255,70,57,.28)}
+.warden-countdown{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.warden-countdown h3{margin:0 0 10px;color:var(--accent-soft);font-size:12px;letter-spacing:.14em}
+.warden-countdown-time{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:end;gap:7px;margin-top:10px}
+.warden-countdown-time label{display:grid;gap:5px;margin:0!important;color:var(--accent-soft);font-size:9px;letter-spacing:.1em}
+.warden-countdown-time input{min-height:42px!important;padding:7px!important;text-align:center}
+.warden-countdown-time b{align-self:center;padding-bottom:11px;color:var(--accent)}
+.warden-countdown-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.warden-countdown-actions button{min-height:38px;border:1px solid var(--line);background:var(--bg);color:var(--accent-soft);padding:7px 5px;font-size:10px;letter-spacing:.04em}
+.warden-countdown-actions button:disabled{opacity:.34}.warden-countdown-status{min-height:16px;margin:9px 0 0;color:var(--accent);font-size:11px;letter-spacing:.08em}
+@media(max-width:620px){.warden-countdown-actions{grid-template-columns:repeat(2,1fr)}}
+@media(max-aspect-ratio:1.45/1){.countdown-value{font-size:min(21.2vw,53vh)}.countdown-alert{font-size:clamp(8px,1.45vw,14px);letter-spacing:.09em}}

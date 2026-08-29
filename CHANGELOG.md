@@ -1,3 +1,11 @@
+# v0.5.96-dev — Surface extraction countdown
+
+- Added a dedicated full-screen surface extraction display with an HH:MM:SS mission clock, restrained CRT treatment, safe-area handling, and exact nominal/advisory/degraded/critical/expired alert thresholds.
+- Added hidden Warden controls for duration, start, pause, resume, reset confirmation, running/paused minute adjustments, and opening the display from any active ETOS screen.
+- Persisted absolute target timestamps and paused remaining time in the shared ETOS session state so navigation, throttling, and refresh do not introduce counter drift.
+- Added a four-second hidden upper-left hold to return to the prior ETOS screen. The player display has no visible controls.
+- Added focused timer/state regression coverage and local-only browser interaction instrumentation. Existing terminal renderers and navigation remain unchanged.
+
 # v0.5.95-dev — Medical iPad readability
 
 - UI cleanup: shared version labels display v0.5.95 from the existing version constant; Edem's interface footer label is blank. Edem-specific Medbay/biosignal checks use 0718 while other credentials and the unprotected personal workstation remain unchanged.
