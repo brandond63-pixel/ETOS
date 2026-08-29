@@ -6,7 +6,7 @@
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
   const STORAGE_KEY = 'etos.session.v18';
-  const DIRECTIVE_ACCESS_CODE = '0718';
+  const DIRECTIVE_ACCESS_CODE = '51895';
   const EDEM_PASSCODE = '0718';
   const SANITIZATION_ACCESS_CODE = '010387';
   const DIRECTIVE_HOLD_MS = 3000;
@@ -1888,12 +1888,6 @@ if(t==='garage-door')return `<h3>GARAGE DOOR 02</h3><dl><div><dt>POSITION</dt><d
   }
 
   function updateFacilityDiagnostic(root){const panel=root.querySelector('[data-facility-room-info]');if(panel){panel.innerHTML=renderFacilityDiagnostic();panel.scrollTop=0;}root.querySelectorAll('.facility-fault-row').forEach(el=>{const selected=el.dataset.facilityTarget===facilitySelectedTarget;el.classList.toggle('is-selected',selected);el.setAttribute('aria-pressed',String(selected));});}
-
-  function updateFacilityRoomSelection(root,id){
-    if(!facilityRooms[id])return;
-    facilitySelectedRoom=id;facilitySelectedTarget=id;
-    updateFacilityDiagnostic(root);
-  }
 
   async function initFacilityMap(root){
     const hitboxes=root.querySelector('[data-facility-map-hitboxes]'),systems=root.querySelector('[data-facility-map-systems]'),maintenance=root.querySelector('[data-facility-map-maintenance]'),alerts=root.querySelector('[data-facility-map-alerts]');

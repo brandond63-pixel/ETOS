@@ -10,7 +10,7 @@ The supplied Horizon map SVGs are stacked without modifying the exported artwork
 
 The archived signal uses the approved 11.5-second V3 organic insect recording. Its waveform is calculated from the actual recording and its illuminated progress and playhead remain synchronized with playback. ETOS begins loading the packaged WAV during startup, stores the completed file in memory for the session, and retains direct-file playback as a fallback.
 
-All visible corporate logo and emblem placements now use the supplied transparent, symbol-only `assets/img/ellison-tanaka-logo.svg`. Legacy PNG logo files remain in the archive for compatibility but are not referenced by the interface.
+All visible corporate logo and emblem placements use the supplied transparent, symbol-only `assets/img/ellison-tanaka-logo.svg`.
 
 The archive contains Corporate Directives 001, 014, and 015. Directive 015 is executive-restricted.
 
