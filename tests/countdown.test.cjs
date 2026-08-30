@@ -107,14 +107,28 @@ test('dedicated display contains no player-facing controls', () => {
   const display = html.match(/<section id="countdown-screen"[\s\S]*?<\/section>/)?.[0] || '';
   assert.ok(display);
   assert.equal(/<(button|input|select|a)\b/i.test(display), false);
+  assert.match(display, /ETV ARGOZA \/\/ SURFACE OPERATIONS/);
+  assert.match(display, /assets\/img\/ellison-tanaka-logo\.svg/);
+  assert.match(display, /draggable="false"/);
 });
 
-test('integration uses shared state and a hidden long-press exit', () => {
+test('integration uses shared state, logo hold Warden access, and Warden-only close', () => {
   const app = fs.readFileSync(path.join(root, 'js', 'app.js'), 'utf8');
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const css = fs.readFileSync(path.join(root, 'css', 'app.css'), 'utf8');
   assert.match(app, /countdown=window\.ETOSCountdown\.normalize\(saved\.countdown/);
-  assert.match(app, /countdownExitTimer=setTimeout\(exitCountdownDisplay,4000\)/);
+  assert.match(app, /holdTimer=setTimeout\(\(\)=>\{cancelCountdownLogoHold\(\);openWarden\(\);\},3000\)/);
+  assert.match(app, /countdownClose\.hidden=!state\.countdownDisplayOpen/);
+  assert.match(app, /countdownClose\.addEventListener\('click',exitCountdownDisplay\)/);
+  assert.doesNotMatch(app, /countdownLogo\.addEventListener\('click'/);
   assert.match(app, /state\.countdownDisplayOpen=true;saveState\(\)/);
   assert.match(app, /confirm\('Reset the surface extraction countdown to its configured duration\?'\)/);
+  assert.match(html, /id="close-countdown-display"[^>]*hidden>CLOSE TIMER DISPLAY/);
+  assert.match(css, /font-size:clamp\(72px,min\(16\.5vw,42vh\),260px\)/);
+  assert.match(css, /height:min\(62dvh,100%\)/);
+  const closeFunction = app.match(/function exitCountdownDisplay\(\)\{([^}]|}\s*else\s*[^}]+})+}/)?.[0] || '';
+  assert.ok(closeFunction);
+  assert.doesNotMatch(closeFunction, /pauseCountdown|resetCountdown|stopCountdownTicker|targetTimestamp|pausedRemainingMs/);
 });
 
 process.stdout.write(`\n${passed} countdown checks passed.\n`);

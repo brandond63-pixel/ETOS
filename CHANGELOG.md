@@ -1,3 +1,11 @@
+# v0.5.97-dev — Countdown display refinement
+
+- Reduced the surface extraction clock substantially and centered it inside a viewport-relative 60–62% clock area with generous negative space and restrained CRT glow.
+- Added the understated `ETV ARGOZA // SURFACE OPERATIONS` header, the existing Ellison-Tanaka logo as a dark watermark, and an inset low-profile alert panel.
+- Replaced the previous hidden corner exit with a three-second hold on the countdown logo that opens the existing Warden PIN flow. Normal taps do nothing; the logo gradually brightens during a deliberate hold.
+- Added a Warden-only `CLOSE TIMER DISPLAY` control that appears only while the timer display is open. Closing the display leaves timer state and the absolute end timestamp untouched.
+- Preserved all countdown logic, persistence, alert thresholds, terminal profiles, and existing Warden functions.
+
 # v0.5.96-dev — Surface extraction countdown
 
 - Added a dedicated full-screen surface extraction display with an HH:MM:SS mission clock, restrained CRT treatment, safe-area handling, and exact nominal/advisory/degraded/critical/expired alert thresholds.

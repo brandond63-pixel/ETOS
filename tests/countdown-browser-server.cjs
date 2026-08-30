@@ -9,7 +9,7 @@ const fixture = `document.addEventListener('DOMContentLoaded',()=>{
   panel.style.cssText='position:fixed;bottom:0;left:0;z-index:200;background:#222;color:white;font:10px monospace;display:flex;gap:3px';
   const add=(label,action)=>{const button=document.createElement('button');button.textContent=label;button.onclick=action;panel.append(button);};
   add('QA Hold Warden',()=>{const target=document.getElementById('terminal-title');target.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,pointerId:81,pointerType:'touch',button:0}));setTimeout(()=>target.dispatchEvent(new PointerEvent('pointerup',{bubbles:true,pointerId:81,pointerType:'touch',button:0})),3100);});
-  add('QA Hold Countdown Exit',()=>{const target=document.getElementById('countdown-screen'),rect=target.getBoundingClientRect(),init={bubbles:true,pointerId:82,pointerType:'touch',button:0,clientX:rect.left+8,clientY:rect.top+8};target.dispatchEvent(new PointerEvent('pointerdown',init));setTimeout(()=>target.dispatchEvent(new PointerEvent('pointerup',init)),4100);});
+  add('QA Hold Countdown Logo',()=>{const target=document.getElementById('countdown-logo-control'),init={bubbles:true,pointerId:82,pointerType:'touch',button:0};target.dispatchEvent(new PointerEvent('pointerdown',init));setTimeout(()=>target.dispatchEvent(new PointerEvent('pointerup',init)),3100);});
   document.body.append(panel);
 });`;
 http.createServer((req,res)=>{

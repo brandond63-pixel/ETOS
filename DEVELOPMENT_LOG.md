@@ -1,3 +1,12 @@
+# 2026-08-29 — v0.5.97-dev
+
+- Countdown presentation/navigation refinement only. The timer state helper, absolute target calculation, persistence schema, pause/resume/reset/adjustment functions, and alert thresholds are unchanged.
+- Reworked the dedicated display into a subtle header, 60–62dvh centered clock area, and inset bottom status panel. Reused `assets/img/ellison-tanaka-logo.svg` unchanged as a low-opacity upper-left watermark.
+- Countdown logo pointer hold uses the existing three-second Warden duration and existing `openWarden()` authorization flow. Pointer cancellation, context-menu prevention, selection prevention, and image-drag prevention cover touch and mouse input. Normal click has no handler.
+- Added a conditional Warden `CLOSE TIMER DISPLAY` action. It clears only `countdownDisplayOpen`, closes Warden, and returns to the initialized terminal or boot screen; the running timer and ticker continue.
+- Browser QA: 667x375 and 844x390 phone landscape, 1024x768 iPad landscape, and 1366x768 desktop all retain the complete clock, logo, header, and alert with zero display overflow or clock clipping. Clock-area height measured 60–62% of the viewport; the 844x390 clock retained about 124px horizontal clearance per side.
+- Normal logo tap left Warden closed. The hold showed gradual logo brightening and opened Warden; Close Timer was visible only while the timer display was active. A running timer advanced from 03:59:00 before close to 03:58:54 after reopening, and refresh advanced 03:58:45 to 03:58:44 without losing the display. All four terminal profiles still switched successfully and the browser console remained clear. Native iPhone/iPad touch and installed-PWA certification remain device follow-ups.
+
 # 2026-08-29 — v0.5.96-dev
 
 - Added the surface extraction countdown as a fourth shared screen rather than a terminal profile. Argoza, Command, Medical, and Edem profile renderers were not modified.
