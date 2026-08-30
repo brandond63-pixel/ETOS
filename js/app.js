@@ -1,16 +1,14 @@
 (() => {
   'use strict';
-  const VERSION = '0.5.97-dev';
+  const VERSION = '0.5.98-dev';
   const DISPLAY_VERSION = `v${VERSION.replace(/-dev$/, '')}`;
   const playAudio = (name,options) => window.ETOSAudio?.play(name,options);
   const WARDEN_PIN = '8722';
   const TRANSFER_MS = 8000;
   const STORAGE_KEY = 'etos.session.v18';
-  const DIRECTIVE_ACCESS_CODE = '51895';
   const EDEM_PASSCODE = '0718';
   const SANITIZATION_ACCESS_CODE = '010387';
   const DIRECTIVE_HOLD_MS = 3000;
-  const MEDICAL_RELEASE_PASSWORD = '0718';
   const COMMAND_INTERLOCK_HOLD_MS = 3000;
   const COMMAND_INTERLOCK_RELEASE_DELAY_MS = 1500;
   const COMMAND_INTERLOCK_TURN_MS = 1050;
@@ -471,7 +469,7 @@
     const target=medicalAuthorizationTarget();
     const input=document.getElementById('medical-release-password');
     if(!target||!input)return;
-    if(input.value!==MEDICAL_RELEASE_PASSWORD){playAudio('reject');medicalAuthorizationError='AUTHORIZATION DENIED';input.value='';input.focus();const error=document.getElementById('medical-authorization-error');if(error)error.textContent=medicalAuthorizationError;return;}
+    if(input.value!==EDEM_PASSCODE){playAudio('reject');medicalAuthorizationError='AUTHORIZATION DENIED';input.value='';input.focus();const error=document.getElementById('medical-authorization-error');if(error)error.textContent=medicalAuthorizationError;return;}
     playAudio('confirm');
     medicalAuthorizationError='';
     medicalAction=`accepted-${target}`;
@@ -867,7 +865,7 @@
           </dl>
           <label for="directive-access-code">ENTER AUTHORIZATION CODE</label>
           <div class="directive-code-entry">
-            <input id="directive-access-code" type="password" inputmode="numeric" maxlength="5" autocomplete="off" aria-describedby="directive-access-error">
+            <input id="directive-access-code" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="directive-access-error">
             <button type="button" data-directive-submit>VERIFY</button>
           </div>
           <p id="directive-access-error" class="directive-access-error" role="alert"></p>
@@ -898,7 +896,7 @@
     const input = document.getElementById('directive-access-code');
     const error = document.getElementById('directive-access-error');
     if(!input || !error) return;
-    if(input.value === DIRECTIVE_ACCESS_CODE){
+    if(input.value === EDEM_PASSCODE){
       playAudio('confirm');
       executiveAuthorized = true;
       directiveUnlocked = true;

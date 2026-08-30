@@ -1,3 +1,11 @@
+# 2026-08-29 — v0.5.98-dev
+
+- Project-wide Edem credential cleanup: Directive 015 now uses `EDEM_PASSCODE` rather than an independent directive constant. Medical release was also consolidated onto the same constant; Medbay and Biosignal already used it.
+- The only active Dr. Edem password constant is `EDEM_PASSCODE = 0718`. Directive, Medical, Medbay, and Biosignal accept 0718 and reject the former credential in direct regression tests. The personal Edem workstation remains intentionally unprotected; no login gate was invented.
+- Directive input now uses `maxlength=4`. Warden 8722, sanitization 010387, Audit Token HBADT872, maintenance 12345, personnel, and all hidden hold routes remain unchanged.
+- Removed the former literal from active source, tests, README, changelog, and development history. Tests construct the former credential from fragments solely to prove rejection without leaving the retired literal anywhere in the project.
+- Browser QA at the canonical 1024x768 viewport confirmed rejection of the former credential and acceptance of 0718 in Directive 015, Medical release, Biosignal Monitor, and Medbay entry, with no horizontal overflow or console warnings/errors. The Edem workstation exposed zero password inputs, consistent with its established unprotected design.
+
 # 2026-08-29 — v0.5.97-dev
 
 - Countdown presentation/navigation refinement only. The timer state helper, absolute target calculation, persistence schema, pause/resume/reset/adjustment functions, and alert thresholds are unchanged.
@@ -517,7 +525,7 @@ Individual directives now open as centered corporate-document overlays over the 
 
 The existing Corporate Directive detail placeholder was replaced with a self-contained Command subsystem. Opening the main Directive panel now presents only the three supplied records: ET-CS-001, ET-CS-014, and ET-CS-015. Directives 001 and 014 open normally. Directive 015 presents an executive clearance screen authorized for Dr. Claire Edem and 2LT Kaplan.
 
-Directive 015 accepts authorization code `51895`. A second, deliberately undisclosed player-interface route is available for Warden-adjudicated hacking: holding the Ellison-Tanaka emblem on the lock screen for three seconds starts a four-second security bypass display and unlocks the document for the current application session. The hold produces no early feedback or visible hint.
+Directive 015 accepts authorization code `0718`. A second, deliberately undisclosed player-interface route is available for Warden-adjudicated hacking: holding the Ellison-Tanaka emblem on the lock screen for three seconds starts a four-second security bypass display and unlocks the document for the current application session. The hold produces no early feedback or visible hint.
 
 All three documents use the final Claire Edem name and retain the provided corporate language, objectives, coordinates, status fields, and performance metrics. The archive and document viewer were implemented inside the existing Command module so the approved Command Overview layout, live editor, weather tools, terminal switching, and offline framework remain untouched.
 

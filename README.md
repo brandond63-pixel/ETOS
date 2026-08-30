@@ -33,7 +33,7 @@ PIN: `8722`
 
 ## Corporate Directive 015
 
-Authorization code: `51895`
+Authorization code: `0718`
 
 The intended player-facing code can be discovered through Dr. Claire Edem's private terminal in a later content pass.
 

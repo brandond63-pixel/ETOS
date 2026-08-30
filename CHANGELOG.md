@@ -1,3 +1,9 @@
+# v0.5.98-dev — Unified Dr. Edem password
+
+- Removed the separate Directive 015 credential and routed Directive, Medical release, Medbay, and Biosignal authentication through the single `EDEM_PASSCODE` value `0718`.
+- Reduced Directive 015 input length to four digits and removed every literal occurrence of the former Edem credential across source, tests, and documentation.
+- Preserved Warden, maintenance, sanitization, Audit Token, and personnel credentials unchanged.
+
 # v0.5.97-dev — Countdown display refinement
 
 - Reduced the surface extraction clock substantially and centered it inside a viewport-relative 60–62% clock area with generous negative space and restrained CRT glow.
@@ -562,13 +568,13 @@
 - Added a prominent incoming executive-directive notification for Directive 015.
 - Added `NEW // ACTIVE` and active-directive states so Directive 015 is immediately distinguishable from archived orders.
 - Changed directive documents, the Directive 015 password screen, and the hidden hack sequence to centered overlays that preserve archive context behind them.
-- Retained all directive content, authorization code `51895`, the hidden three-second emblem hold, and session-only unlock behavior.
+- Retained all directive content, authorization code `0718`, the hidden three-second emblem hold, and session-only unlock behavior.
 
 # v0.5.6-dev
 
 - Replaced the Corporate Directive placeholder with an archive containing only Directives 001, 014, and 015.
 - Added full terminal-rendered directive documents with consistent references to Dr. Claire Edem.
-- Added executive password protection for Directive 015 using authorization code `51895`.
+- Added executive password protection for Directive 015 using authorization code `0718`.
 - Added an unmarked three-second Ellison-Tanaka emblem hold that triggers a four-second Warden-controlled security-bypass animation.
 - Kept Directive 015 unlocked only for the current application session after successful password or hack access.
 - Updated visible build labels and cache-busting asset versions while preserving the locked Command Overview defaults and developer tools.
